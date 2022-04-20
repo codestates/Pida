@@ -1,17 +1,18 @@
 # Pida
+<br/>
 
 배포링크자리
+<br/><br/><br/>
 
 ![image](https://user-images.githubusercontent.com/55533303/164128088-ca97240c-882b-451c-95d6-754a28eb83f9.png)
 <br/><br/>
 
 **플랜테리어**(플랜트+인테리어)에 관심이 있으신가요? <br/>
 여러분의 공간에 어울리는 반려 식물을 추천해드려요. <br/>
-다른 사람들의 인테리어도 둘러보고 선택하세요. <br/><br/>
-
+다른 사람들의 인테리어도 둘러보고 선택하세요. 
+<br/><br/>
 
 '피다'에서는
-
 
 <br/><br/><br/>
 
@@ -37,5 +38,6 @@
 [![LinkedIn Badge](https://img.shields.io/badge/yuriiiiiiiiiii-181717?style=flat-square&logo=Github&logoColor=white&link=https://github.com/codestates/Pida/wiki/Team)](https://github.com/yuriiiiiiiiiii)
 
 
-<br/><br/><br/> 
+<br/><br/>
+
 [자세한 내용은 위키에서 확인해 주세요](https://github.com/codestates/Pida/wiki)
