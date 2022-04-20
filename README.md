@@ -2,9 +2,8 @@
 
 배포링크자리
 
-![image](https://user-images.githubusercontent.com/55533303/164127572-f3df5ce1-764a-4f9b-a052-d4b909b93734.png) 
+![image](https://user-images.githubusercontent.com/55533303/164128088-ca97240c-882b-451c-95d6-754a28eb83f9.png)
 <br/><br/>
-
 
 **플랜테리어**(플랜트+인테리어)에 관심이 있으신가요? <br/>
 여러분의 공간에 어울리는 반려 식물을 추천해드려요. <br/>
