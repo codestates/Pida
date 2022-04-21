@@ -1,4 +1,4 @@
 #!/bin/bash
-cd /home/ubuntu/im-sprint-practice-deploy/server
+cd /home/ubuntu/Pida/server
 pm2 stop app.js 2> /dev/null || true
 pm2 delete app.js 2> /dev/null || true
