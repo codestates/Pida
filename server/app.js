@@ -14,7 +14,7 @@ const corsOptions = {
   origin: '*',
   credentials: true,
 };
-
+//주석!!
 //데이터베이스 연결
 sequelize
   .sync({ force: false })
