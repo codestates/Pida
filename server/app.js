@@ -10,6 +10,10 @@ const db = require('./models/index');
 db.sequelize.sync();
 
 const app = express();
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+};
 
 //cors 옵션 설정
 const corsOptions = {
@@ -57,6 +61,6 @@ app.use((err, req, res, next) => {
 });
 
 //서버 포트 설정
-app.listen(port, () => {
-  console.log(`${port}번 포트에서 대기중`);
+app.listen(4000, () => {
+  console.log('4000번 포트에서 대기중');
 });
