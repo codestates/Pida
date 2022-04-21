@@ -1,3 +1,5 @@
 #!/bin/bash
-cd /home/ubuntu/im-sprint-practice-deploy/server
+cd /home/ubuntu/Pida/server
 authbind --deep pm2 start app.js
+
+/home/suhyun/바탕화면/Pida/server
