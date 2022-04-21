@@ -5,12 +5,17 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const indexRouter = require('./routes/index');
-// const { sequelize } = require('./models');
 const db = require('./models/index');
 
 db.sequelize.sync();
 
 const app = express();
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+};
+
+//cors 옵션 설정
 const corsOptions = {
   origin: '*',
   credentials: true,
