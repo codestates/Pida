@@ -5,15 +5,9 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const indexRouter = require('./routes/index');
-const db = require('./models/index');
-
-db.sequelize.sync();
+const sequelize = require('./models');
 
 const app = express();
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-};
 
 //cors 옵션 설정
 const corsOptions = {
@@ -22,14 +16,14 @@ const corsOptions = {
 };
 
 //데이터베이스 연결
-// sequelize
-//   .sync({ force: false })
-//   .then(() => {
-//     console.log('데이터베이스 연결 성공');
-//   })
-//   .catch(err => {
-//     console.error(err);
-//   });
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log('데이터베이스 연결 성공');
+  })
+  .catch(err => {
+    console.error(err);
+  });
 
 app.use(helmet());
 app.use(morgan('dev'));
