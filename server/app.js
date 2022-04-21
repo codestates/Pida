@@ -5,19 +5,27 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 const indexRouter = require('./routes/index');
-const { sequelize } = require('./models');
+const db = require('./models/index');
+
+db.sequelize.sync();
 
 const app = express();
 
+//cors 옵션 설정
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+};
+
 //데이터베이스 연결
-sequelize
-  .sync({ force: false })
-  .then(() => {
-    console.log('데이터베이스 연결 성공');
-  })
-  .catch(err => {
-    console.error(err);
-  });
+// sequelize
+//   .sync({ force: false })
+//   .then(() => {
+//     console.log('데이터베이스 연결 성공');
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
 
 app.use(helmet());
 app.use(morgan('dev'));
@@ -49,6 +57,6 @@ app.use((err, req, res, next) => {
 });
 
 //서버 포트 설정
-app.listen(8080, () => {
-  console.log('8080번 포트에서 대기중');
+app.listen(port, () => {
+  console.log(`${port}번 포트에서 대기중`);
 });
