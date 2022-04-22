@@ -6,10 +6,10 @@ const Menunav = styled.nav`
   display: flex;
   align-items: center; // 수직축 가운데로 정렬
 
-  padding: 0 0 0 20px;
-  width: 100%;
+  padding: 0 0 0 1.5rem;
+  width: 98.2vw;
   height: 4rem;
-  border-bottom: 1.5px solid black;
+  border-bottom: 0.1rem solid black;
 `;
 
 const Menuul = styled.ul`

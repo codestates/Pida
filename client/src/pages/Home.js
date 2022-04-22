@@ -2,12 +2,9 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import { Container } from '../components/Container';
+import { RadioButton } from '../components/Button';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column; // 아이템들 세로로 정렬
-  align-items: center; // 좌우 가운데로 정렬
-`;
 const ItemLeft = styled.div`
   width: 55rem;
 `;
@@ -27,14 +24,15 @@ const RadioLable = styled.label`
   display: inline-block;
   margin: 3rem 1rem 1rem 0;
 
-  width: 150px;
-  height: 50px;
-  border: 5px solid #3ba914;
-  border-radius: 50px;
+  width: 10rem;
+  min-height: 2rem;
+  border: 0.4rem solid #3ba914;
+  border-radius: 4rem;
 
+  font-family: monospace;
+  font-size: 2rem;
   text-align: center;
-  font-size: 30px;
-  padding-top: 10px;
+  padding: 1rem 0.5rem;
 
   /* 클릭 전 */
   color: rgb(0, 0, 0);
@@ -58,23 +56,6 @@ const RadioInput = styled.input.attrs({ type: 'radio' })`
   }
 `;
 
-const RadioButton = styled.button`
-  margin: 1rem 0 0 0;
-  width: 140px;
-  height: 70px;
-  border: none;
-  border-radius: 50px;
-
-  color: white;
-  background-color: #3ba914;
-  font-size: 30px;
-  font-weight: 400;
-
-  :hover {
-    background-color: #34c200;
-  }
-`;
-
 function Home() {
   const history = useHistory();
   const [space, setSpace] = useState('');
@@ -90,10 +71,10 @@ function Home() {
       //   )
       //   .then(res => {
       history.replace('/search');
+      window.location.reload(); // 저번엔 그냥 됐는데??
       //});
     }
   };
-
   return (
     <Container>
       <ItemLeft>
@@ -142,9 +123,9 @@ function Home() {
 
       <ItemLeft>
         <QuestionDiv>식물 키우기 고수인가요?</QuestionDiv>
-        <RadioInput type="radio" id="le1" name="light" value="네" />
+        <RadioInput type="radio" id="le1" name="level" value="네" />
         <RadioLable htmlFor="le1">네</RadioLable>
-        <RadioInput type="radio" id="le2" name="light" value="아니오" />
+        <RadioInput type="radio" id="le2" name="level" value="아니오" />
         <RadioLable htmlFor="le2">아니오</RadioLable>
       </ItemLeft>
 
