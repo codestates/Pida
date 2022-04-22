@@ -2,10 +2,10 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
-const indexRouter = require('./routes/index');
-const { sequelize } = require('./models');
+const indexRouter = require('./routes/Index');
+const { sequelize } = require('./models/Index');
 
 const app = express();
 
