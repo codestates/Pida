@@ -12,7 +12,7 @@ router.post('/signup', userController.signup);
 // router.delete('/', userController.withdraw);
 
 // //인증
-// router.post('/login', authController.login);
+router.post('/login', authController.login);
 // router.post('/logout', authController.logout);
 
 module.exports = router;

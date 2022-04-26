@@ -11,7 +11,7 @@ const app = express();
 
 //cors 옵션 설정
 const corsOptions = {
-  origin: '*',
+  origin: 'http://localhost:3000',
   credentials: true,
 };
 //주석!!!!
