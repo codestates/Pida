@@ -8,8 +8,8 @@ module.exports = async (req, res, next) => {
     if (!accessToken) {
       return res.status(400).json({ message: '토큰이 존재하지 않습니다' });
     }
-    const decoded = await verify(accessToken, process.env.ACCESS_SECRET);
-    const userInfo = User.findByPk(decoded.id);
+    const decoded = verify(accessToken, process.env.ACCESS_SECRET);
+    const userInfo = await User.findByPk(decoded.id);
     if (userInfo) {
       //토큰 검증에 성공. 사용자 정보 존재
       req.id = userInfo.dataValues.id;
