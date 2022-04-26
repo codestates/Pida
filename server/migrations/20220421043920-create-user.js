@@ -16,11 +16,15 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(70),
       },
-      created_at: {
+      nickname: {
+        allowNull: false,
+        type: Sequelize.STRING(8),
+      },
+      createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      updated_at: {
+      updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
