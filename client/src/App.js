@@ -1,38 +1,47 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Nav from './components/Nav';
-import Home from './pages/Home';
-import Login from './pages/Login';
+import Main from './pages/Main';
+import Select from './pages/Select';
 import SearchResult from './pages/SearchResult';
-import Signup from './pages/Signup';
+import Mypage from './pages/Mypage/Mypage';
+import PlantDetail from './pages/PlantDetail';
+import InteriorWrite from './pages/InteriorWrite';
 
 function App() {
   return (
     <BrowserRouter>
       <div>
         <Nav />
-
         <Switch>
           <Route exact path="/">
-            <Home />
+            <Main />
           </Route>
         </Switch>
-
         <Switch>
-          <Route exact path="/users/login">
-            <Login />
+          <Route exact path="/select">
+            <Select />
           </Route>
         </Switch>
-
         <Switch>
           <Route exact path="/search">
             <SearchResult />
           </Route>
         </Switch>
+        <Switch>
+          <Route exact path="/plantDetail">
+            <PlantDetail />
+          </Route>
+        </Switch>
+        <Switch>
+          <Route exact path="/interiorWrite">
+            <InteriorWrite />
+          </Route>
+        </Switch>
 
         <Switch>
-          <Route exact path="/users/signup">
-            <Signup />
+          <Route exact path="/users">
+            <Mypage />
           </Route>
         </Switch>
       </div>

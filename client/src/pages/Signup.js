@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { SignContainer } from '../components/Container';
-import { SignButton } from '../components/Button';
+import { UDContainer } from '../components/Container';
+import { SignButton, ConfirmButton } from '../components/Button';
 import { SignInput } from '../components/Input';
 import { Error } from '../components/Error';
+import { Modal } from '../components/Modal';
 import {
   emailValidator,
   pwValidator,
@@ -13,14 +14,24 @@ import {
 
 function Signup() {
   const history = useHistory();
+
+  /* 완료 모달 */
+  const [isOpen, setIsOpen] = useState(false);
+  const handleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
+  /* 회원가입 */
   const [signupInfo, setSignupInfo] = useState({
     email: '',
     password: '',
     rePassword: '',
+    nickname: '',
   });
   const [errorMessage1, setErrorMessage1] = useState('');
   const [errorMessage2, setErrorMessage2] = useState('');
   const [errorMessage3, setErrorMessage3] = useState('');
+  const [errorMessage4, setErrorMessage4] = useState('');
 
   const handleInputValue = key => e => {
     setSignupInfo({ ...signupInfo, [key]: e.target.value });
@@ -52,31 +63,35 @@ function Signup() {
       ) {
         setErrorMessage3('비밀번호가 일치하지 않습니다');
       }
+      if (signupInfo.nickname.length === 0) {
+        setErrorMessage4('닉네임을 적어주세요');
+      }
     } else {
-      // axios
-      //   .post(
-      //     `${process.env.REACT_APP_API_URL}/users/signup`,
-      //     {
-      //       email: signupInfo.email,
-      //       password: signupInfo.password,
-      //     },
-      //     { withCredentials: true },
-      //   )
-      //   .then(res => {
-      history.replace('/');
-      window.location.reload(); // 저번엔 그냥 됐는데??
-      alert('회원가입이 완료되었습니다'); // 모달로 변경하기
-      // })
-      // .catch(() => {
-      //   setErrorMessage1("이미 존재하는 이메일입니다");
-      //   setErrorMessage2("");
-      //   setErrorMessage3("");
-      // });
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/users/signup`,
+          {
+            nickname: signupInfo.nickname,
+            email: signupInfo.email,
+            password: signupInfo.password,
+          },
+          { withCredentials: true },
+        )
+        .then(res => {
+          setIsOpen(true); // 성공 모달
+          history.replace('/');
+          // window.location.reload();
+        })
+        .catch(() => {
+          setErrorMessage1('이미 존재하는 이메일입니다');
+          setErrorMessage2('');
+          setErrorMessage3('');
+        });
     }
   };
 
   return (
-    <SignContainer>
+    <UDContainer>
       <div>
         <SignInput
           type="email"
@@ -102,12 +117,26 @@ function Signup() {
         <Error>{errorMessage3}</Error>
       </div>
       <div>
+        <SignInput
+          type="text"
+          placeholder="nickname"
+          onChange={handleInputValue('nickname')}
+        />
+        <Error>{errorMessage4}</Error>
+      </div>
+      <div>
         <SignButton onClick={handleSignup}>회원가입</SignButton>
       </div>
       <div>
         <SignButton>Google로 회원가입</SignButton>
       </div>
-    </SignContainer>
+      {isOpen ? (
+        <Modal handleModal={handleModal}>
+          <h3>회원가입에 성공했습니다</h3>
+          <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
+        </Modal>
+      ) : null}
+    </UDContainer>
   );
 }
 export default Signup;
