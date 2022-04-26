@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-// const mypageController = require('../controllers/MypageController');
-const userManageController = require('../controllers/UserManageController');
+const userController = require('../controllers/UserController');
+const authController = require('../controllers/AuthController');
 
-//마이페이지: mypagecontroller
-// router.get('/', mypageController.getUserInfo);
-// router.delete('/', mypageController.deleteUserInfo);
-// router.patch('/', mypageController.patchUserInfo);
+//유저 CRUD
+router.post('/signup', userController.signup);
+// router.get('/', userController.getInfo);
+// router.patch('/nickname', userController.editNickname);
+// router.patch('/password', userController.editPassword);
+// router.delete('/', userController.withdraw);
 
-//회원가입, 로그인, 로그아웃: authcontroller
-router.post('/signup', userManageController.signup);
-router.post('/login', userManageController.login);
-router.post('/logout', userManageController.logout);
+// //인증
+// router.post('/login', authController.login);
+// router.post('/logout', authController.logout);
 
 module.exports = router;
