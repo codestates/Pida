@@ -12,7 +12,7 @@ router.post('/signup', userController.signup);
 // router.patch('/password', userController.editPassword);
 router.delete('/', isAuth, userController.withdraw);
 
-// //인증
+//인증
 router.post('/login', authController.login);
 router.post('/logout', isAuth, authController.logout);
 
