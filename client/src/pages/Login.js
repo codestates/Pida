@@ -40,6 +40,7 @@ function Login() {
         )
         .then(res => {
           setIsOpen(true); // 성공 모달
+          console.log(res, '응답');
           history.replace('/');
         })
         .catch(() => {
