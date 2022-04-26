@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
+import { ConfirmButton } from '../components/Button';
+import { Modal, Modal2 } from './Modal';
+import Signup from '../pages/Signup';
+import Login from '../pages/Login';
 
 const Menunav = styled.nav`
   display: flex;
   align-items: center; // 수직축 가운데로 정렬
 
   padding: 0 0 0 1.5rem;
-  width: 98.2vw;
-  height: 4rem;
+  min-width: 100%-1.5rem;
+  height: 4rem; // 나머지에서 빼줄까???
   border-bottom: 0.1rem solid black;
 `;
 
@@ -34,28 +40,84 @@ const Menuli = styled.li`
 `;
 
 function Nav() {
+  const history = useHistory();
+
+  /* 회원가입 모달 */
+  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
+  const handleSignupModal = () => {
+    setIsSignupModalOpen(!isSignupModalOpen);
+  };
+  const handleSignup = () => {
+    setIsSignupModalOpen(true);
+  };
+  /* 로그인 모달 */
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const handleLoginModal = () => {
+    setIsLoginModalOpen(!isLoginModalOpen);
+  };
+  const handleLogin = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  /* 로그아웃 모달 */
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const handleLogoutModal = () => {
+    setIsLogoutModalOpen(!isLogoutModalOpen);
+  };
+  /* 로그아웃 핸들러*/
+  const handleLogout = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/users/logout`,
+        {},
+        { withCredentials: true },
+      )
+      .then(res => {
+        setIsLogoutModalOpen(true); // 성공 모달
+        history.replace('/');
+      });
+  };
+
   return (
     <Menunav className="menubar">
-      <img src="../images/logo.png" alt="" width="100px" />
       <Menuul>
         <NavLink to="/">
-          <Menuli>홈</Menuli>
+          <Menuli>
+            <img src="../images/logo.png" alt="" width="100px" />
+          </Menuli>
+        </NavLink>
+
+        <NavLink to="/select">
+          <Menuli>식물추천</Menuli>
         </NavLink>
 
         {/* ? 로그인 전 */}
-        <NavLink to="/users/signup">
-          <Menuli>회원가입</Menuli>
-        </NavLink>
-        <NavLink to="/users/login">
-          <Menuli>로그인</Menuli>
-        </NavLink>
+        <Menuli onClick={handleSignup}>회원가입</Menuli>
+        {isSignupModalOpen ? (
+          <Modal2 handleModal={handleSignupModal}>
+            <Signup />
+          </Modal2>
+        ) : null}
+
+        <Menuli onClick={handleLogin}>로그인</Menuli>
+        {isLoginModalOpen ? (
+          <Modal2 handleModal={handleLoginModal}>
+            <Login />
+          </Modal2>
+        ) : null}
+
         {/* : 로그인 후 */}
-        <NavLink to="/users/likes">
+        <NavLink to="/users">
           <Menuli>마이페이지</Menuli>
         </NavLink>
-        <NavLink to="/users/logout">
-          <Menuli>로그아웃</Menuli>
-        </NavLink>
+
+        <Menuli onClick={handleLogout}>로그아웃</Menuli>
+        {isLogoutModalOpen ? (
+          <Modal handleModal={handleLogoutModal}>
+            <h3>로그아웃에 성공했습니다</h3>
+            <ConfirmButton onClick={handleLogoutModal}>확인</ConfirmButton>
+          </Modal>
+        ) : null}
       </Menuul>
     </Menunav>
   );
