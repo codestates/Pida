@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      this.belongsTo(models.Plant);
     }
   }
   Plant_category.init(
@@ -20,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Plant_category',
+      timestamps: false,
     },
   );
   return Plant_category;
