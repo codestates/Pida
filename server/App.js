@@ -55,6 +55,6 @@ app.use((err, req, res, next) => {
 });
 
 //서버 포트 설정
-app.listen(80, () => {
-  console.log('80번 포트에서 대기중');
+app.listen(4000, () => {
+  console.log('4000번 포트에서 대기중');
 });
