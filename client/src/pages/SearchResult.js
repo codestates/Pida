@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { Container, UDContainer, ContainerRow } from '../components/Container';
-import PlantDetail from './PlantDetail';
+import { Container, UDContainer, ContainerRow2 } from '../components/Container';
+import { TButton } from '../components/Button';
 
-function SearchResult(props) {
+function SearchResult() {
   const history = useHistory();
+  const location = useLocation();
 
   /* 검색 결과 보여주기 */
   const [plantsTotal, setPlantsTotal] = useState(0);
   const [plantsArray, setPlantsArray] = useState([]);
   useEffect(() => {
+    console.log(location.state);
     // axios
     //   .get(
-    //     `${process.env.REACT_APP_API_URL}/search?size=${props.select.size}&space=${props.select.space}&species=${props.select.species}`,
+    //     `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}`,
     //     { withCredentials: true },
     //   )
     //   .then(res => {
@@ -23,71 +25,73 @@ function SearchResult(props) {
     //   });
   }, []);
 
-  /* 특정 식물 사진 클릭했을 때 PlantDetail 보여주기 */
-  const [isSrPage, setIsSrPage] = useState(true);
   const [plantId, setPlantId] = useState(0);
+  const [isNavigate, setIsNavigate] = useState('');
   const handlePlantDetail = id => {
     setPlantId(id); // 클릭한 식물의 id 설정하고
-    setIsSrPage(false); // 검색 결과 페이지 숨기고, 식물 상세 페이지 보여주기
+    setIsNavigate(true); // useEffect 실행해 해당 id 식물 상세 페이지로 이동
   };
+  useEffect(() => {
+    if (isNavigate) {
+      history.push({
+        pathname: '/plantDetail',
+        state: plantId,
+      });
+      setIsNavigate(false);
+    }
+  }, [isNavigate]);
 
   return (
     <>
-      {isSrPage ? (
-        <UDContainer>
-          <SearchResultForm>
-            <Container>
-              <ItemLeft>
-                <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다.</AnswerDiv>
-                <SearchCountDiv>검색결과 총 {plantsTotal}건</SearchCountDiv>
-              </ItemLeft>
+      <UDContainer>
+        <SearchResultForm>
+          <Container>
+            <ItemLeft>
+              <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다.</AnswerDiv>
+              <SearchCountDiv>검색결과 총 {plantsTotal}건</SearchCountDiv>
+            </ItemLeft>
 
-              <ContainerRow>
-                {plantsArray.map(plant => {
-                  return (
-                    <ResultItem>
-                      <ResultImage
-                        src={plant.plantImage}
-                        alt=""
-                        onClikck={() => handlePlantDetail(plant.id)}
-                      />
-                      <h3>{plant.plantName}</h3>
-                    </ResultItem>
-                  );
-                })}
+            <ContainerRow2>
+              {/* {plantsArray.map(plant => {
+                return (
+                  <ResultItem>
+                    <TButton onClick={() => handlePlantDetail(plant.id)}>
+                      <ResultImage src={plant.plantImage} alt="" />
+                      <h2>{plant.plantName}</h2>
+                    </TButton>
+                  </ResultItem>
+                );
+              })} */}
 
-                {/* 모양 보려고 만든 거 -  지우면 됨
-            <ResultItem>
-              <ResultImage src="../images/select/꽃.png" alt="" />
-              <h3>1</h3>
-            </ResultItem>
-            <ResultItem>
-              <ResultImage src="../images/select/꽃.png" alt="" />
-              <h3>2</h3>
-            </ResultItem>
-            <ResultItem>
-              <ResultImage src="../images/select/꽃.png" alt="" />
-              <h3>3</h3>
-            </ResultItem>
-            <ResultItem>
-              <ResultImage src="../images/select/꽃.png" alt="" />
-              <h3>4</h3>
-            </ResultItem>
-            <ResultItem>
-              <ResultImage src="../images/select/꽃.png" alt="" />
-              <h3>5</h3>
-            </ResultItem>
-            <ResultItem>
-              <ResultImage src="../images/select/꽃.png" alt="" />
-              <h3>6</h3>
-            </ResultItem> */}
-              </ContainerRow>
-            </Container>
-          </SearchResultForm>
-        </UDContainer>
-      ) : (
-        <PlantDetail plantId={plantId} />
-      )}
+              {/* 모양 보려고 만든 거 - 지우면 됨 */}
+              <ResultItem>
+                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
+                  <ResultImage src="../images/select/꽃.png" alt="" />
+                  <h2>대롱대롱</h2>
+                </TButton>
+              </ResultItem>
+              <ResultItem>
+                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
+                  <ResultImage src="../images/select/꽃.png" alt="" />
+                  <h3>마들렌뇨끼</h3>
+                </TButton>
+              </ResultItem>
+              <ResultItem>
+                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
+                  <ResultImage src="../images/select/꽃.png" alt="" />
+                  <h3>3</h3>
+                </TButton>
+              </ResultItem>
+              <ResultItem>
+                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
+                  <ResultImage src="../images/select/꽃.png" alt="" />
+                  <h3>4</h3>
+                </TButton>
+              </ResultItem>
+            </ContainerRow2>
+          </Container>
+        </SearchResultForm>
+      </UDContainer>
     </>
   );
 }

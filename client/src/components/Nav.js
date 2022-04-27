@@ -95,14 +95,14 @@ function Nav() {
         <Menuli onClick={handleSignup}>회원가입</Menuli>
         {isSignupModalOpen ? (
           <Modal2 handleModal={handleSignupModal}>
-            <Signup />
+            <Signup setIsSignupModalOpen={setIsSignupModalOpen} />
           </Modal2>
         ) : null}
 
         <Menuli onClick={handleLogin}>로그인</Menuli>
         {isLoginModalOpen ? (
           <Modal2 handleModal={handleLoginModal}>
-            <Login />
+            <Login setIsLoginModalOpen={setIsLoginModalOpen} />
           </Modal2>
         ) : null}
 

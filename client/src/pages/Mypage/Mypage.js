@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -16,6 +16,18 @@ import Bye from './Bye';
 
 function Mypage() {
   const history = useHistory();
+
+  const [userInfo, setUserInfo] = useState({
+    nickname: '',
+    email: '',
+  });
+  const [uploadArray, setUploadArray] = useState([]);
+  const [likeArray, setLikeArray] = useState([]);
+  useEffect(() => {
+    // API 보면서 작성하기
+    //axios.get();
+    //setUploadArray(), setUploadArray()
+  });
 
   /* 닉네임 변경 모달 */
   const [isModifyNicknameModalOpen, setIsModifyNicknameModalOpen] =
@@ -49,12 +61,12 @@ function Mypage() {
   return (
     <div>
       <MyData>
-        <MyName>김코딩</MyName>
+        <MyName>{userInfo.nickname}</MyName>
         {/* 버튼 누르면 닉네임 변경 모달 뜨게 */}
-        <MyEmail>kimcoding@gmail.com</MyEmail>
+        <MyEmail>{userInfo.email}</MyEmail>
       </MyData>
       <MyDataButton>
-        <MypageButton onClick={handleModifyPassword}>비밀번호수정</MypageButton>
+        <MypageButton onClick={handleModifyPassword}>비밀번호변경</MypageButton>
         {isModifyPasswordModalOpen ? (
           <Modal2 handleModal={handleModifyPasswordModal}>
             <ModifyPassword

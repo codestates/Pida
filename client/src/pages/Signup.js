@@ -12,13 +12,13 @@ import {
   pwMatchValidator,
 } from '../utils/validator';
 
-function Signup() {
+function Signup(props) {
   const history = useHistory();
 
   /* 완료 모달 */
   const [isOpen, setIsOpen] = useState(false);
   const handleModal = () => {
-    setIsOpen(!isOpen);
+    props.setIsSignupModalOpen(false); // 회원가입 모달 닫기 (완료 모달도 닫힘)
   };
 
   /* 회원가입 */
