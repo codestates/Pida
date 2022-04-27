@@ -22,13 +22,14 @@ module.exports = {
 
       // 404: 로그인 시도 유저의 정보가 없는 경우에 대한 처리
       if (!userInfo) {
-        return res
-          .status(400)
-          .json({ message: '해당 유저가 없습니다' });
+        return res.status(400).json({ message: '해당 유저가 없습니다' });
       }
 
       // db 상의 비밀번호와 입력값의 매칭 여부 확인
-      const match = await bcrypt.compare(password, userInfo.dataValues.password);
+      const match = await bcrypt.compare(
+        password,
+        userInfo.dataValues.password,
+      );
 
       // 401: db 상의 비밀번호와 입력값이 불일치할 때의 처리
       if (!match) {
@@ -38,15 +39,19 @@ module.exports = {
       } else {
         // 상기 모든 조건을 통과한 경우,
         // 우선 토큰을 발급하고 cors 옵션을 적용
-        const accessToken =
-          sign(userInfo.dataValues.id, process.env.ACCESS_SECRET, { expiresIn: '3d' });
+        const accessToken = sign(
+          { id: userInfo.dataValues.id },
+          process.env.ACCESS_SECRET,
+          { expiresIn: '3d' },
+        );
         const options = {
           httpOnly: true,
-          sameSite: 'none',
+          //https 배포 후, 추가할 설정입니다.
+          // sameSite: 'none',
+          // secure: true
           domain: '*',
           // 1 week
           maxAge: 1000 * 60 * 60 * 24 * 7,
-          // secure: true
         };
 
         // 201: 최종적으로, 발급한 토큰과 옵션을 메시지와 함께 반환
@@ -55,7 +60,6 @@ module.exports = {
           .cookie('accessToken', accessToken, options)
           .json({ message: '로그인에 성공했습니다' });
       }
-
     } catch (e) {
       // 서버 에러 처리
       console.error(e);
@@ -79,4 +83,3 @@ module.exports = {
     }
   },
 };
-
