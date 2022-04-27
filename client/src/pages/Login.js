@@ -8,13 +8,13 @@ import { Error } from '../components/Error';
 import { Modal } from '../components/Modal';
 axios.defaults.withCredentials = true;
 
-function Login() {
+function Login(props) {
   const history = useHistory();
 
   /* 완료 모달 */
   const [isOpen, setIsOpen] = useState(false);
   const handleModal = () => {
-    setIsOpen(!isOpen);
+    props.setIsLoginModalOpen(false); // 로그인 모달 닫기 (완료 모달도 닫힘)
   };
 
   /* 로그인 */
@@ -34,14 +34,12 @@ function Login() {
     } else {
       axios
         .post(
-          `${process.env.REACT_APP_API_URL}/user/login`,
+          `${process.env.REACT_APP_API_URL}/users/login`,
           { email: loginInfo.email, password: loginInfo.password },
           { withCredentials: true },
         )
         .then(res => {
           setIsOpen(true); // 성공 모달
-          console.log(res, '응답');
-          history.replace('/');
         })
         .catch(() => {
           setErrorMessage('이메일과 비밀번호를 다시 확인해주세요');

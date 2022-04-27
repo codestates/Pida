@@ -54,7 +54,7 @@ const ModalView2 = styled.div.attrs(props => ({ role: 'dialog' }))`
   background-color: white;
   border-radius: 10px;
   width: 33rem;
-  height: 33rem;
+  height: 35rem;
   min-height: 5rem;
 
   /* Contents 가운데 정렬 */

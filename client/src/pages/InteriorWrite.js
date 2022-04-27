@@ -1,40 +1,23 @@
-import { UDContainer } from '../components/Container';
-import { SelectButton2 } from '../components/Button';
+import { Container, UDContainer, ContainerRow } from '../components/Container';
+import { SelectButton } from '../components/Button';
 import { Error } from '../components/Error';
 import styled from 'styled-components';
 import React, { useState } from 'react';
 //import axios from 'axios';
-
 const ContentTextArea = styled.textarea`
   width: 50rem;
-  height: 32rem;
+  height: 20rem;
   resize: none;
   border-radius: 3rem;
   border: solid 0.15rem black;
-  padding: 1.5rem 1.5rem 1rem 1.5rem;
-  margin: 2rem 2rem -1.3rem 11rem;
-  font-size: 1.1rem;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  font-size: 0.8rem;
 `;
 
-// const UploadImage = styled.label`
-//   display: table;
-//   margin-left: auto;
-//   margin-right: auto;
-
-//   padding: 1rem 5rem;
-//   background-color: #3ba914;
-//   border-radius: 4px;
-//   color: white;
-//   font-size: 1.5rem;
-//   font-weight: 600;
-//   cursor: pointer;
-// `;
-
-const UploadImage2 = styled.label`
-  display: table;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 2rem;
+const Uploadinput = styled.input`
+  padding: 5rem 0rem 0rem 0rem;
+  width: 10rem;
 `;
 
 function InteriorWrite() {
@@ -78,32 +61,20 @@ function InteriorWrite() {
   return (
     <UDContainer>
       <div>
-        {/* <UploadImage htmlFor="input-image">사진넣기</UploadImage> */}
-        <UploadImage2 htmlFor="input-image">
-          <img src="../images/사진선택.png" alt="" width="180px" />
-        </UploadImage2>
-        <input
-          type="file"
-          id="input-image"
-          style={{ display: 'none' }}
-          accept="image/jpeg, image/png, image/jpg"
-          onChange={handleImage}
-        />
+        <Uploadinput type="file" accept="image/*" onChange={handleImage} />
+        <Error>{errorMessage1}</Error>
+        <Error>{errorMessage2}</Error>
       </div>
-      <div>
-        <span>
-          <ContentTextArea
-            placeholder="내용"
-            maxLength="1000"
-            onChange={handleContent}
-          />
-        </span>
-        <span>
-          <SelectButton2 onClick={handelInterior}>뽐내기</SelectButton2>
-        </span>
+
+      <ContentTextArea
+        placeholder="내용"
+        maxLength="1000"
+        onChange={handleContent}
+      />
+
+      <div style={{ margin: '1rem 0 0 42rem' }}>
+        <SelectButton onClick={handelInterior}>뽐내기</SelectButton>
       </div>
-      <Error>{errorMessage1}</Error>
-      <Error>{errorMessage2}</Error>
     </UDContainer>
   );
 }

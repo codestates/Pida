@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { UDContainer } from '../components/Container';
 import { SelectButton } from '../components/Button';
-import SearchResult from './SearchResult';
 
 const QuestionDiv = styled.div`
   padding: 0rem 0 3rem 0;
@@ -24,25 +23,34 @@ function Select() {
   const handleStart = () => {
     setIsStartPage(false);
   };
-
   const [isQ1, setIsQ1] = useState(true);
   const [isQ2, setIsQ2] = useState(true);
   const [isQ3, setIsQ3] = useState(true);
-  const [isSrPage, setIsSrPage] = useState(true);
+
   const [select, setSelect] = useState({
     size: '',
     space: '',
     species: '',
   });
+  const [isNavigate, setIsNavigate] = useState('');
   const handleSelect = key => e => {
+    setSelect({ ...select, [key]: e.target.name }); // 검색 조건 설정하고
     if (key === 'size') setIsQ1(false);
     if (key === 'space') setIsQ2(false);
     if (key === 'species') {
       setIsQ3(false);
-      //history.replace('/search'); //서치결과창으로
+      setIsNavigate(true); // useEffect 실행해 검색 결과 페이지로 이동
     }
-    setSelect({ ...select, [key]: e.target.name });
   };
+  useEffect(() => {
+    if (isNavigate) {
+      history.push({
+        pathname: '/search',
+        state: select,
+      });
+      setIsNavigate(false);
+    }
+  }, [isNavigate]);
 
   return (
     <>
@@ -131,9 +139,7 @@ function Select() {
                         />
                       </span>
                     </UDContainer>
-                  ) : (
-                    <> {isSrPage ? <SearchResult select={select} /> : null} </>
-                  )}
+                  ) : null}
                 </>
               )}
               :
