@@ -37,7 +37,7 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 
 //배포 환경에서 정상 응답 받는지 테스트하는 코드
-app.get('/test', (req, res) => {
+app.get('/', (req, res) => {
   res.send('hello world');
 });
 
