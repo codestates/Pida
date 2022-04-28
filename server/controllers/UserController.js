@@ -1,7 +1,7 @@
-const { User } = require('../models/Index');
+const { User, Interior, Interior_like } = require('../models/Index');
+const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 dotenv.config();
-const bcrypt = require('bcrypt');
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 module.exports = {
@@ -44,11 +44,160 @@ module.exports = {
     }
   },
   // //회원정보조회
-  // getInfo: async (req, res) => {},
+  getInfo: async (req, res) => {
+    try {
+      // Users: 특정 유저 선택 쿼리
+      const userInfo = await User.findOne({
+        where: { id: req.id },
+        attributes: ['id', 'email', 'nickname'],
+      });
+
+      //사용자가 업로드한 글 모아보기
+      const uploads = await Interior.findAll({
+        attributes: ['id', 'image'],
+        include: {
+          model: User,
+          required: true,
+          attributes: [],
+          where: { id: req.id },
+        },
+      });
+
+      //사용자가 좋아요한 글 모아보기
+      const likes = await User.findAll({
+        where: { id: req.id },
+        attributes: [],
+        include: {
+          model: Interior,
+          attributes: ['id', 'image'],
+          through: {
+            attributes: [],
+          },
+          required: true,
+        },
+      });
+
+      // console.log(
+      //   likes[0].dataValues.Interiors.map(el => el.dataValues),
+      //   '좋아요',
+      // );
+      const { id, email, nickname } = userInfo;
+
+      // 해당 유저가 존재하지 않는 경우
+      if (!userInfo) {
+        return res
+          .status(404)
+          .json({ message: '회원 정보 조회에 실패했습니다' });
+      } else {
+        // 해당 유저가 존재할 경우
+        return res.status(200).json({
+          data: {
+            id,
+            email,
+            nickname,
+            uploads,
+            likes: likes[0].dataValues.Interiors.map(el => el.dataValues),
+          },
+          message: '회원 정보 조회에 성공했습니다',
+        });
+      }
+    } catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 회원 정보 조회 서버 에러' });
+    }
+  },
   // //닉네임수정
-  // editNickname: async (req, res) => {},
-  // //비번수정
-  // editPassword: async (req, res) => {},
+  editNickname: async (req, res) => {
+    try {
+      const { newNickname } = req.body;
+
+      // newNickname 이 정규표현식을 통과하지 못 한다면,
+      // 400 을 돌려주고 정지
+
+      const regNickname = /^[^!@#$%\^&*(\)\-_+={\}[\]\\|:;"'<>?/]{1,8}$/;
+
+      if (!regNickname.test(newNickname)) {
+        return res.status(400).json({
+          message:
+            '닉네임 변경에 실패했습니다. 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다.',
+        });
+      }
+
+      await User.update({ nickname: newNickname }, { where: { id: req.id } });
+
+      return res.status(204).json({
+        data: { newNickname },
+        message: '닉네임 변경에 성공했습니다',
+      });
+    } catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 닉네임 변경에 실패했습니다' });
+    }
+  },
+  //비번수정
+  editPassword: async (req, res) => {
+    try {
+      const { oldPassword, newPassword } = req.body;
+      //만약에 두 값이 모두 주어지지 않았다면 둘 다 달라고 응답
+      if (!oldPassword || !newPassword) {
+        return res
+          .status(400)
+          .json({ message: '현재 비밀번호와 새 비밀번호 모두 입력해주세요' });
+      }
+      //두 값 모두 주어졌다.
+      //기존의 비밀번호가 DB 상의 비번이랑 일치하지 않는다: 비번 다시 입력하라고 응답
+      const userInfo = await User.findOne({ where: { id: req.id } });
+      const match = await bcrypt.compare(
+        oldPassword,
+        userInfo.dataValues.password,
+      );
+
+      if (!match) {
+        return res
+          .status(400)
+          .json({ message: '기존 비밀번호가 일치하지 않습니다' });
+      }
+
+      //기존 비번 올바르게 입력했음.
+      //새로운 비번도 형식에 맞는지 확인한다
+      //형식에 맞지 않으면 맞게 입력해달라고 할 것
+      const pattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+      if (!pattern.test(newPassword)) {
+        return res
+          .status(400)
+          .json({ message: '비밀번호를 형식에 맞게 입력해주세요' });
+      }
+      //형식에 맞으면 업데이트하고 성공 응답 보낼것
+      const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+      await User.update(
+        { password: hashedPassword },
+        {
+          where: {
+            id: req.id,
+          },
+        },
+      )
+        .then(result => {
+          console.log('응답 메세지 찍히나??');
+          return res
+            .status(204)
+            .json({ message: '비밀번호 변경에 성공했습니다' }); //204의 경우 응답 바디가 아얘 없다. 원래 그래
+        })
+        .catch(console.log);
+    } catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 비밀번호 변경에 실패했습니다' });
+    }
+  },
   //탈퇴
   withdraw: async (req, res) => {
     try {

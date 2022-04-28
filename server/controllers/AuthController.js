@@ -1,5 +1,5 @@
 const { User } = require('../models/Index');
-const { sign } = require('jsonwebtoken');
+const { sign, verify } = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -7,6 +7,12 @@ dotenv.config();
 module.exports = {
   login: async (req, res) => {
     try {
+      // //이미 로그인 한 경우, 쿠키가 있기 때문에 응답보내고 종료
+      // const decoded = verify(accessToken, process.env.ACCESS_SECRET);
+      // const hasUserInfo = await User.findByPk(decoded.id);
+      // if (req.cookies.accessToken && hasUserInfo) {
+      //   return res.status(409).json({ message: '이미 로그인 상태입니다.' });
+      // }
       // 로그인에 필요한 정보를 받아와서 정의
       const { email, password } = req.body;
 
@@ -47,9 +53,10 @@ module.exports = {
         const options = {
           httpOnly: true,
           //https 배포 후, 추가할 설정입니다.
-          // sameSite: 'none',
-          // secure: true
-          domain: '*',
+          sameSite: 'none',
+          secure: true,
+          domain: 'server.pida.link',
+          path: '/',
           // 1 week
           maxAge: 1000 * 60 * 60 * 24 * 7,
         };
@@ -59,6 +66,12 @@ module.exports = {
           .status(201)
           .cookie('accessToken', accessToken, options)
           .json({ message: '로그인에 성공했습니다' });
+
+        // 토큰을 응답 바디에 담아 보내는 경우
+        // return res.status(201).json({
+        //   data: { id: userInfo.dataValues.id, accessToken },
+        //   message: '로그인에 성공했습니다',
+        // });
       }
     } catch (e) {
       // 서버 에러 처리
