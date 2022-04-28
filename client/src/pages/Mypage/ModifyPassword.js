@@ -5,7 +5,7 @@ import { UDContainer } from '../../components/Container';
 import { SignInput } from '../../components/Input';
 import { ConfirmButton, SignButton } from '../../components/Button';
 import { Modal, Modal2 } from '../../components/Modal';
-import { pwValidator, pwMatchValidator } from '../utils/validator';
+import { pwValidator, pwMatchValidator } from '../../utils/validator';
 
 function ModifyPassword({ handleModifyPasswordModal }) {
   const history = useHistory();
@@ -31,15 +31,15 @@ function ModifyPassword({ handleModifyPasswordModal }) {
   };
   const handleModifyPassword = () => {
     if (password.length === 0 || pwValidator(password) === false) {
-      setErrorMessage2(
-        '비밀번호는 영어, 숫자 포함 8자 이상 16자 이하로 작성해 주세요',
-      );
+      // setErrorMessage2(
+      //   '비밀번호는 영어, 숫자 포함 8자 이상 16자 이하로 작성해 주세요',
+      // );
     }
     if (
       newPassword.length === 0 ||
       pwMatchValidator(newPassword, retype) === false
     ) {
-      setErrorMessage3('비밀번호가 일치하지 않습니다');
+      //setErrorMessage3('비밀번호가 일치하지 않습니다');
     }
     //  password가 형식맞는지
     // password랑 repassword랑 같은지
