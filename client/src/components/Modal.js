@@ -63,6 +63,25 @@ const ModalView2 = styled.div.attrs(props => ({ role: 'dialog' }))`
   justify-content: center;
 `;
 
+const ModalView3 = styled.div.attrs(props => ({ role: 'dialog' }))`
+  // attrs 메소드를 이용해서 아래와 같이 div 엘리먼트에 속성을 추가할 수 있습니다.
+  top: 4.5rem;
+  padding: 2rem;
+
+  background-color: white;
+  border-radius: 10px;
+  width: 46rem;
+
+  /* Contents 가운데 정렬 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 스크롤 */
+  overflow-y: auto;
+  max-height: 90%;
+`;
+
 const Contents = styled.div`
   display: flex;
   flex-direction: column;
@@ -100,6 +119,23 @@ export function Modal2({ handleModal, children, ...rest }) {
           {/* <Close onClick={handleModal} /> */}
           <Contents>{children}</Contents>
         </ModalView2>
+      </ModalBackdrop>
+    </ModalContainer>
+  );
+}
+
+export function Modal3({ handleModal, children, ...rest }) {
+  return (
+    <ModalContainer>
+      <ModalBackdrop onClick={handleModal}>
+        <ModalView3
+          onClick={event => {
+            event.stopPropagation();
+          }}
+        >
+          {/* <Close onClick={handleModal} /> */}
+          <Contents>{children}</Contents>
+        </ModalView3>
       </ModalBackdrop>
     </ModalContainer>
   );

@@ -8,7 +8,7 @@ export const TButton = styled.button`
 
 // 짧은 버튼
 export const SelectButton = styled.button`
-  margin: 0 0 3rem 0;
+  margin: 1rem 0 1rem 0;
   width: 10rem;
   height: 3.5rem;
   border-radius: 4rem;
@@ -47,4 +47,36 @@ export const ConfirmButton = styled.button`
   :hover {
     color: grey;
   }
+`;
+
+export const MypageButton = styled.button`
+  background-color: white;
+  border: none;
+  border-color: transparent;
+  color: rgb(163, 163, 163);
+  font-weight: 600;
+  :focus {
+    color: black;
+  }
+
+  font-size: 1rem;
+  padding-top: 3rem;
+  padding-right: 2rem;
+`;
+
+export const MypageButton2 = styled(MypageButton)`
+  font-size: 1.2rem;
+  padding-right: 7rem;
+  padding-left: 7rem;
+`;
+
+export const DetailButton = styled(MypageButton)`
+  color: #bcbcbc;
+  :hover {
+    color: black;
+  }
+
+  font-size: 0.9rem;
+  padding-top: 3rem;
+  padding-right: 0.5rem;
 `;

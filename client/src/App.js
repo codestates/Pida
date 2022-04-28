@@ -1,12 +1,13 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Nav from './components/Nav';
-import Main from './pages/Main';
-import Select from './pages/Select';
-import SearchResult from './pages/SearchResult';
 import Mypage from './pages/Mypage/Mypage';
-import PlantDetail from './pages/PlantDetail';
-import InteriorWrite from './pages/InteriorWrite';
+import InteriorDetail from './pages/Plant/InteriorDetail';
+import InteriorWrite from './pages/Plant/InteriorWrite';
+import PlantDetail from './pages/Plant/PlantDetail';
+import SearchResult from './pages/Search/SearchResult';
+import Select from './pages/Search/Select';
+import Main from './pages/Main';
 
 function App() {
   return (
@@ -36,6 +37,11 @@ function App() {
         <Switch>
           <Route exact path="/interiorWrite">
             <InteriorWrite />
+          </Route>
+        </Switch>
+        <Switch>
+          <Route exact path="/interiorDetail">
+            <InteriorDetail />
           </Route>
         </Switch>
 
