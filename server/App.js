@@ -8,10 +8,11 @@ const indexRouter = require('./routes/Index');
 const { sequelize } = require('./models/Index');
 
 const app = express();
+const port = 80;
 
 //cors 옵션 설정
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: 'https://pida.ga',
   credentials: true,
 };
 //주석!!!!
@@ -42,7 +43,7 @@ app.get('/test', (req, res) => {
 
 //일부러 에러 발생시키기 테스트
 app.use((req, res, next) => {
-  res.status(404).send('Not Found!');
+  res.status(404).send('ok');
 });
 
 //서버에러
@@ -55,6 +56,6 @@ app.use((err, req, res, next) => {
 });
 
 //서버 포트 설정
-app.listen(4000, () => {
-  console.log('4000번 포트에서 대기중');
+app.listen(port, () => {
+  console.log(`${port}번 포트에서 대기중`);
 });
