@@ -4,7 +4,7 @@
 배포링크자리
 <br/><br/>
 
-![image](https://user-images.githubusercontent.com/55533303/164128088-ca97240c-882b-451c-95d6-754a28eb83f9.png)
+![image](https://user-images.githubusercontent.com/55533303/164385854-1381c56e-d7d0-44fb-95a9-735b563d1345.png)
 <br/><br/>
 
 ## Project Introduction
