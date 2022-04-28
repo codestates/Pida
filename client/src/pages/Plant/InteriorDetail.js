@@ -18,24 +18,32 @@ function InteriorDetail(props) {
     image: '',
     content: '',
   });
-  useEffect(() => {
-    // axios
-    //   .get(
-    //     `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}`,
-    //     { withCredentials: true },
-    //   )
-    //   .then(res => {
-    //     setInterior({
-    //       ...interior,
-    //       id: res.data.data.id,
-    //       isliked: res.data.data.like,
-    //       nickname: res.data.data.nickname,
-    //       image: res.data.data.image,
-    //       content: res.data.data.content,
-    //     });
-    //   });
-    // 댓글받는 axios
-  });
+
+  const [commentArray, setCommentArray] = useState([
+    { id: '1', nickname: '꼬부기', comment: '이거 나중에 지워주세요' },
+  ]);
+
+  //댓글 가져오기
+  // 닉네임, 내용
+
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}`,
+  //       { withCredentials: true },
+  //     )
+  //     .then(res => {
+  //       setInterior({
+  //         ...interior,
+  //         id: res.data.data.id,
+  //         isliked: res.data.data.like,
+  //         nickname: res.data.data.nickname,
+  //         image: res.data.data.image,
+  //         content: res.data.data.content,
+  //       });
+  //       setCommentArray(res.data.data.comments);
+  //     });
+  // }, [commentArray]);
 
   /* 삭제 버튼 누르면 모달 띄우기 */
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -43,11 +51,10 @@ function InteriorDetail(props) {
     setIsDeleteModalOpen(!isDeleteModalOpen);
   };
   // 모달에서 확인 누르면 글 삭제 하기
-  const handleDelete = () => {
+  const handleDeleteInterior = () => {
     // axios
     //   .delete(
     //     `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}`,
-    //     {},
     //     { withCredentials: true },
     //   )
     //   .then(res => {
@@ -56,13 +63,67 @@ function InteriorDetail(props) {
     //   });
   };
 
+  /* 댓글 수정 */
+  const handleModifyComment = () => {};
+
+  /* 댓글 삭제 */
+  const handleDeleteComment = id => {
+    // axios
+    //   .delete(`${process.env.REACT_APP_API_URL}/interiors/${id}`, {
+    //     withCredentials: true,
+    //   })
+    //   .then(res => {
+    setCommentArray([]); //useEffect가 돌아가야하는데..?
+    console.log(`댓글삭제`);
+    // });
+  };
+
+  /* 좋아요 버튼 눌렸을 때 */
+  /* axios실행되면 주석풀고 바꾸면됨 */
+  //const [isLike, setIsLike] = useState(isliked);
+  const [isLike, setIsLike] = useState(false);
+
+  //true -> delte요청, false-> post
+  const handleLike = () => {
+    //좋아요 취소 요청
+    if (isLike === true) {
+      // axios
+      //   .delete(
+      //     `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}/likes`,
+      //     {},
+      //     { withCredentials: true },
+      //   )
+      //   .then(res => {
+      setIsLike(false); // 좋아요 취소상태로 바뀜
+      console.log('좋아요 취소 성공!');
+      // });
+    }
+    //좋아요 요청
+    else {
+      // axios
+      //   .post(
+      //     `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}/likes`,
+      //     {},
+      //     { withCredentials: true },
+      //   )
+      //   .then(res => {
+      setIsLike(true); // 좋아요 상태로 바뀜
+      console.log('좋아요 성공!');
+      // });
+    }
+  };
+
   return (
     <div>
       <ModalContainer>
         <div>
           <div style={{ margin: '0rem 0 1rem 0' }}>
             <WriteUser>김코딩{interior.nickname}</WriteUser>
-            <MyLike>❤</MyLike>
+            {isLike ? (
+              <MyLikeRed onClick={handleLike}>❤</MyLikeRed>
+            ) : (
+              <MyLikeGray onClick={handleLike}>❤</MyLikeGray>
+            )}
             <span>
               <DetailButton>수정</DetailButton>
               <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
@@ -73,14 +134,16 @@ function InteriorDetail(props) {
                     <ConfirmButton onClick={handleDeleteModal}>
                       취소
                     </ConfirmButton>
-                    <ConfirmButton onClick={handleDelete}>확인</ConfirmButton>
+                    <ConfirmButton onClick={handleDeleteInterior}>
+                      확인
+                    </ConfirmButton>
                   </span>
                 </Modal>
               ) : null}
             </span>
           </div>
           <div>
-            <ImageD src="../../images/logo.png" width="300" height="300" />
+            <ImageD src="../../images/꽃.png" width="300" height="300" />
           </div>
         </div>
 
@@ -96,13 +159,28 @@ function InteriorDetail(props) {
             <CommentButton>전송</CommentButton>
           </ContainerRow>
 
+          {/* 인테리어 댓글 */}
           <div style={{ padding: '1.5rem 1.5rem 1.5rem 1.5rem' }}>
-            <WriteUser>꼬부기</WriteUser>
-            <CommentView>멋진집이네요 추천해요~</CommentView>
-            <WriteUser>꼬부기</WriteUser>
-            <CommentView>멋진집이네요 추천해요~</CommentView>
-            <WriteUser>꼬부기</WriteUser>
-            <CommentView>멋진집이네요 추천해요~</CommentView>
+            {commentArray.map(comment => {
+              return (
+                <>
+                  <WriteUser>{comment.nickname}</WriteUser>
+                  <DetailButton onClick={() => handleModifyComment(comment.id)}>
+                    수정
+                  </DetailButton>
+                  <DetailButton onClick={() => handleDeleteComment(comment.id)}>
+                    삭제
+                  </DetailButton>
+                  <CommentView>{comment.comment}</CommentView>
+                </>
+              );
+            })}
+            {/* <WriteUser>꼬부기</WriteUser>
+            <DetailButton onClick={handleModifyComment}>수정</DetailButton>
+            <DetailButton onClick={() => handleDeleteComment(1)}>
+              삭제
+            </DetailButton>
+            <CommentView>참 멋진 집이네요</CommentView> */}
           </div>
         </CommentBox>
       </ModalContainer>
@@ -119,7 +197,7 @@ const WriteUser = styled.span`
   padding: 0 0.5rem 0 0.5rem;
 `;
 
-const MyLike = styled.button`
+const MyLikeGray = styled.button`
   //좋아요 버튼
   background-color: white;
   border-color: transparent;
@@ -127,10 +205,14 @@ const MyLike = styled.button`
   font-size: 1.5rem;
   padding: 0 0.5rem 0 0.5rem;
   color: #bcbcbc;
-  :focus {
+  /* :focus {
     // 일단은 포커스로 색변환 했지만 차후에 이벤트 리스너로 변경해야함
     color: red;
-  }
+  } */
+`;
+
+const MyLikeRed = styled(MyLikeGray)`
+  color: red;
 `;
 
 const ContentView = styled.div`

@@ -78,5 +78,5 @@ export const DetailButton = styled(MypageButton)`
 
   font-size: 0.9rem;
   padding-top: 3rem;
-  padding-right: 0.5rem;
+  padding-left: 0.5rem;
 `;
