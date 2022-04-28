@@ -30,7 +30,7 @@ function InteriorWrite() {
   const history = useHistory();
   const location = useLocation();
 
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(''); // 이미지..
   const [content, setContent] = useState('');
   const [errorMessage1, setErrorMessage1] = useState('');
   const [errorMessage2, setErrorMessage2] = useState('');
@@ -54,14 +54,13 @@ function InteriorWrite() {
       console.log('글썼다');
       // axios
       //   .post(
-      //     `${process.env.REACT_APP_API_URL}/plant/${id}/interiors`,
-      //     { image, content },
+      //     `${process.env.REACT_APP_API_URL}/plant/${location.state.plantId}/interiors`,
+      //     { image: image, content: content },
       //     { withCredentials: true },
       //   )
       //   .then(res => {
       //     try {
-      //       history.push('/plantDetail');
-      //       // 식물상세보기 페이지로 넘어가서 모달열려야함
+      history.goBack(); // 식물상세보기 페이지로 돌아가기
       //     } catch (err) {}
       //   });
     }

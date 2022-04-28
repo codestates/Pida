@@ -15,11 +15,9 @@ function Bye({ handleByeModal }) {
   /* 회원 탈퇴 */
   const handleBye = () => {
     axios
-      .delete(
-        `${process.env.REACT_APP_API_URL}/users`,
-        {},
-        { withCredentials: true },
-      )
+      .delete(`${process.env.REACT_APP_API_URL}/users`, {
+        withCredentials: true,
+      })
       .then(res => {
         axios.post(
           `${process.env.REACT_APP_API_URL}/users/logout`,

@@ -34,20 +34,20 @@ function Mypage() {
   });
   const [uploadsArray, setUploadsArray] = useState([]);
   const [likesArray, setLikesArray] = useState([]);
-  // useEffect(() => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_API_URL}/users`, { withCredentials: true })
-  //     .then(res => {
-  //       setUserInfo({
-  //         ...userInfo,
-  //         id: res.data.data.id,
-  //         email: res.data.data.email,
-  //         nickname: res.data.data.nickname,
-  //       });
-  //       setUploadsArray(res.data.data.uploads);
-  //       setLikesArray(res.data.data.likes);
-  //     });
-  // });
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users`, { withCredentials: true })
+      .then(res => {
+        setUserInfo({
+          ...userInfo,
+          id: res.data.data.id,
+          email: res.data.data.email,
+          nickname: res.data.data.nickname,
+        });
+        setUploadsArray(res.data.data.uploads);
+        setLikesArray(res.data.data.likes);
+      });
+  }, []);
 
   /* 닉네임 변경 */
   const [isModifyNickname, setIsModifyNickname] = useState(false);
@@ -62,13 +62,13 @@ function Mypage() {
   };
   const handleModifyNicknameEnd = () => {
     setIsModifyNickname(false);
-    // axios.patch(
-    //   `${process.env.REACT_APP_API_URL}/users/nickname`,
-    //   {
-    //     newNickname: userInfo.nickname,
-    //   },
-    //   { withCredentials: true },
-    // );
+    axios.patch(
+      `${process.env.REACT_APP_API_URL}/users/nickname`,
+      {
+        newNickname: userInfo.nickname,
+      },
+      { withCredentials: true },
+    );
   };
 
   /* 비밀번호 변경 모달 */
