@@ -55,7 +55,7 @@ module.exports = {
           //https 배포 후, 추가할 설정입니다.
           sameSite: 'none',
           secure: true,
-          domain: 'server.pida.link',
+          domain: '.server.pida.link',
           path: '/',
           // 1 week
           maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -66,7 +66,6 @@ module.exports = {
           .status(201)
           .cookie('accessToken', accessToken, options)
           .json({ message: '로그인에 성공했습니다' });
-
       }
     } catch (e) {
       // 서버 에러 처리
