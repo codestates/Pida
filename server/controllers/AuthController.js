@@ -67,11 +67,6 @@ module.exports = {
           .cookie('accessToken', accessToken, options)
           .json({ message: '로그인에 성공했습니다' });
 
-        // 토큰을 응답 바디에 담아 보내는 경우
-        // return res.status(201).json({
-        //   data: { id: userInfo.dataValues.id, accessToken },
-        //   message: '로그인에 성공했습니다',
-        // });
       }
     } catch (e) {
       // 서버 에러 처리

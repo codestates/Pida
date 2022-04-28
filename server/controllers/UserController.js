@@ -1,4 +1,5 @@
 const { User, Interior, Interior_like } = require('../models/Index');
+
 const bcrypt = require('bcrypt');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -15,7 +16,7 @@ module.exports = {
       if (!email || !nickname || !password) {
         return res.status(400).json({ message: '회원가입에 실패하였습니다.' });
       }
-      //이메일을 받아서, DB에서 사용자가 존재하는지 확인한다,
+      //이메일을 받아서, DB 에서 사용자가 존재하는지 확인한다,
       const userInfo = await User.findOne({ where: { email } });
       if (userInfo) {
         return res
@@ -51,7 +52,7 @@ module.exports = {
         where: { id: req.id },
         attributes: ['id', 'email', 'nickname'],
       });
-
+      
       //사용자가 업로드한 글 모아보기
       const uploads = await Interior.findAll({
         attributes: ['id', 'image'],
@@ -100,6 +101,7 @@ module.exports = {
           },
           message: '회원 정보 조회에 성공했습니다',
         });
+
       }
     } catch (e) {
       //서버 에러 처리
@@ -117,21 +119,27 @@ module.exports = {
       // newNickname 이 정규표현식을 통과하지 못 한다면,
       // 400 을 돌려주고 정지
 
+      // 정규표현식 이스케이프
       const regNickname = /^[^!@#$%\^&*(\)\-_+={\}[\]\\|:;"'<>?/]{1,8}$/;
 
       if (!regNickname.test(newNickname)) {
-        return res.status(400).json({
-          message:
-            '닉네임 변경에 실패했습니다. 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다.',
-        });
+        return res
+          .status(400)
+          .json({ message: '닉네임 변경에 실패했습니다. 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다.' });
       }
 
-      await User.update({ nickname: newNickname }, { where: { id: req.id } });
+      await User.update(
+        { nickname: newNickname },
+        { where: { id: req.id } },
+      );
 
-      return res.status(204).json({
-        data: { newNickname },
-        message: '닉네임 변경에 성공했습니다',
-      });
+      return res
+        .status(204)
+        .json({
+          data: { newNickname },
+          message: '닉네임 변경에 성공했습니다',
+        });
+
     } catch (e) {
       //서버 에러 처리
       console.error(e);
@@ -140,6 +148,7 @@ module.exports = {
         .json({ message: '서버가 닉네임 변경에 실패했습니다' });
     }
   },
+  
   //비번수정
   editPassword: async (req, res) => {
     try {
@@ -156,6 +165,7 @@ module.exports = {
       const match = await bcrypt.compare(
         oldPassword,
         userInfo.dataValues.password,
+
       );
 
       if (!match) {

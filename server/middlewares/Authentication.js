@@ -6,6 +6,7 @@ module.exports = async (req, res, next) => {
   try {
     // const accessToken = req.headers.authorization.split(' ')[1]; //토큰을 요청 헤더에 담아 줄 경우
     // console.log(req.headers.authorization, '헤더');
+
     const { accessToken } = req.cookies;
     if (!accessToken) {
       return res.status(400).json({ message: '토큰이 존재하지 않습니다' });
