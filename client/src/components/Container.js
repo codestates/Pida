@@ -24,3 +24,18 @@ export const ContainerRow = styled.div`
 export const ContainerRow2 = styled(ContainerRow)`
   flex-wrap: wrap;
 `;
+
+export const ModalContainer = styled(Container)`
+  height: 90vh; // 너 뭔데
+`;
+
+export const Form = styled.div`
+  width: 95%;
+`;
+
+// 사진 정렬할때 묶는 용도 (SearchResult, Mypage)
+export const Item = styled.div`
+  width: 13rem;
+  height: 13rem;
+  padding: 0 3rem 5rem 0;
+`;

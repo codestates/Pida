@@ -2,31 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { UDContainer } from '../../components/Container';
-import { ConfirmButton, SignButton } from '../../components/Button';
+import { MypageButton, MypageButton2 } from '../../components/Button';
+import { ContainerRow, Container, Form } from '../../components/Container';
 import { Modal, Modal2 } from '../../components/Modal';
-import {
-  GridImage,
-  PlantImage,
-  PlantName,
-  GroupPlant,
-} from '../../components/Grid';
-import ModifyPassword from './ModifyPassword';
 import Bye from './Bye';
+import Likes from './Likes';
+import ModifyPassword from './ModifyPassword';
+import Uploads from './Uploads';
 
 function Mypage() {
   const history = useHistory();
 
+  /* 페이지 로드 */
   const [userInfo, setUserInfo] = useState({
-    nickname: '',
+    id: '',
     email: '',
+    nickname: '',
   });
-  const [uploadArray, setUploadArray] = useState([]);
-  const [likeArray, setLikeArray] = useState([]);
+  const [uploadsArray, setUploadsArray] = useState([]);
+  const [likesArray, setLikesArray] = useState([]);
   useEffect(() => {
-    // API 보면서 작성하기
-    //axios.get();
-    //setUploadArray(), setUploadArray()
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/users`, { withCredentials: true })
+      .then(res => {
+        setUserInfo({
+          ...userInfo,
+          id: res.data.data.id,
+          email: res.data.data.email,
+          nickname: res.data.data.nickname,
+        });
+        setUploadsArray(res.data.data.uploads);
+        setLikesArray(res.data.data.likes);
+      });
   });
 
   /* 닉네임 변경 모달 */
@@ -58,55 +65,66 @@ function Mypage() {
     setIsByeModalOpen(!isByeModalOpen);
   };
 
+  /* 업로드한 사진 / 좋아요한 사진 각각 보여주기 */
+  const [isUploads, setIsUploads] = useState(true);
+  const handleUploads = () => {
+    setIsUploads(true);
+  };
+  const handleLikes = () => {
+    setIsUploads(false);
+  };
   return (
-    <div>
-      <MyData>
-        <MyName>{userInfo.nickname}</MyName>
-        {/* 버튼 누르면 닉네임 변경 모달 뜨게 */}
-        <MyEmail>{userInfo.email}</MyEmail>
-      </MyData>
-      <MyDataButton>
-        <MypageButton onClick={handleModifyPassword}>비밀번호변경</MypageButton>
-        {isModifyPasswordModalOpen ? (
-          <Modal2 handleModal={handleModifyPasswordModal}>
-            <ModifyPassword
-              handleModifyPasswordModal={handleModifyPasswordModal}
-            />
-          </Modal2>
-        ) : null}
-
-        <MypageButton onClick={handleBye}>회원탈퇴</MypageButton>
-        {/* 회원탈퇴 여부 묻고, 탈퇴시 홈으로 보냄 */}
-        {isByeModalOpen ? (
-          <Modal handleModal={handleByeModal}>
-            <Bye handleByeModal={handleByeModal} />
-          </Modal>
-        ) : null}
-      </MyDataButton>
-
-      <UDContainer>
-        <ul>
-          <MypageHandler>업로드한 사진</MypageHandler>
-          <MypageHandler>좋아요</MypageHandler>
-        </ul>
+    <Container>
+      <Form>
         <div>
-          <GridImage>
-            <GroupPlant>
-              <PlantImage src="../images/plant1.png" alt=""></PlantImage>
-              <PlantName>빨간꽃</PlantName>
-            </GroupPlant>
-          </GridImage>
+          <MyData>
+            <MyName>ooo{userInfo.nickname}</MyName>
+            {/* 버튼 누르면 닉네임 변경 모달 뜨게 */}
+            <MyEmail>ooo{userInfo.email}</MyEmail>
+          </MyData>
+          <MyDataButton>
+            <MypageButton onClick={handleModifyPassword}>
+              비밀번호변경
+            </MypageButton>
+            {isModifyPasswordModalOpen ? (
+              <Modal2 handleModal={handleModifyPasswordModal}>
+                <ModifyPassword
+                  handleModifyPasswordModal={handleModifyPasswordModal}
+                />
+              </Modal2>
+            ) : null}
+
+            <MypageButton onClick={handleBye}>회원탈퇴</MypageButton>
+            {isByeModalOpen ? (
+              <Modal handleModal={handleByeModal}>
+                <Bye handleByeModal={handleByeModal} />
+              </Modal>
+            ) : null}
+          </MyDataButton>
         </div>
-      </UDContainer>
-    </div>
+
+        <ContainerRow
+          style={{ justifyContent: 'center', marginBottom: '3rem' }}
+        >
+          <MypageButton2 onClick={handleUploads}>나의 인테리어</MypageButton2>
+          <MypageButton2 onClick={handleLikes}>관심 인테리어</MypageButton2>
+        </ContainerRow>
+        <div>
+          {isUploads ? (
+            <Uploads uploadsArray={uploadsArray} />
+          ) : (
+            <Likes likesArray={likesArray} />
+          )}
+        </div>
+      </Form>
+    </Container>
   );
 }
 export default Mypage;
 
 const MyData = styled.span`
   display: inline-block;
-  margin-bottom: 3rem;
-  margin-left: 8rem;
+  //margin-left: 8rem;
 `;
 const MyDataButton = styled(MyData)`
   display: flex;
@@ -123,24 +141,4 @@ const MyEmail = styled.div`
   font-size: 1rem;
   font-weight: 600;
   color: rgb(163, 163, 163);
-`;
-
-const MypageButton = styled.button`
-  background-color: white;
-  border-color: transparent;
-  border: none;
-  padding-top: 3rem;
-  padding-right: 2rem;
-  font-size: 1rem;
-  color: rgb(163, 163, 163);
-  font-weight: 600;
-  :focus {
-    color: black;
-  }
-`;
-
-const MypageHandler = styled(MypageButton)`
-  font-size: 1.2rem;
-  padding-right: 7rem;
-  padding-left: 7rem;
 `;

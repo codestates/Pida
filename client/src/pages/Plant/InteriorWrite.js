@@ -1,8 +1,14 @@
-import { Container, UDContainer, ContainerRow } from '../components/Container';
-import { SelectButton } from '../components/Button';
-import { Error } from '../components/Error';
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import {
+  Container,
+  UDContainer,
+  ContainerRow,
+} from '../../components/Container';
+import { SelectButton } from '../../components/Button';
+import { Error } from '../../components/Error';
 import styled from 'styled-components';
-import React, { useState } from 'react';
+
 //import axios from 'axios';
 const ContentTextArea = styled.textarea`
   width: 50rem;
@@ -21,6 +27,9 @@ const Uploadinput = styled.input`
 `;
 
 function InteriorWrite() {
+  const history = useHistory();
+  const location = useLocation();
+
   const [image, setImage] = useState('');
   const [content, setContent] = useState('');
   const [errorMessage1, setErrorMessage1] = useState('');

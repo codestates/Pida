@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import { UDContainer } from '../components/Container';
-import { SelectButton } from '../components/Button';
+import { SelectButton } from '../../components/Button';
+import { UDContainer } from '../../components/Container';
 
 const QuestionDiv = styled.div`
   padding: 0rem 0 3rem 0;
