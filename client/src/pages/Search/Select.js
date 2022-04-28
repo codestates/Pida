@@ -35,6 +35,7 @@ function Select() {
   const [isNavigate, setIsNavigate] = useState('');
   const handleSelect = key => e => {
     setSelect({ ...select, [key]: e.target.name }); // 검색 조건 설정하고
+    console.log(select);
     if (key === 'size') setIsQ1(false);
     if (key === 'space') setIsQ2(false);
     if (key === 'species') {
@@ -70,12 +71,12 @@ function Select() {
                 <Image
                   src="../images/select/큰.png"
                   onClick={handleSelect('size')}
-                  name="큰"
+                  name="1"
                 />
                 <Image
                   src="../images/select/작은.png"
                   onClick={handleSelect('size')}
-                  name="작은"
+                  name="2"
                 />
               </span>
             </UDContainer>
@@ -90,22 +91,22 @@ function Select() {
                     <Image
                       src="../images/select/가구.png"
                       onClick={handleSelect('space')}
-                      name="가구"
+                      name="1"
                     />
                     <Image
                       src="../images/select/바닥.png"
                       onClick={handleSelect('space')}
-                      name="바닥"
+                      name="2"
                     />
                     <Image
                       src="../images/select/벽.png"
                       onClick={handleSelect('space')}
-                      name="벽"
+                      name="3"
                     />
                     <Image
                       src="../images/select/천장.png"
                       onClick={handleSelect('space')}
-                      name="천장"
+                      name="4"
                     />
                   </span>
                 </UDContainer>
@@ -120,22 +121,22 @@ function Select() {
                         <Image
                           src="../images/select/꽃.png"
                           onClick={handleSelect('species')}
-                          name="꽃"
+                          name="1"
                         />
                         <Image
                           src="../images/select/비꽃.png"
                           onClick={handleSelect('species')}
-                          name="비꽃"
+                          name="2"
                         />
                         <Image
                           src="../images/select/선인장.png"
                           onClick={handleSelect('species')}
-                          name="선인장"
+                          name="3"
                         />
                         <Image
                           src="../images/select/다육.png"
                           onClick={handleSelect('species')}
-                          name="다육"
+                          name="4"
                         />
                       </span>
                     </UDContainer>

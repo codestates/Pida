@@ -2,13 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { MypageButton, MypageButton2 } from '../../components/Button';
+import { MypageButton, MypageButton2, TButton } from '../../components/Button';
 import { ContainerRow, Container, Form } from '../../components/Container';
 import { Modal, Modal2 } from '../../components/Modal';
 import Bye from './Bye';
 import Likes from './Likes';
 import ModifyPassword from './ModifyPassword';
 import Uploads from './Uploads';
+
+const Info = styled.span`
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+`;
+const ModiInfo = styled.input`
+  font-size: 1.4rem;
+  width: 10rem;
+  height: 2rem;
+  align-items: center;
+  margin-bottom: 0.65rem;
+`;
 
 function Mypage() {
   const history = useHistory();
@@ -21,29 +34,41 @@ function Mypage() {
   });
   const [uploadsArray, setUploadsArray] = useState([]);
   const [likesArray, setLikesArray] = useState([]);
-  useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/users`, { withCredentials: true })
-      .then(res => {
-        setUserInfo({
-          ...userInfo,
-          id: res.data.data.id,
-          email: res.data.data.email,
-          nickname: res.data.data.nickname,
-        });
-        setUploadsArray(res.data.data.uploads);
-        setLikesArray(res.data.data.likes);
-      });
-  });
+  // useEffect(() => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_API_URL}/users`, { withCredentials: true })
+  //     .then(res => {
+  //       setUserInfo({
+  //         ...userInfo,
+  //         id: res.data.data.id,
+  //         email: res.data.data.email,
+  //         nickname: res.data.data.nickname,
+  //       });
+  //       setUploadsArray(res.data.data.uploads);
+  //       setLikesArray(res.data.data.likes);
+  //     });
+  // });
 
-  /* 닉네임 변경 모달 */
-  const [isModifyNicknameModalOpen, setIsModifyNicknameModalOpen] =
-    useState(false);
-  const handleModifyNicknameModal = () => {
-    setIsModifyNicknameModalOpen(!isModifyNicknameModalOpen);
+  /* 닉네임 변경 */
+  const [isModifyNickname, setIsModifyNickname] = useState(false);
+  const handleModifyNicknameStart = () => {
+    setIsModifyNickname(true);
   };
-  const handleModifyNickname = () => {
-    setIsModifyNicknameModalOpen(true);
+  const handleInputValue = e => {
+    setUserInfo({
+      ...userInfo,
+      nickname: e.target.value,
+    });
+  };
+  const handleModifyNicknameEnd = () => {
+    setIsModifyNickname(false);
+    // axios.patch(
+    //   `${process.env.REACT_APP_API_URL}/users/nickname`,
+    //   {
+    //     newNickname: userInfo.nickname,
+    //   },
+    //   { withCredentials: true },
+    // );
   };
 
   /* 비밀번호 변경 모달 */
@@ -73,16 +98,40 @@ function Mypage() {
   const handleLikes = () => {
     setIsUploads(false);
   };
+
   return (
     <Container>
       <Form>
-        <div>
-          <MyData>
-            <MyName>ooo{userInfo.nickname}</MyName>
-            {/* 버튼 누르면 닉네임 변경 모달 뜨게 */}
-            <MyEmail>ooo{userInfo.email}</MyEmail>
-          </MyData>
-          <MyDataButton>
+        <div style={{ paddingTop: '2rem' }}>
+          <span style={{ display: 'inline-block' }}>
+            {isModifyNickname ? (
+              <ContainerRow>
+                <ModiInfo
+                  value={userInfo.nickname}
+                  onChange={handleInputValue}
+                />
+                <TButton onClick={handleModifyNicknameEnd}>확인</TButton>
+              </ContainerRow>
+            ) : (
+              <ContainerRow>
+                <Info>{userInfo.nickname}</Info>
+                <TButton onClick={handleModifyNicknameStart}>
+                  <img
+                    src="../../images/modify.png"
+                    alt=""
+                    style={{ width: '0.8rem', padding: '0.5rem 0 0 0.2rem' }}
+                  />
+                </TButton>
+              </ContainerRow>
+            )}
+            <Info style={{ fontSize: '1.2rem', color: 'rgb(163, 163, 163)' }}>
+              ooo@ooo.com{userInfo.email}
+            </Info>
+          </span>
+
+          <span
+            style={{ display: 'inline-block', display: 'flex', float: 'right' }}
+          >
             <MypageButton onClick={handleModifyPassword}>
               비밀번호변경
             </MypageButton>
@@ -93,14 +142,13 @@ function Mypage() {
                 />
               </Modal2>
             ) : null}
-
             <MypageButton onClick={handleBye}>회원탈퇴</MypageButton>
             {isByeModalOpen ? (
               <Modal handleModal={handleByeModal}>
                 <Bye handleByeModal={handleByeModal} />
               </Modal>
             ) : null}
-          </MyDataButton>
+          </span>
         </div>
 
         <ContainerRow
@@ -121,24 +169,3 @@ function Mypage() {
   );
 }
 export default Mypage;
-
-const MyData = styled.span`
-  display: inline-block;
-  //margin-left: 8rem;
-`;
-const MyDataButton = styled(MyData)`
-  display: flex;
-  float: right;
-`;
-
-const MyName = styled.div`
-  padding-top: 3rem;
-  font-size: 2rem;
-  font-weight: 600;
-`;
-
-const MyEmail = styled.div`
-  font-size: 1rem;
-  font-weight: 600;
-  color: rgb(163, 163, 163);
-`;

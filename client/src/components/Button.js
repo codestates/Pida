@@ -60,14 +60,14 @@ export const MypageButton = styled.button`
   }
 
   font-size: 1rem;
-  padding-top: 3rem;
-  padding-right: 2rem;
+  padding-top: 1rem;
+  padding-left: 2rem;
 `;
 
 export const MypageButton2 = styled(MypageButton)`
   font-size: 1.2rem;
-  padding-right: 7rem;
-  padding-left: 7rem;
+
+  padding: 2.5rem 7rem 0 7rem;
 `;
 
 export const DetailButton = styled(MypageButton)`
