@@ -7,7 +7,7 @@ const authController = require('../controllers/AuthController');
 const isAuth = require('../middlewares/Authentication');
 
 //유저 CRUD
-router.post('/signup', signupRouter);
+router.use('/signup', signupRouter);
 router.get('/', isAuth, userController.getInfo);
 router.patch('/nickname', isAuth, userController.editNickname);
 router.patch('/password', isAuth, userController.editPassword);
