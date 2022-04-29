@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Interior);
+      this.belongsTo(models.User);
     }
   }
   Comment.init(
     {
       comment: DataTypes.STRING(200),
-      nickname: DataTypes.STRING(8),
     },
     {
       sequelize,
