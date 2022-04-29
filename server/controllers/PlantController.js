@@ -1,7 +1,7 @@
 const { User, Interior, Comment } = require('../models/Index');
 
 module.exports = {
-  //게시글 조회: 권한이 없어도 된다.
+  //식물 상세정보 조회: 권한이 없어도 된다.
   get: async (req, res) => {
     try {
       //사용자로부터 게시글에 대한 아이디 정보를 얻는다
@@ -61,8 +61,4 @@ module.exports = {
         .json({ message: '서버가 게시글과 댓글 조회에 실패했습니다' });
     }
   },
-  //게시글 수정
-  patch: async (req, res) => {},
-  //게시글 삭제
-  delete: async (req, res) => {},
 };
