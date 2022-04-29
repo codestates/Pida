@@ -10,6 +10,9 @@ export const CheckButton = styled.button`
   border: none;
   background-color: transparent;
   padding: 0 0.6rem 0 0;
+  :hover {
+    color: grey;
+  }
 `;
 
 // 짧은 버튼
@@ -85,4 +88,20 @@ export const DetailButton = styled(MypageButton)`
   font-size: 0.9rem;
   padding-top: 3rem;
   padding-left: 0.5rem;
+`;
+
+//댓글 작성 버튼
+export const CommentButton = styled.button`
+  width: 4rem;
+  height: 3.7rem;
+  border: none;
+  border-radius: 1rem;
+  margin: 1rem 0 0rem 1rem;
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  background-color: #bcbcbc;
+  :hover {
+    background-color: rgb(163, 163, 163);
+  }
 `;

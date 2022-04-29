@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { ConfirmButton, SignButton } from '../../components/Button';
 import { UDContainer } from '../../components/Container';
-import { Error } from '../../components/Error';
+import { Error } from '../../components/Div';
 import { SignInput } from '../../components/Input';
 import { Modal, Modal2 } from '../../components/Modal';
 import { pwValidator, pwMatchValidator } from '../../utils/validator';

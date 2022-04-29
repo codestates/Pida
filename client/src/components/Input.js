@@ -25,3 +25,15 @@ export const SignupInput = styled(SignInput)`
   width: 26.7rem;
   border: none;
 `;
+
+export const ComentWrite = styled.textarea`
+  //댓글작성 창
+  width: 28rem;
+  height: 2.4rem;
+  resize: none;
+  border-radius: 1rem;
+  border: solid 0.13rem #bcbcbc;
+  padding: 0.5rem; //텍스트 상자 안
+  margin: 1rem 0 0 2rem;
+  font-size: 0.8rem;
+`;

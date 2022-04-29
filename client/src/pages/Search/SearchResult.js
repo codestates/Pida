@@ -70,13 +70,13 @@ function SearchResult() {
               })}
 
               {/* 모양 보려고 만든 거 - 지우면 됨 */}
-              {/* <Item>
+              <Item>
                 <TButton onClick={() => handlePlantDetail('dkjdljd')}>
                   <ImageR src="../images/select/꽃.png" alt="" />
                   <h2>대롱대롱</h2>
                 </TButton>
               </Item>
-              <Item>
+              {/* <Item>
                 <TButton onClick={() => handlePlantDetail('dkjdljd')}>
                   <ImageR src="../images/select/꽃.png" alt="" />
                   <h3>마들렌뇨끼</h3>
