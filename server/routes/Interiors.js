@@ -1,21 +1,21 @@
 const express = require('express');
 const router = express.Router();
 
-const interiorController = require('../controllers/plantsController');
-const likeController = require('../controllers/LikeContoller');
-const commentController = require('../contollers/CommentController');
+const interiorController = require('../controllers/PlantController');
+// const likeController = require('../controllers/LikeContoller');
+// const commentController = require('../contollers/CommentController');
+const isAuth = require('../middlewares/Authentication');
 
 //게시글 조회 수정 삭제
 router.get('/:id', interiorController.get);
-router.patch('/:id', interiorController.patch);
-router.delete('/:id', interiorController.delete);
+router.patch('/:id', isAuth, interiorController.patch);
+router.delete('/:id', isAuth, interiorController.delete);
 
 //좋아요
-router.post('/:id/likes', likeController.post);
-router.delete('/:id/likes', likeController.delete);
+// router.post('/:id/likes', isAuth, likeController.post);
+// router.delete('/:id/likes', isAuth, likeController.delete);
 
-//댓글
-router.get('/:id/comments', commentController.get);
-router.post('/:id/comments', commentController.post);
+// //댓글 작성
+// router.post('/:id/comments', isAuth, commentController.post);
 
 module.exports = router;

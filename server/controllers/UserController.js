@@ -17,11 +17,18 @@ module.exports = {
         return res.status(400).json({ message: '회원가입에 실패하였습니다.' });
       }
       //이메일을 받아서, DB 에서 사용자가 존재하는지 확인한다,
-      const userInfo = await User.findOne({ where: { email } });
-      if (userInfo) {
+      const userInfoByEmail = await User.findOne({ where: { email } });
+      if (userInfoByEmail) {
         return res
           .status(409)
           .json({ message: '이미 사용중인 이메일이 존재합니다' });
+      }
+      //닉네임 중복 검사
+      const userInfoBynickname = await User.findOne({ where: { nickname } });
+      if (userInfoBynickname) {
+        return res
+          .status(409)
+          .json({ message: '이미 사용중인 닉네임이 존재합니다' });
       } else {
         console.log('정보없음');
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -52,7 +59,7 @@ module.exports = {
         where: { id: req.id },
         attributes: ['id', 'email', 'nickname'],
       });
-      
+
       //사용자가 업로드한 글 모아보기
       const uploads = await Interior.findAll({
         attributes: ['id', 'image'],
@@ -78,10 +85,6 @@ module.exports = {
         },
       });
 
-      // console.log(
-      //   likes[0].dataValues.Interiors.map(el => el.dataValues),
-      //   '좋아요',
-      // );
       const { id, email, nickname } = userInfo;
 
       // 해당 유저가 존재하지 않는 경우
@@ -97,11 +100,11 @@ module.exports = {
             email,
             nickname,
             uploads,
-            likes: likes[0].dataValues.Interiors.map(el => el.dataValues),
+            //문제의 코드 수정
+            likes: likes[0].Interiors,
           },
           message: '회원 정보 조회에 성공했습니다',
         });
-
       }
     } catch (e) {
       //서버 에러 처리
@@ -118,28 +121,21 @@ module.exports = {
 
       // newNickname 이 정규표현식을 통과하지 못 한다면,
       // 400 을 돌려주고 정지
-
       // 정규표현식 이스케이프
       const regNickname = /^[^!@#$%\^&*(\)\-_+={\}[\]\\|:;"'<>?/]{1,8}$/;
 
       if (!regNickname.test(newNickname)) {
-        return res
-          .status(400)
-          .json({ message: '닉네임 변경에 실패했습니다. 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다.' });
-      }
-
-      await User.update(
-        { nickname: newNickname },
-        { where: { id: req.id } },
-      );
-
-      return res
-        .status(204)
-        .json({
-          data: { newNickname },
-          message: '닉네임 변경에 성공했습니다',
+        return res.status(400).json({
+          message:
+            '닉네임 변경에 실패했습니다. 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다.',
         });
+      }
+      await User.update({ nickname: newNickname }, { where: { id: req.id } });
 
+      return res.status(204).json({
+        data: { newNickname },
+        message: '닉네임 변경에 성공했습니다',
+      });
     } catch (e) {
       //서버 에러 처리
       console.error(e);
@@ -148,7 +144,7 @@ module.exports = {
         .json({ message: '서버가 닉네임 변경에 실패했습니다' });
     }
   },
-  
+
   //비번수정
   editPassword: async (req, res) => {
     try {
@@ -165,7 +161,6 @@ module.exports = {
       const match = await bcrypt.compare(
         oldPassword,
         userInfo.dataValues.password,
-
       );
 
       if (!match) {
@@ -197,7 +192,7 @@ module.exports = {
           console.log('응답 메세지 찍히나??');
           return res
             .status(204)
-            .json({ message: '비밀번호 변경에 성공했습니다' }); //204의 경우 응답 바디가 아얘 없다. 원래 그래
+            .json({ message: '비밀번호 변경에 성공했습니다' });
         })
         .catch(console.log);
     } catch (e) {
@@ -218,7 +213,10 @@ module.exports = {
           id: req.id,
         },
       });
-      return res.status(204).json({ message: '회원탈퇴에 성공했습니다' });
+      return res
+        .cookie('accessToken', null, { maxAge: 0 })
+        .status(204)
+        .json({ message: '회원탈퇴에 성공했습니다' });
     } catch (e) {
       //서버 에러 처리
       console.error(e);
