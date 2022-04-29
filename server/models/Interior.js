@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         through: 'Interior_likes',
         foreignKey: 'interiorId',
       });
+      this.hasMany(models.Interior_like);
     }
   }
   Interior.init(
