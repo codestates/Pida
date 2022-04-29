@@ -6,6 +6,56 @@ dotenv.config();
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 module.exports = {
+  //이메일 중복 체크
+  checkEmail: async (req, res) => {
+    try {
+      const { email } = req.body;
+      if (!email) {
+        res.status(400).json({ message: '이메일 값이 없습니다' });
+      }
+      //이메일을 받아서, DB 에서 사용자가 존재하는지 확인한다,
+      const userInfoByEmail = await User.findOne({ where: { email } });
+      if (userInfoByEmail) {
+        return res
+          .status(409)
+          .json({ message: '이미 사용중인 이메일이 존재합니다' });
+      }
+      return res
+        .status(200)
+        .json({ message: '이메일 중복체크를 통과했습니다.' });
+    } catch (e) {
+      //서버 에러
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 이메일 중복체크 처리에 실패했습니다' });
+    }
+  },
+  //닉네임 중복 체크
+  checkNickname: async (req, res) => {
+    try {
+      const { nickname } = req.body;
+      if (!email) {
+        res.status(400).json({ message: '닉네임 값이 없습니다' });
+      }
+      //닉네임을 받아서, DB 에서 사용자가 존재하는지 확인한다,
+      const userInfoBynickname = await User.findOne({ where: { nickname } });
+      if (userInfoBynickname) {
+        return res
+          .status(409)
+          .json({ message: '이미 사용중인 닉네임이 존재합니다' });
+      }
+      return res
+        .status(200)
+        .json({ message: '닉네임 중복체크를 통과했습니다.' });
+    } catch (e) {
+      //서버 에러
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 닉네임 중복체크 처리에 실패했습니다' });
+    }
+  },
   //회원가입
   signup: async (req, res) => {
     try {
@@ -16,33 +66,19 @@ module.exports = {
       if (!email || !nickname || !password) {
         return res.status(400).json({ message: '회원가입에 실패하였습니다.' });
       }
-      //이메일을 받아서, DB 에서 사용자가 존재하는지 확인한다,
-      const userInfoByEmail = await User.findOne({ where: { email } });
-      if (userInfoByEmail) {
-        return res
-          .status(409)
-          .json({ message: '이미 사용중인 이메일이 존재합니다' });
-      }
-      //닉네임 중복 검사
-      const userInfoBynickname = await User.findOne({ where: { nickname } });
-      if (userInfoBynickname) {
-        return res
-          .status(409)
-          .json({ message: '이미 사용중인 닉네임이 존재합니다' });
-      } else {
-        console.log('정보없음');
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        console.log(hashedPassword, '암호화된비번');
-        const newUser = await User.create({
-          email,
-          password: hashedPassword,
-          nickname,
-        });
-        delete newUser.dataValues.password;
-        return res
-          .status(201)
-          .json({ data: newUser, message: '회원가입에 성공했습니다' });
-      }
+
+      console.log('가입가능');
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      console.log(hashedPassword, '암호화된비번');
+      const newUser = await User.create({
+        email,
+        password: hashedPassword,
+        nickname,
+      });
+      delete newUser.dataValues.password;
+      return res
+        .status(201)
+        .json({ data: newUser, message: '회원가입에 성공했습니다' });
     } catch (e) {
       //서버 에러 처리
       console.error(e);
