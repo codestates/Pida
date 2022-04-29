@@ -6,6 +6,12 @@ export const TButton = styled.button`
   background-color: transparent;
 `;
 
+export const CheckButton = styled.button`
+  border: none;
+  background-color: transparent;
+  padding: 0 0.6rem 0 0;
+`;
+
 // 짧은 버튼
 export const SelectButton = styled.button`
   margin: 1rem 0 1rem 0;

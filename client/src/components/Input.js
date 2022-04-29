@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const SignInput = styled.input`
-  margin: 1rem;
+  margin: 0.8rem 0 0.8rem 0;
   padding-left: 1rem; // 글자위치
 
   width: 30rem;
@@ -15,4 +15,13 @@ export const SignInput = styled.input`
     font-size: 1.5rem;
     font-weight: 800;
   }
+  :focus {
+    outline: none;
+  }
+`;
+
+export const SignupInput = styled(SignInput)`
+  margin: 0;
+  width: 26.7rem;
+  border: none;
 `;

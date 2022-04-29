@@ -28,23 +28,23 @@ function PlantDetail() {
     plantDescription: '',
   });
   const [interiorsArray, setInteriorsArray] = useState([]);
-  // useEffect(() => {
-  //   console.log(location.state);
-  //   axios
-  //     .get(`${process.env.REACT_APP_API_URL}/plant/${location.state.plantId}`, {
-  //       withCredentials: true,
-  //     })
-  //     .then(res => {
-  //       setPlant({
-  //         ...plant,
-  //         id: res.data.data.id,
-  //         plantName: res.data.data.plantName,
-  //         plantImage: res.data.data.plantImage,
-  //         plantDescription: res.data.data.plantDescription,
-  //       });
-  //       setInteriorsArray(res.data.data.interiorsArray);
-  //     });
-  // }, []);
+  useEffect(() => {
+    console.log(location.state);
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/plant/${location.state.plantId}`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        setPlant({
+          ...plant,
+          id: res.data.data.id,
+          plantName: res.data.data.plantName,
+          plantImage: res.data.data.plantImage,
+          plantDescription: res.data.data.plantDescription,
+        });
+        setInteriorsArray(res.data.data.interiorsArray);
+      });
+  }, []);
 
   /* 나도 뽐내기 버튼 클릭 시, 글쓰기 페이지로 이동 */
   const [plantId, setPlantId] = useState(0);

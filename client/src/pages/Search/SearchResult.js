@@ -19,13 +19,13 @@ function SearchResult() {
   const [plantsTotal, setPlantsTotal] = useState(0);
   const [plantsArray, setPlantsArray] = useState([]);
   useEffect(() => {
-    console.log(location.state);
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}`,
         { withCredentials: true },
       )
       .then(res => {
+        console.log(res.data.data);
         setPlantsTotal(res.data.data.plantsTotal);
         setPlantsArray(res.data.data.plantsArray);
       });
@@ -62,8 +62,8 @@ function SearchResult() {
                 return (
                   <Item>
                     <TButton onClick={() => handlePlantDetail(plant.id)}>
-                      <ImageR src={plant.plantImage} alt="" />
-                      <h2>{plant.plantName}</h2>
+                      <ImageR src={plant.image} alt="" />
+                      <h2>{plant.name}</h2>
                     </TButton>
                   </Item>
                 );

@@ -19,13 +19,6 @@ function Bye({ handleByeModal }) {
         withCredentials: true,
       })
       .then(res => {
-        axios.post(
-          `${process.env.REACT_APP_API_URL}/users/logout`,
-          {},
-          { withCredentials: true },
-        );
-      })
-      .then(res => {
         setIsOpen(true); // 완료 모달
         history.replace('/');
       });
