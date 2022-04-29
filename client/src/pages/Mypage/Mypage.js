@@ -4,11 +4,13 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { MypageButton, MypageButton2, TButton } from '../../components/Button';
 import { ContainerRow, Container, Form } from '../../components/Container';
+import { Error } from '../../components/Error';
 import { Modal, Modal2 } from '../../components/Modal';
 import Bye from './Bye';
 import Likes from './Likes';
 import ModifyPassword from './ModifyPassword';
 import Uploads from './Uploads';
+import { nicknameValidator } from '../../utils/validator';
 
 const Info = styled.span`
   font-size: 2rem;
@@ -54,21 +56,45 @@ function Mypage() {
   const handleModifyNicknameStart = () => {
     setIsModifyNickname(true);
   };
+
+  const [newNickname, setNewNickname] = useState(userInfo.nickname);
+  const [errorMessage, setErrorMessage] = useState('');
   const handleInputValue = e => {
-    setUserInfo({
-      ...userInfo,
-      nickname: e.target.value,
-    });
+    setNewNickname(e.target.value);
   };
   const handleModifyNicknameEnd = () => {
-    setIsModifyNickname(false);
-    axios.patch(
-      `${process.env.REACT_APP_API_URL}/users/nickname`,
-      {
-        newNickname: userInfo.nickname,
-      },
-      { withCredentials: true },
-    );
+    setErrorMessage('');
+    if (
+      nicknameValidator(newNickname) === false ||
+      userInfo.nickname === newNickname
+    ) {
+      if (nicknameValidator(newNickname) === false) {
+        setErrorMessage('닉네임은 공백 없이 1자 이상 8자 이하로 작성해 주세요');
+      }
+      if (userInfo.nickname === newNickname) {
+        setIsModifyNickname(false); // 닉네임 변경사항이 없는 경우 그냥 모달 닫기
+      }
+    } else {
+      axios
+        .patch(
+          `${process.env.REACT_APP_API_URL}/users/nickname`,
+          {
+            newNickname: userInfo.nickname,
+          },
+          { withCredentials: true },
+        )
+        .then(res => {
+          if (res.status === 409) {
+            setErrorMessage('이미 존재하는 닉네임입니다');
+          } else {
+            setUserInfo({
+              ...userInfo,
+              nickname: newNickname,
+            });
+            setIsModifyNickname(false);
+          }
+        });
+    }
   };
 
   /* 비밀번호 변경 모달 */
@@ -106,11 +132,11 @@ function Mypage() {
           <span style={{ display: 'inline-block' }}>
             {isModifyNickname ? (
               <ContainerRow>
-                <ModiInfo
-                  value={userInfo.nickname}
-                  onChange={handleInputValue}
-                />
+                <ModiInfo value={newNickname} onChange={handleInputValue} />
                 <TButton onClick={handleModifyNicknameEnd}>확인</TButton>
+                <Error style={{ fontSize: '0.8rem', padding: '0.9rem 0 0 0' }}>
+                  {errorMessage}
+                </Error>
               </ContainerRow>
             ) : (
               <ContainerRow>
@@ -125,7 +151,7 @@ function Mypage() {
               </ContainerRow>
             )}
             <Info style={{ fontSize: '1.2rem', color: 'rgb(163, 163, 163)' }}>
-              ooo@ooo.com{userInfo.email}
+              {userInfo.email}
             </Info>
           </span>
 

@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { SignButton, ConfirmButton } from '../components/Button';
-import { UDContainer } from '../components/Container';
-import { Error } from '../components/Error';
-import { SignInput } from '../components/Input';
+import { SignButton, ConfirmButton, CheckButton } from '../components/Button';
+import { ContainerRow, UDContainer } from '../components/Container';
+import { Error, Message } from '../components/Error';
+import { SignInput, SignupInput } from '../components/Input';
 import { Modal } from '../components/Modal';
 import {
   emailValidator,
   pwValidator,
   pwMatchValidator,
+  nicknameValidator,
 } from '../utils/validator';
+import styled from 'styled-components';
 
 function Signup(props) {
   const history = useHistory();
@@ -21,50 +23,98 @@ function Signup(props) {
     props.setIsSignupModalOpen(false); // 회원가입 모달 닫기 (완료 모달도 닫힘)
   };
 
-  /* 회원가입 */
+  /* 경고 메세지 */
+  const [errorMessage1, setErrorMessage1] = useState('');
+  const [errorMessage2, setErrorMessage2] = useState('');
+  const [errorMessage3, setErrorMessage3] = useState('');
+  const [errorMessage4, setErrorMessage4] = useState('');
+
+  /* 회원가입 정보 */
   const [signupInfo, setSignupInfo] = useState({
     email: '',
     password: '',
     rePassword: '',
     nickname: '',
   });
-  const [errorMessage1, setErrorMessage1] = useState('');
-  const [errorMessage2, setErrorMessage2] = useState('');
-  const [errorMessage3, setErrorMessage3] = useState('');
-  const [errorMessage4, setErrorMessage4] = useState('');
-
   const handleInputValue = key => e => {
     setSignupInfo({ ...signupInfo, [key]: e.target.value });
   };
 
+  /* 이메일, 닉네임 중복체크 */
+  const [emailCheck, setEmailCheck] = useState(false);
+  const [nicknameCheck, setNicknameCheck] = useState(false);
+  const handleEmailCheck = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/users/signup/email`,
+        {
+          email: signupInfo.email,
+        },
+        { withCredentials: true },
+      )
+      .then(res => {
+        setEmailCheck(true);
+        setErrorMessage1('사용 가능한 이메일입니다');
+      })
+      .catch(err => {
+        setErrorMessage1('이미 사용 중인 이메일입니다');
+      });
+  };
+  const handleNicknameCheck = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/users/signup/nickname`,
+        {
+          nickname: signupInfo.nickname,
+        },
+        { withCredentials: true },
+      )
+      .then(res => {
+        setNicknameCheck(true);
+        setErrorMessage2('사용 가능한 닉네임입니다');
+      })
+      .catch(err => {
+        setErrorMessage2('이미 사용 중인 닉네임입니다');
+      });
+  };
+
+  /* 회원가입 요청 */
   const handleSignup = () => {
+    setErrorMessage1('');
+    setErrorMessage2('');
+    setErrorMessage3('');
+    setErrorMessage4('');
     if (
+      emailCheck === false ||
+      nicknameCheck === false ||
       emailValidator(signupInfo.email) === false ||
+      nicknameValidator(signupInfo.nickname) === false ||
       pwValidator(signupInfo.password) === false ||
       pwMatchValidator(signupInfo.password, signupInfo.rePassword) === false
     ) {
-      if (
-        signupInfo.email.length === 0 ||
-        emailValidator(signupInfo.email) === false
-      ) {
-        setErrorMessage1('이메일을 다시 확인해 주세요');
+      if (emailCheck === false) {
+        setErrorMessage1('이메일 중복체크를 해주세요');
       }
-      if (
-        signupInfo.password.length === 0 ||
-        pwValidator(signupInfo.password) === false
-      ) {
+      if (nicknameCheck === false) {
+        setErrorMessage2('닉네임 중복체크를 해주세요');
+      }
+      if (emailValidator(signupInfo.email) === false) {
+        setErrorMessage1('이메일 형식을 다시 확인해 주세요');
+      }
+      if (nicknameValidator(signupInfo.nickname) === false) {
         setErrorMessage2(
-          '비밀번호는 영어, 숫자 포함 8자 이상 16자 이하로 작성해 주세요',
+          '닉네임은 공백 없이 1자 이상 8자 이하로 작성해 주세요',
+        );
+      }
+      if (pwValidator(signupInfo.password) === false) {
+        setErrorMessage3(
+          '비밀번호는 공백 없이 영어, 숫자 포함 8자 이상 16자 이하로 작성해 주세요',
         );
       }
       if (
-        signupInfo.rePassword.length === 0 ||
         pwMatchValidator(signupInfo.password, signupInfo.rePassword) === false
       ) {
-        setErrorMessage3('비밀번호가 일치하지 않습니다');
-      }
-      if (signupInfo.nickname.length === 0) {
-        setErrorMessage4('닉네임을 적어주세요');
+        setErrorMessage4('비밀번호가 일치하지 않습니다');
       }
     } else {
       axios
@@ -79,13 +129,9 @@ function Signup(props) {
         )
         .then(res => {
           setIsOpen(true); // 성공 모달
-          history.replace('/');
-          // window.location.reload();
         })
-        .catch(() => {
-          setErrorMessage1('이미 존재하는 이메일입니다');
-          setErrorMessage2('');
-          setErrorMessage3('');
+        .catch(err => {
+          setErrorMessage4('catch');
         });
     }
   };
@@ -93,35 +139,65 @@ function Signup(props) {
   return (
     <UDContainer>
       <div>
-        <SignInput
-          type="email"
-          placeholder="email"
-          onChange={handleInputValue('email')}
-        />
-        <Error>{errorMessage1}</Error>
+        <Div>
+          <ContainerRow>
+            <SignupInput
+              type="email"
+              placeholder="email"
+              onChange={handleInputValue('email')}
+            />
+            <CheckButton onClick={handleEmailCheck}>중복 체크</CheckButton>
+            {/* <span>사용가능</span> */}
+          </ContainerRow>
+        </Div>
+        {emailCheck ? (
+          <Message>{errorMessage1}</Message>
+        ) : (
+          <Error>{errorMessage1}</Error>
+        )}
       </div>
       <div>
-        <SignInput
-          type="password"
-          placeholder="password"
-          onChange={handleInputValue('password')}
-        />
-        <Error>{errorMessage2}</Error>
+        <Div>
+          <ContainerRow>
+            <SignupInput
+              type="text"
+              placeholder="nickname"
+              onChange={handleInputValue('nickname')}
+            />
+            <CheckButton onClick={handleNicknameCheck}>중복 체크</CheckButton>
+            {/* <span>사용가능</span> */}
+          </ContainerRow>
+        </Div>
+        {nicknameCheck ? (
+          <Message>{errorMessage2}</Message>
+        ) : (
+          <Error>{errorMessage2}</Error>
+        )}
       </div>
       <div>
-        <SignInput
-          type="password"
-          placeholder="retype"
-          onChange={handleInputValue('rePassword')}
-        />
+        <Div>
+          <ContainerRow>
+            <SignupInput
+              type="password"
+              placeholder="password"
+              style={{ marginRight: '3.74rem' }}
+              onChange={handleInputValue('password')}
+            />
+          </ContainerRow>
+        </Div>
         <Error>{errorMessage3}</Error>
       </div>
       <div>
-        <SignInput
-          type="text"
-          placeholder="nickname"
-          onChange={handleInputValue('nickname')}
-        />
+        <Div>
+          <ContainerRow>
+            <SignupInput
+              type="password"
+              placeholder="retype"
+              style={{ marginRight: '3.74rem' }}
+              onChange={handleInputValue('rePassword')}
+            />
+          </ContainerRow>
+        </Div>
         <Error>{errorMessage4}</Error>
       </div>
       <div>
@@ -140,3 +216,10 @@ function Signup(props) {
   );
 }
 export default Signup;
+
+const Div = styled.div`
+  border: solid;
+  border-radius: 1.6rem;
+  padding: 0;
+  margin: 0.5rem 0 0.5rem 0;
+`;

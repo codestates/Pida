@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 
-export const Error = styled.div`
+export const Message = styled.div`
   padding-left: 1.5rem;
+`;
+
+export const Error = styled(Message)`
   color: red;
 `;
