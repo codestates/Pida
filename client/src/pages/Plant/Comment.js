@@ -70,16 +70,16 @@ function Comment(props) {
   return (
     <>
       {/* 인테리어 댓글 맵*/}
-      <div style={{ padding: '0 1.5rem 1.5rem 1.5rem' }}>
+      <div style={{ padding: '1.5rem 1.5rem 0rem 1.5em' }}>
         {props.commentArray.map(comment => {
           return (
             <>
+              <WriteUser>{comment.nickname}</WriteUser>
               {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
               {comment.isEditable ? (
                 <>
                   {!isModifyComment ? (
                     <>
-                      <WriteUser>{comment.nickname}</WriteUser>
                       <DetailButton
                         onClick={() => handleModifyCommentStart(comment)}
                       >
@@ -117,13 +117,10 @@ function Comment(props) {
                     </>
                   )}
                 </>
-              ) : (
-                <div
-                  style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}
-                >
-                  {comment.comment}
-                </div>
-              )}
+              ) : null}
+              <div style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}>
+                {comment.comment}
+              </div>
             </>
           );
         })}
