@@ -50,7 +50,18 @@ function InteriorDetail(props) {
     content: '',
   });
   const [commentArray, setCommentArray] = useState([
-    { id: '1', nickname: '꼬부기', comment: '이거 나중에 지워주세요' }, // 댓글 작성자 id 필요
+    {
+      id: '1',
+      nickname: '꼬부기',
+      comment: '이거 나중에 지워주세요',
+      isEditable: false,
+    },
+    {
+      id: '2',
+      nickname: '꼬부기2',
+      comment: '이거 나중에 지워주세요',
+      isEditable: true,
+    },
   ]);
 
   /* 페이지 로드 */
