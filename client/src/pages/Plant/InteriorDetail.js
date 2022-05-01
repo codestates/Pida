@@ -43,13 +43,14 @@ function InteriorDetail(props) {
   const [interior, setInterior] = useState({
     id: '',
     isLiked: false,
+    //userId: '',
+    isEditable: false,
     nickname: '',
     image: '',
     content: '',
   });
-
   const [commentArray, setCommentArray] = useState([
-    { id: '1', nickname: '꼬부기', comment: '이거 나중에 지워주세요' },
+    { id: '1', nickname: '꼬부기', comment: '이거 나중에 지워주세요' }, // 댓글 작성자 id 필요
   ]);
 
   /* 페이지 로드 */
@@ -64,6 +65,8 @@ function InteriorDetail(props) {
           ...interior,
           id: res.data.data.id,
           isLiked: res.data.data.isliked,
+          //userId: res.data.data.userId,
+          isEditable: res.data.data.isEditable,
           nickname: res.data.data.nickname,
           image: res.data.data.image,
           content: res.data.data.content,
@@ -150,23 +153,26 @@ function InteriorDetail(props) {
             ) : (
               <MyLikeGray onClick={handleLike}>❤</MyLikeGray>
             )}
-            <span>
-              <DetailButton>수정</DetailButton>
-              <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
-              {isDeleteModalOpen ? (
-                <Modal>
-                  <h3>정말로 삭제하시겠습니까?</h3>
-                  <span>
-                    <ConfirmButton onClick={handleDeleteModal}>
-                      취소
-                    </ConfirmButton>
-                    <ConfirmButton onClick={handleDeleteInterior}>
-                      확인
-                    </ConfirmButton>
-                  </span>
-                </Modal>
-              ) : null}
-            </span>
+            {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
+            {interior.isEditable ? (
+              <span>
+                <DetailButton>수정</DetailButton>
+                <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
+                {isDeleteModalOpen ? (
+                  <Modal>
+                    <h3>정말로 삭제하시겠습니까?</h3>
+                    <span>
+                      <ConfirmButton onClick={handleDeleteModal}>
+                        취소
+                      </ConfirmButton>
+                      <ConfirmButton onClick={handleDeleteInterior}>
+                        확인
+                      </ConfirmButton>
+                    </span>
+                  </Modal>
+                ) : null}
+              </span>
+            ) : null}
           </div>
           <div>
             <ImageD src="../../images/select/꽃.png" width="300" height="300" />

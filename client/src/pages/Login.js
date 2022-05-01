@@ -39,6 +39,7 @@ function Login(props) {
           { withCredentials: true },
         )
         .then(res => {
+          window.localStorage.setItem('loginUserId', res.data.data.userId); // 아이디 localStorage에 저장
           setIsOpen(true); // 성공 모달
         })
         .catch(() => {
