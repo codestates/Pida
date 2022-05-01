@@ -6,7 +6,7 @@ import {
   ContainerRow,
 } from '../../components/Container';
 import { SelectButton } from '../../components/Button';
-import { Error } from '../../components/Error';
+import { Error } from '../../components/Div';
 import styled from 'styled-components';
 
 //import axios from 'axios';

@@ -8,4 +8,5 @@ router.post('/', userController.signup);
 router.post('/email', userController.checkEmail);
 router.post('/nickname', userController.checkNickname);
 
+
 module.exports = router;

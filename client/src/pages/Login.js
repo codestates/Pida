@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { SignButton, ConfirmButton } from '../components/Button';
 import { UDContainer } from '../components/Container';
-import { Error } from '../components/Error';
+import { Error } from '../components/Div';
 import { SignInput } from '../components/Input';
 import { Modal } from '../components/Modal';
 axios.defaults.withCredentials = true;
@@ -39,6 +39,7 @@ function Login(props) {
           { withCredentials: true },
         )
         .then(res => {
+          window.localStorage.setItem('loginUserId', res.data.data.userId); // 아이디 localStorage에 저장
           setIsOpen(true); // 성공 모달
         })
         .catch(() => {
