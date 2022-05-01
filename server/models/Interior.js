@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'interiorId',
       });
       this.hasMany(models.Interior_like);
+      this.belongsTo(models.Plant);
     }
   }
   Interior.init(
