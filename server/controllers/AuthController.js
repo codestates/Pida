@@ -58,7 +58,10 @@ module.exports = {
         return res
           .status(201)
           .cookie('accessToken', accessToken, options)
-          .json({ message: '로그인에 성공했습니다' });
+          .json({
+            data: { userId: userInfo.dataValues.id },
+            message: '로그인에 성공했습니다',
+          });
       }
     } catch (e) {
       // 서버 에러 처리

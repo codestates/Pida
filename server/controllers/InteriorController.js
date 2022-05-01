@@ -54,15 +54,6 @@ module.exports = {
       return res.status(200).json({
         data: { comments },
         message: '인테리어 게시글과 댓글 조회에 성공했습니다',
-<<<<<<< HEAD
-=======
-
-      //로딩했을때 좋아요 눌렀었는지 여부.좋아요 테이블에 현재 포스트와 사용자 아이디 쌍이 존재한다면 좋아요를 누른 것.
-      let isliked = false;
-      const liked = await Interior_like.findOne({
-        where: { userId: req.id, interiorId: postId },
-
->>>>>>> d8cbeef4a455f6982a6a486ea21a66892e1059df
       });
     } catch (e) {
       //서버 에러 처리
