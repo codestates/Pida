@@ -8,7 +8,7 @@ const indexRouter = require('./routes/Index');
 const { sequelize } = require('./models/Index');
 
 const app = express();
-const port = 4000;
+const port = 80;
 
 //cors 옵션 설정
 const corsOptions = {
