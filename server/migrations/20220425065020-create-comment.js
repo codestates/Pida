@@ -12,10 +12,6 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(200),
       },
-      nickname: {
-        allowNull: false,
-        type: Sequelize.STRING(8),
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
