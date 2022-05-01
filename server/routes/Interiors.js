@@ -2,9 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const interiorController = require('../controllers/InteriorController');
-const likeController = require('../controllers/LikeContoller');
+const likeController = require('../controllers/LikeController');
 const commentController = require('../controllers/CommentController');
-
 const isAuth = require('../middlewares/Authentication');
 
 //게시글 조회 수정 삭제
