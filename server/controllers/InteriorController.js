@@ -18,9 +18,9 @@ module.exports = {
       /*
       
       */
-      //댓글 목록 전체
+      //댓글 목록 전체: 현재 댓글에 존재하는 userId가 req.id와 다른 경우, 수정 삭제 권한 없다고 알려주자.: api 수정 필요
       let comments = await Comment.findAll({
-        attributes: ['id', 'comment'],
+        attributes: ['id', 'userId', 'comment'],
         include: [
           {
             model: Interior,
@@ -36,11 +36,14 @@ module.exports = {
         ],
       });
       comments = comments.map(el => {
-        const { id, comment, User } = el;
+        const { id, userId, comment, User } = el;
         return {
           id,
+          userId,
           comment,
           nickname: User.dataValues.nickname,
+          //댓글 수정 삭제 가능여부
+          isEditable: userId === req.id ? true : false,
         };
       });
 
