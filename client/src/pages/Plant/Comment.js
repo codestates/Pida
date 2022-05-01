@@ -90,11 +90,18 @@ function Comment(props) {
                       >
                         삭제
                       </DetailButton>
+                      <div
+                        style={{
+                          padding: '0 0 1.5rem 0.5rem',
+                          fontSize: '0.8rem',
+                        }}
+                      >
+                        {comment.comment}
+                      </div>
                     </>
                   ) : (
                     <>
                       {/* 수정 버튼을 눌렀다면 수정칸과 확인 취소 버튼을 보여준다 */}
-                      <WriteUser>{comment.nickname}</WriteUser>
                       <DetailButton
                         onClick={() => handleModifyCommentEnd(comment)}
                       >
@@ -117,10 +124,13 @@ function Comment(props) {
                     </>
                   )}
                 </>
-              ) : null}
-              <div style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}>
-                {comment.comment}
-              </div>
+              ) : (
+                <div
+                  style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}
+                >
+                  {comment.comment}
+                </div>
+              )}
             </>
           );
         })}
