@@ -35,12 +35,12 @@ module.exports = {
   checkNickname: async (req, res) => {
     try {
       const { nickname } = req.body;
-      if (!email) {
+      if (!nickname) {
         res.status(400).json({ message: '닉네임 값이 없습니다' });
       }
       //닉네임을 받아서, DB 에서 사용자가 존재하는지 확인한다,
-      const userInfoBynickname = await User.findOne({ where: { nickname } });
-      if (userInfoBynickname) {
+      const userInfoByNickname = await User.findOne({ where: { nickname } });
+      if (userInfoByNickname) {
         return res
           .status(409)
           .json({ message: '이미 사용중인 닉네임이 존재합니다' });
@@ -99,28 +99,28 @@ module.exports = {
       //사용자가 업로드한 글 모아보기
       const uploads = await Interior.findAll({
         attributes: ['id', 'image'],
-        include: {
-          model: User,
-          required: true,
-          attributes: [],
-          where: { id: req.id },
-        },
+        where: { userId: req.id },
       });
-
+      console.log(
+        uploads.map(el => el.dataValues),
+        '업로드한글',
+      );
       //사용자가 좋아요한 글 모아보기
-      const likes = await User.findAll({
-        where: { id: req.id },
-        attributes: [],
-        include: {
-          model: Interior,
-          attributes: ['id', 'image'],
-          through: {
+      const likes = await Interior.findAll({
+        attributes: ['id', 'image'],
+        include: [
+          {
+            model: User,
             attributes: [],
           },
-          required: true,
-        },
+          {
+            model: User,
+            attributes: [],
+            through: Interior_like,
+            where: { id: req.id },
+          },
+        ],
       });
-
       const { id, email, nickname } = userInfo;
 
       // 해당 유저가 존재하지 않는 경우
@@ -137,7 +137,7 @@ module.exports = {
             nickname,
             uploads,
             //문제의 코드 수정
-            likes: likes[0].Interiors,
+            likes: likes.map(el => el.dataValues),
           },
           message: '회원 정보 조회에 성공했습니다',
         });
@@ -154,6 +154,7 @@ module.exports = {
   editNickname: async (req, res) => {
     try {
       const { newNickname } = req.body;
+      console.log('사용자닉네임', newNickname, '닉네임');
 
       // newNickname 이 정규표현식을 통과하지 못 한다면,
       // 400 을 돌려주고 정지
