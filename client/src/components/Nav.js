@@ -73,6 +73,7 @@ function Nav() {
         { withCredentials: true },
       )
       .then(res => {
+        localStorage.removeItem('loginUserId');
         setIsLogoutModalOpen(true); // 성공 모달
         history.replace('/');
       });
@@ -91,33 +92,37 @@ function Nav() {
           <Menuli>식물추천</Menuli>
         </NavLink>
 
-        {/* ? 로그인 전 */}
-        <Menuli onClick={handleSignup}>회원가입</Menuli>
-        {isSignupModalOpen ? (
-          <Modal2 handleModal={handleSignupModal}>
-            <Signup setIsSignupModalOpen={setIsSignupModalOpen} />
-          </Modal2>
-        ) : null}
+        {localStorage.getItem('loginUserId') ? (
+          <>
+            <NavLink to="/users">
+              <Menuli>마이페이지</Menuli>
+            </NavLink>
 
-        <Menuli onClick={handleLogin}>로그인</Menuli>
-        {isLoginModalOpen ? (
-          <Modal2 handleModal={handleLoginModal}>
-            <Login setIsLoginModalOpen={setIsLoginModalOpen} />
-          </Modal2>
-        ) : null}
-
-        {/* : 로그인 후 */}
-        <NavLink to="/users">
-          <Menuli>마이페이지</Menuli>
-        </NavLink>
-
-        <Menuli onClick={handleLogout}>로그아웃</Menuli>
-        {isLogoutModalOpen ? (
-          <Modal handleModal={handleLogoutModal}>
-            <h3>로그아웃에 성공했습니다</h3>
-            <ConfirmButton onClick={handleLogoutModal}>확인</ConfirmButton>
-          </Modal>
-        ) : null}
+            <Menuli onClick={handleLogout}>로그아웃</Menuli>
+            {isLogoutModalOpen ? (
+              <Modal handleModal={handleLogoutModal}>
+                <h3>로그아웃에 성공했습니다</h3>
+                <ConfirmButton onClick={handleLogoutModal}>확인</ConfirmButton>
+              </Modal>
+            ) : null}
+          </>
+        ) : (
+          <>
+            {' '}
+            <Menuli onClick={handleSignup}>회원가입</Menuli>
+            {isSignupModalOpen ? (
+              <Modal2 handleModal={handleSignupModal}>
+                <Signup setIsSignupModalOpen={setIsSignupModalOpen} />
+              </Modal2>
+            ) : null}
+            <Menuli onClick={handleLogin}>로그인</Menuli>
+            {isLoginModalOpen ? (
+              <Modal2 handleModal={handleLoginModal}>
+                <Login setIsLoginModalOpen={setIsLoginModalOpen} />
+              </Modal2>
+            ) : null}
+          </>
+        )}
       </Menuul>
     </Menunav>
   );

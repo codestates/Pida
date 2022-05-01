@@ -74,42 +74,55 @@ function Comment(props) {
         {props.commentArray.map(comment => {
           return (
             <>
-              {isModifyComment ? (
+              {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
+              {comment.isEditable ? (
                 <>
-                  <WriteUser>{comment.nickname}</WriteUser>
-                  <DetailButton onClick={() => handleModifyCommentEnd(comment)}>
-                    확인
-                  </DetailButton>
-                  <DetailButton onClick={() => handleCancelComment(comment)}>
-                    취소
-                  </DetailButton>
-                  <div>
-                    <ComentWrite
-                      style={{ marginLeft: '0rem' }}
-                      type="text"
-                      maxLength="200"
-                      onChange={handleInputComment}
-                      value={newComment}
-                    />
-                  </div>
+                  {!isModifyComment ? (
+                    <>
+                      <WriteUser>{comment.nickname}</WriteUser>
+                      <DetailButton
+                        onClick={() => handleModifyCommentStart(comment)}
+                      >
+                        수정
+                      </DetailButton>
+                      <DetailButton
+                        onClick={() => handleDeleteComment(comment)}
+                      >
+                        삭제
+                      </DetailButton>
+                    </>
+                  ) : (
+                    <>
+                      {/* 수정 버튼을 눌렀다면 수정칸과 확인 취소 버튼을 보여준다 */}
+                      <WriteUser>{comment.nickname}</WriteUser>
+                      <DetailButton
+                        onClick={() => handleModifyCommentEnd(comment)}
+                      >
+                        확인
+                      </DetailButton>
+                      <DetailButton
+                        onClick={() => handleCancelComment(comment)}
+                      >
+                        취소
+                      </DetailButton>
+                      <div>
+                        <ComentWrite
+                          style={{ marginLeft: '0rem' }}
+                          type="text"
+                          maxLength="200"
+                          onChange={handleInputComment}
+                          value={newComment}
+                        />
+                      </div>
+                    </>
+                  )}
                 </>
               ) : (
-                <>
-                  <WriteUser>{comment.nickname}</WriteUser>
-                  <DetailButton
-                    onClick={() => handleModifyCommentStart(comment)}
-                  >
-                    수정
-                  </DetailButton>
-                  <DetailButton onClick={() => handleDeleteComment(comment)}>
-                    삭제
-                  </DetailButton>
-                  <div
-                    style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}
-                  >
-                    {comment.comment}
-                  </div>
-                </>
+                <div
+                  style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}
+                >
+                  {comment.comment}
+                </div>
               )}
             </>
           );
