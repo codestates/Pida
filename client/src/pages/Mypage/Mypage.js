@@ -58,37 +58,17 @@ function Mypage() {
   };
 
   const [newNickname, setNewNickname] = useState(userInfo.nickname);
-  const [nicknameCheck, setNicknameCheck] = useState(false);
+  // const [nicknameCheck, setNicknameCheck] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const handleInputValue = e => {
     setNewNickname(e.target.value);
   };
   const handleModifyNicknameEnd = () => {
     setErrorMessage('');
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/users/signup/nickname`,
-        {
-          nickname: newNickname,
-        },
-        { withCredentials: true },
-      )
-      .then(res => {
-        setNicknameCheck(true);
-        //setErrorMessage('사용 가능한 닉네임입니다');
-      });
-    // .catch(err => {
-    //   setErrorMessage('이미 사용 중인 닉네임입니다');
-    // });
-
     if (
-      nicknameCheck === false ||
       nicknameValidator(newNickname) === false ||
       userInfo.nickname === newNickname
     ) {
-      if (nicknameCheck === false) {
-        setErrorMessage('이미 사용 중인 닉네임입니다');
-      }
       if (nicknameValidator(newNickname) === false) {
         setErrorMessage('닉네임은 공백 없이 1자 이상 8자 이하로 작성해 주세요');
       }
@@ -97,19 +77,33 @@ function Mypage() {
       }
     } else {
       axios
-        .patch(
-          `${process.env.REACT_APP_API_URL}/users/nickname`,
+        .post(
+          `${process.env.REACT_APP_API_URL}/users/signup/nickname`,
           {
-            newNickname: userInfo.nickname,
+            nickname: newNickname,
           },
           { withCredentials: true },
         )
         .then(res => {
-          setUserInfo({
-            ...userInfo,
-            nickname: newNickname,
-          });
-          setIsModifyNickname(false);
+          //  setNicknameCheck(true);
+          axios
+            .patch(
+              `${process.env.REACT_APP_API_URL}/users/nickname`,
+              {
+                newNickname: newNickname,
+              },
+              { withCredentials: true },
+            )
+            .then(res => {
+              setUserInfo({
+                ...userInfo,
+                nickname: newNickname,
+              });
+              setIsModifyNickname(false);
+            });
+        })
+        .catch(err => {
+          setErrorMessage('이미 사용 중인 닉네임입니다');
         });
     }
   };
