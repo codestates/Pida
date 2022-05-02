@@ -1,4 +1,6 @@
 const { User, Interior, Comment, Interior_like } = require('../models/Index');
+const dotenv = require('dotenv');
+dotenv.config();
 
 module.exports = {
   //인테리어 게시글 상세조회: 권한이 없어도 된다.
@@ -117,7 +119,7 @@ module.exports = {
         image: req.file.location,
       });
       //사용자 닉네임
-      const nickname = User.findByPk(req.id);
+      const nickname = User.findByPk(req.id, { attributes: ['nickname'] });
 
       Promise.all([newPost, nickname])
         .then(value => {
@@ -129,7 +131,7 @@ module.exports = {
               id,
               isliked: false, //처음 생성한 게시물이니 좋아요는 초기상태로.
               userId,
-              nickname,
+              nickname: nickname.nickname,
               image,
               content,
               createdAt,
@@ -196,15 +198,31 @@ module.exports = {
     //로직: 삭제할 게시글의 아이디를 받아와서 DB 테이블에서 삭제한다
     //s3상에 올라간 이미지는 어떻게 삭제해야할까?
     try {
-      //파일 이름은 DB 상에 저장된 url 값에서 추출한다.
-
+      //일단 id가 없으면, 삭제 거부한다.
+      const { id: postId } = req.params;
+      if (!postId) {
+        return res
+          .status(400)
+          .json({ message: '인테리어 게시글 삭제에 실패했습니다' });
+      }
+      //id가 주어졌다면 DB 테이블에서 삭제 진행한다.
+      //이때 이미지 주소로부터, 삭제할 파일 이름을 알아내야 한다.
+      //일단 주소를 받아온다
+      const imageUrl = await Interior.findByPk(postId, {
+        attributes: ['image'],
+      });
+      //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
+      console.log(imageUrl, '파일주소');
+      req.fileName = imageUrl.image.split('.com/')[1];
+      //테이블 상에서 삭제
+      await Interior.destroy({ where: { id: postId } });
       next();
     } catch (e) {
       //서버 에러 처리
       console.error(e);
       return res
         .status(500)
-        .json({ message: '서버가 인테리어 게시글과 댓글 조회에 실패했습니다' });
+        .json({ message: '서버가 인테리어 게시글 삭제에 실패했습니다' });
     }
   },
 };
