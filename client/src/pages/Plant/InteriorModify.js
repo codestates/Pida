@@ -8,13 +8,17 @@ import { Error } from '../../components/Div';
 import { ImageR } from '../../components/Image';
 import { UploadInput, ContentTextArea } from '../../components/Input';
 
-function InteriorWrite() {
+function InteriorModify() {
   const history = useHistory();
   const location = useLocation();
 
-  const [preview, setPreview] = useState('../../images/preview.png');
-  const [image, setImage] = useState(null);
-  const [content, setContent] = useState(null);
+  // 수정 전 내용 받아와서 저장
+  const [interior, setInterior] = useState(location.state.interior);
+
+  // 수정 후 보낼 내용
+  const [preview, setPreview] = useState(interior.image);
+  const [image, setImage] = useState(interior.image);
+  const [content, setContent] = useState(interior.content);
   const [errorMessage1, setErrorMessage1] = useState('');
   const [errorMessage2, setErrorMessage2] = useState('');
 
@@ -27,7 +31,6 @@ function InteriorWrite() {
     reader.onload = () => {
       setPreview(reader.result);
     };
-
     // 이미지
     setImage(e.target.files[0]);
   };
@@ -45,12 +48,6 @@ function InteriorWrite() {
     let formData = new FormData();
     formData.append('image', image);
     formData.append('content', content);
-    for (let key of formData.keys()) {
-      console.log(key, '첨부한 파일 키');
-    }
-    for (let value of formData.values()) {
-      console.log(value, '첨부한 파일 내용');
-    }
 
     if (image === null || content === null) {
       if (image === null) {
@@ -60,11 +57,10 @@ function InteriorWrite() {
         setErrorMessage2('내용을 입력하세요');
       }
     } else {
-      console.log('글썼다');
-
+      console.log('수정요청');
       axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/plants/${location.state.plantId}/interiors`,
+        .patch(
+          `${process.env.REACT_APP_API_URL}/interiors/${interior.id}`,
           formData,
           { withCredentials: true, contentType: 'multipart/form-data' },
         )
@@ -103,4 +99,4 @@ function InteriorWrite() {
     </UDContainer>
   );
 }
-export default InteriorWrite;
+export default InteriorModify;

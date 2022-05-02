@@ -48,6 +48,9 @@ function Mypage() {
         });
         setUploadsArray(res.data.data.uploads);
         setLikesArray(res.data.data.likes);
+      })
+      .catch(err => {
+        console.log(err);
       });
   }, []);
 
