@@ -117,7 +117,9 @@ module.exports = {
         image: req.file.location,
       });
       //사용자 닉네임
-      const nickname = User.findByPk(req.id);
+      const nickname = User.findByPk(req.id, { attributes: ['nickname'] });
+
+      console.log(nickname);
 
       Promise.all([newPost, nickname])
         .then(value => {
@@ -129,7 +131,7 @@ module.exports = {
               id,
               isliked: false, //처음 생성한 게시물이니 좋아요는 초기상태로.
               userId,
-              nickname,
+              nickname: nickname.nickname,
               image,
               content,
               createdAt,
