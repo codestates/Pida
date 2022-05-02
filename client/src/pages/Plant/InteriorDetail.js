@@ -66,11 +66,11 @@ function InteriorDetail(props) {
 
   /* 페이지 로드 */
   useEffect(() => {
+    console.log('props.interiorId', props.interiorId);
     axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}`,
-        { withCredentials: true },
-      )
+      .get(`${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}`, {
+        withCredentials: true,
+      })
       .then(res => {
         setInterior({
           ...interior,
@@ -84,9 +84,13 @@ function InteriorDetail(props) {
         });
         setCommentArray(res.data.data.comments);
       });
-  }, [commentArray]);
+  }, []);
 
-  /* 삭제 버튼 누르면 모달 띄우기 */
+  /* 글 수정 */
+  const handleModifyInterior = () => {};
+
+  /* 글 삭제 */
+  // 삭제 버튼 누르면 모달 띄우기
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const handleDeleteModal = () => {
     setIsDeleteModalOpen(!isDeleteModalOpen);
@@ -95,7 +99,7 @@ function InteriorDetail(props) {
   const handleDeleteInterior = () => {
     axios
       .delete(
-        `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}`,
+        `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}`,
         { withCredentials: true },
       )
       .then(res => {
@@ -105,14 +109,14 @@ function InteriorDetail(props) {
       });
   };
 
-  /* 좋아요 버튼 눌렸을 때 */
+  /* 좋아요 */
   const [isLike, setIsLike] = useState(interior.isLiked);
   const handleLike = () => {
     //좋아요 취소 요청
     if (isLike === true) {
       axios
         .delete(
-          `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}/likes`,
+          `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
           { withCredentials: true },
         )
         .then(res => {
@@ -124,7 +128,7 @@ function InteriorDetail(props) {
     else {
       axios
         .post(
-          `${process.env.REACT_APP_API_URL}/interiors/${location.state.interiorId}/likes`,
+          `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
           {},
           { withCredentials: true },
         )
@@ -167,7 +171,7 @@ function InteriorDetail(props) {
             {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
             {interior.isEditable ? (
               <span>
-                <DetailButton>수정</DetailButton>
+                <DetailButton onClick={handleModifyInterior}>수정</DetailButton>
                 <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
                 {isDeleteModalOpen ? (
                   <Modal>

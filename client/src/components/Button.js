@@ -17,7 +17,6 @@ export const CheckButton = styled.button`
 
 // 짧은 버튼
 export const SelectButton = styled.button`
-  margin: 1rem 0 1rem 0;
   width: 10rem;
   height: 3.5rem;
   border-radius: 4rem;

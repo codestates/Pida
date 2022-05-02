@@ -29,11 +29,15 @@ function PlantDetail() {
   });
   const [interiorsArray, setInteriorsArray] = useState([]);
   useEffect(() => {
-    console.log(location.state);
+    // console.log('location.state', location.state);
+    // console.log('location.state.plantId', location.state.plantId);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/plant/${location.state.plantId}`, {
-        withCredentials: true,
-      })
+      .get(
+        `${process.env.REACT_APP_API_URL}/plants/${location.state.plantId}`,
+        {
+          withCredentials: true,
+        },
+      )
       .then(res => {
         setPlant({
           ...plant,
@@ -57,7 +61,7 @@ function PlantDetail() {
     if (isNavigate) {
       history.push({
         pathname: '/interiorWrite',
-        state: plantId,
+        state: { plantId: plantId },
       });
       setIsNavigate(false);
     }
@@ -77,7 +81,7 @@ function PlantDetail() {
     setIsNavigate2(true); // useEffect 실행해 해당 id 인테리어 상세 모달 띄우기
   };
   useEffect(() => {
-    console.log(interiorId);
+    // console.log('선인장사진이면 0이 떠야 정상', interiorId);
     if (isNavigate2) {
       setIsInteriorModalOpen(true);
       setIsNavigate2(false);
@@ -88,7 +92,7 @@ function PlantDetail() {
       <UDContainer>
         <Form>
           <ContainerRow>
-            <ImageP src="../../images/select/꽃.png" alt="" />
+            <ImageP src={plant.plantImage} alt="" />
             <div>
               <h1>{plant.plantName}</h1>
               <span>{plant.plantDescription}</span>
@@ -96,7 +100,10 @@ function PlantDetail() {
           </ContainerRow>
           <hr />
 
-          <SelectButton onClick={() => handleInteriorWrite(plant.id)}>
+          <SelectButton
+            onClick={() => handleInteriorWrite(plant.id)}
+            style={{ marginBottom: '1rem' }}
+          >
             나도 뽐내기
           </SelectButton>
           <Interiors>
@@ -112,7 +119,10 @@ function PlantDetail() {
             {/* 인테리어 상세 모달 */}
             {isInteriorModalOpen ? (
               <Modal3 handleModal={handleInteriorModal}>
-                <InteriorDetail handleInteriorModal={handleInteriorModal} />
+                <InteriorDetail
+                  handleInteriorModal={handleInteriorModal}
+                  interiorId={interiorId}
+                />
               </Modal3>
             ) : null}
 
