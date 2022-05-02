@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Nav from './components/Nav';
 import Mypage from './pages/Mypage/Mypage';
+import Chat from './pages/Plant/Chat';
 import InteriorDetail from './pages/Plant/InteriorDetail';
 import InteriorModify from './pages/Plant/InteriorModify';
 import InteriorWrite from './pages/Plant/InteriorWrite';
@@ -54,6 +55,12 @@ function App() {
         <Switch>
           <Route exact path="/interiorModify">
             <InteriorModify />
+          </Route>
+        </Switch>
+
+        <Switch>
+          <Route exact path="/chat">
+            <Chat />
           </Route>
         </Switch>
 
