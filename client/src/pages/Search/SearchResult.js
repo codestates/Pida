@@ -25,7 +25,6 @@ function SearchResult() {
         { withCredentials: true },
       )
       .then(res => {
-        console.log(res.data.data);
         setPlantsTotal(res.data.data.plantsTotal);
         setPlantsArray(res.data.data.plantsArray);
       });
@@ -41,7 +40,7 @@ function SearchResult() {
     if (isNavigate) {
       history.push({
         pathname: '/plantDetail',
-        state: plantId,
+        state: { plantId: plantId },
       });
       setIsNavigate(false);
     }
@@ -68,32 +67,12 @@ function SearchResult() {
                   </Item>
                 );
               })}
-
-              {/* 모양 보려고 만든 거 - 지우면 됨 */}
               <Item>
-                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
-                  <ImageR src="../images/select/꽃.png" alt="" />
-                  <h2>대롱대롱</h2>
+                <TButton onClick={() => handlePlantDetail(0)}>
+                  <ImageR src="../../images/logo.png" alt="" />
+                  <h2>로고</h2>
                 </TButton>
               </Item>
-              {/* <Item>
-                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
-                  <ImageR src="../images/select/꽃.png" alt="" />
-                  <h3>마들렌뇨끼</h3>
-                </TButton>
-              </Item>
-              <Item>
-                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
-                  <ImageR src="../images/select/꽃.png" alt="" />
-                  <h3>3</h3>
-                </TButton>
-              </Item>
-              <Item>
-                <TButton onClick={() => handlePlantDetail('dkjdljd')}>
-                  <ImageR src="../images/select/꽃.png" alt="" />
-                  <h3>4</h3>
-                </TButton>
-              </Item> */}
             </ContainerRow2>
           </Container>
         </SearchResultForm>
@@ -119,5 +98,4 @@ const SearchResultForm = styled.div`
 const ItemLeft = styled.div`
   width: 100%;
   padding: 1rem;
-  //margin: 0 0 0 3rem;
 `;
