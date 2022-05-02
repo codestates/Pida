@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { SelectButton, TButton } from '../../components/Button';
+import { SelectButton, TButton, MypageButton } from '../../components/Button';
 import { ContainerRow, UDContainer, Form } from '../../components/Container';
 import { ImageP, ImageI } from '../../components/Image';
 import { Modal3 } from '../../components/Modal';
@@ -28,9 +28,13 @@ function PlantDetail() {
     plantDescription: '',
   });
   const [interiorsArray, setInteriorsArray] = useState([]);
+
   useEffect(() => {
-    // console.log('location.state', location.state);
-    // console.log('location.state.plantId', location.state.plantId);
+    handleRecent(); // 처음엔 최신순
+  }, []);
+
+  // 최신순
+  const handleRecent = () => {
     axios
       .get(
         `${process.env.REACT_APP_API_URL}/plants/${location.state.plantId}`,
@@ -48,7 +52,11 @@ function PlantDetail() {
         });
         setInteriorsArray(res.data.data.interiorsArray);
       });
-  }, []);
+  };
+  // 인기순
+  const handlePopular = () => {
+    // 인기순 API 추가 필요
+  };
 
   /* 나도 뽐내기 버튼 클릭 시, 글쓰기 페이지로 이동 */
   const [plantId, setPlantId] = useState(0);
@@ -100,12 +108,26 @@ function PlantDetail() {
           </ContainerRow>
           <hr />
 
-          <SelectButton
-            onClick={() => handleInteriorWrite(plant.id)}
-            style={{ marginBottom: '1rem' }}
+          <MypageButton onClick={handleRecent} style={{ paddingLeft: '1rem' }}>
+            최신순
+          </MypageButton>
+          <MypageButton onClick={handlePopular}>인기순</MypageButton>
+
+          <span
+            style={{
+              display: 'inline-block',
+              display: 'flex',
+              float: 'right',
+            }}
           >
-            나도 뽐내기
-          </SelectButton>
+            <SelectButton
+              onClick={() => handleInteriorWrite(plant.id)}
+              style={{ marginBottom: '1rem' }}
+            >
+              나도 뽐내기
+            </SelectButton>
+          </span>
+
           <Interiors>
             {interiorsArray.map(interior => {
               return (

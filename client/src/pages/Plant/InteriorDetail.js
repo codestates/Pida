@@ -14,16 +14,7 @@ import { ComentWrite } from '../../components/Input';
 import { Modal } from '../../components/Modal';
 import Comment from './Comment';
 
-const MyLikeGray = styled.button`
-  background-color: white;
-  border-color: transparent;
-  border: none;
-  font-size: 1.5rem;
-  padding: 0 0.5rem 0 0.5rem;
-  color: #bcbcbc;
-`;
-
-const MyLikeRed = styled(MyLikeGray)`
+const DetailButtonRed = styled(DetailButton)`
   color: red;
 `;
 
@@ -43,6 +34,8 @@ function InteriorDetail(props) {
   const [interior, setInterior] = useState({
     id: '',
     isLiked: false,
+    // 좋아요 갯수 필요
+    likeCount: 0,
     //userId: '',
     isEditable: false,
     nickname: '',
@@ -76,6 +69,7 @@ function InteriorDetail(props) {
           ...interior,
           id: res.data.data.id,
           isLiked: res.data.data.isliked,
+          //likeCount : res.data.data.likeCount,
           //userId: res.data.data.userId,
           isEditable: res.data.data.isEditable,
           nickname: res.data.data.nickname,
@@ -87,7 +81,13 @@ function InteriorDetail(props) {
   }, []);
 
   /* 글 수정 */
-  const handleModifyInterior = () => {};
+  const handleModifyInterior = () => {
+    // 글 정보 들고 이동
+    history.push({
+      pathname: '/interiorModify',
+      state: { interior: interior },
+    });
+  };
 
   /* 글 삭제 */
   // 삭제 버튼 누르면 모달 띄우기
@@ -120,7 +120,9 @@ function InteriorDetail(props) {
           { withCredentials: true },
         )
         .then(res => {
-          setIsLike(false); // 좋아요 취소상태로 바뀜
+          setIsLike(false);
+          setInterior({ ...interior, likeCount: interior.likeCount - 1 }); // 직접 숫자 빼기?
+          //setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침?
           console.log('좋아요 취소 성공!');
         });
     }
@@ -133,7 +135,9 @@ function InteriorDetail(props) {
           { withCredentials: true },
         )
         .then(res => {
-          setIsLike(true); // 좋아요 상태로 바뀜
+          setIsLike(true);
+          setInterior({ ...interior, likeCount: interior.likeCount + 1 }); // 직접 숫자 더하기?
+          //setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침?
           console.log('좋아요 성공!');
         });
     }
@@ -163,11 +167,22 @@ function InteriorDetail(props) {
         <div>
           <div style={{ margin: '0rem 0 1rem 0' }}>
             <WriteUser>김코딩{interior.nickname}</WriteUser>
+
+            {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
             {isLike ? (
-              <MyLikeRed onClick={handleLike}>❤</MyLikeRed>
+              <>
+                <DetailButtonRed onClick={handleLike}>
+                  ❤ {interior.likeCount}
+                </DetailButtonRed>
+              </>
             ) : (
-              <MyLikeGray onClick={handleLike}>❤</MyLikeGray>
+              <>
+                <DetailButton onClick={handleLike}>
+                  ❤ {interior.likeCount}
+                </DetailButton>
+              </>
             )}
+
             {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
             {interior.isEditable ? (
               <span>
@@ -190,7 +205,7 @@ function InteriorDetail(props) {
             ) : null}
           </div>
           <div>
-            <ImageD src="../../images/select/꽃.png" width="300" height="300" />
+            <ImageD src={interior.image} width="300" height="300" />
           </div>
         </div>
 

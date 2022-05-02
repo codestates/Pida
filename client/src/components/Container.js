@@ -14,6 +14,12 @@ export const UDContainer = styled(Container)`
   justify-content: center; // 상하 가운데로 정렬
 `;
 
+export const RightContainer = styled.div`
+  display: flex;
+  flex-direction: column; // 아이템들 세로로 정렬
+  align-items: flex-end;
+`;
+
 // 아이템들 가로로 정렬
 export const ContainerRow = styled.div`
   width: 100%;

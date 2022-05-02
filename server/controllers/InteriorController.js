@@ -120,7 +120,6 @@ module.exports = {
       });
       //사용자 닉네임
       const nickname = User.findByPk(req.id, { attributes: ['nickname'] });
-
       Promise.all([newPost, nickname])
         .then(value => {
           const [newPost, nickname] = value;
