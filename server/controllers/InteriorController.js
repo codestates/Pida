@@ -12,31 +12,33 @@ module.exports = {
           .status(400)
           .json({ message: '인테리어 게시글 조회에 실패했습니다' });
       }
+      console.log(postId, '게시물아이디');
 
-      //게시글 본문 불러오기
-      const post = Interior.findByPk(postId, {
-        attributes: [
-          'id',
-          'userId',
-          'plantId',
-          'content',
-          'image',
-          'createdAt',
-        ],
+      //편집 가능 여부,
+      const Author = await Interior.findOne({
+        where: { userId: req.id },
+        attributes: ['userId'],
       });
+      let isEditable =
+        Author !== null && Author.userId === req.id ? true : false;
 
-      //로딩했을때 좋아요 눌렀었는지 여부.좋아요 테이블에 현재 포스트와 사용자 아이디 쌍이 존재한다면 좋아요를 누른 것.
-      let isliked = false;
-      const liked = Interior_like.findOne({
+      //좋아요 여부,
+      const isLiked = await Interior_like.findOne({
         where: { userId: req.id, interiorId: postId },
-        //현재 게시글에 있는 게시글 아이디, 해당 사용자가 좋아요를 눌렀는지의 여부,
-        //작성자 아이디, 작성자 닉네임, 작성시각, 사진, 글
       });
-      if (liked) {
-        isliked = true;
-      }
+
+      //게시물에서 게시물 아이디, 유저아이디, 닉네임, 이미지, 내용, 작성시각 가지고오기
+      const post = await Interior.findAll({
+        where: { id: postId },
+        attributes: ['id', 'userId', 'image', 'content', 'createdAt'],
+      });
+      console.log(post, '이미지');
+      const nickname = await User.findByPk(post[0].userId, {
+        attributes: ['nickname'],
+      });
+
       //댓글 목록 전체: 현재 댓글에 존재하는 userId가 req.id와 다른 경우, 수정 삭제 권한 없다고 알려주자.: api 수정 필요
-      let comments = Comment.findAll({
+      let comments = await Comment.findAll({
         attributes: ['id', 'userId', 'comment'],
         include: [
           {
@@ -63,14 +65,20 @@ module.exports = {
           isEditable: userId === req.id ? true : false,
         };
       });
-      Promise.all([post, liked, comments]).then(value => {
-        const [post, liked, comments] = value;
-        console.log(post, liked, comments);
-        //여기서 데이터 가공 후 응답.
-        return res.status(200).json({
-          data: {},
-          message: '인테리어 게시글과 댓글 조회에 성공했습니다',
-        });
+
+      res.status(200).json({
+        data: {
+          id: postId,
+          isEditable,
+          isLiked: !!isLiked,
+          userId: post[0].userId,
+          nickname: nickname.nickname,
+          image: post[0].image,
+          content: post[0].content,
+          createdAt: post[0].createdAt,
+          comments,
+        },
+        message: '게시글과 댓글을 가져왔습니다',
       });
     } catch (e) {
       //서버 에러 처리

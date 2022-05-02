@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
 
 //일부러 에러 발생시키기 테스트
 app.use((req, res, next) => {
-  res.status(404).send('ok');
+  res.status(404).send('error!!');
 });
 
 //서버에러
