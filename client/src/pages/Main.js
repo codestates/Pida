@@ -1,10 +1,10 @@
-import { UDContainer, ContainerRow } from '../components/Container';
+import {
+  UDContainer,
+  ContainerRow,
+  RightContainer,
+} from '../components/Container';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-
-const TopDiv = styled.div`
-  padding-top: 9rem;
-`;
 
 const MainDivGreen = styled.span`
   top: 30px;
@@ -29,12 +29,6 @@ const MainPida = styled.div`
   letter-spacing: 0.5rem;
 `;
 
-const TextSpan = styled.span`
-  display: inline-block;
-  margin-bottom: 3rem;
-  margin-left: 3rem;
-`;
-
 const MainButton = styled.button`
   background-color: white;
   border-color: transparent;
@@ -50,20 +44,19 @@ const MainButton = styled.button`
     color: black;
   }
 `;
-// const MainForm = styled.div`
-//   margin: 3rem 1rem 2rem 10rem;
-// `;
 
 const MainItem = styled.div`
   flex-wrap: nowrap;
-  //padding: 3rem 0 0 0;
 `;
 
 function Main() {
   const history = useHistory();
 
-  const GoToSelect = () => {
+  const handleSelect = () => {
     history.replace('/select');
+  };
+  const handleAll = () => {
+    history.replace('/all');
   };
 
   return (
@@ -83,9 +76,18 @@ function Main() {
                 <MainDivBlack>랜테리어,</MainDivBlack>
               </div>
               <MainPida>"Pida"</MainPida>
-              <MainButton onClick={GoToSelect}>
-                나의 플랜테리어 취향 찾기 →
-              </MainButton>
+
+              <RightContainer>
+                <MainButton onClick={handleSelect}>
+                  나의 플랜테리어 취향 찾기 →
+                </MainButton>
+                <MainButton
+                  onClick={handleAll}
+                  style={{ margin: '1rem 0 0 0' }}
+                >
+                  "피다" 식물 보기 →
+                </MainButton>
+              </RightContainer>
             </UDContainer>
           </MainItem>
         </ContainerRow>

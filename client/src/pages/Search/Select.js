@@ -35,7 +35,7 @@ function Select() {
   const [isNavigate, setIsNavigate] = useState('');
   const handleSelect = key => e => {
     setSelect({ ...select, [key]: e.target.name }); // 검색 조건 설정하고
-    console.log(select);
+    //console.log(select);
     if (key === 'size') setIsQ1(false);
     if (key === 'space') setIsQ2(false);
     if (key === 'species') {

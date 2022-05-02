@@ -2,28 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
-import { TButton } from '../../components/Button';
+import { TButton } from '../components/Button';
 import {
   Container,
   UDContainer,
   ContainerRow2,
   Item,
-} from '../../components/Container';
-import { ImageR } from '../../components/Image';
+} from '../components/Container';
+import { ImageR } from '../components/Image';
 
-function SearchResult() {
+function All() {
   const history = useHistory();
   const location = useLocation();
 
-  /* 검색 결과 보여주기 */
+  /* 전체 식물 보여주기 */
   const [plantsTotal, setPlantsTotal] = useState(0);
   const [plantsArray, setPlantsArray] = useState([]);
   useEffect(() => {
     axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}`,
-        { withCredentials: true },
-      )
+      .get(`${process.env.REACT_APP_API_URL}/all`, { withCredentials: true }) // API 생기면 수정
       .then(res => {
         setPlantsTotal(res.data.data.plantsTotal);
         setPlantsArray(res.data.data.plantsArray);
@@ -53,8 +50,8 @@ function SearchResult() {
         <SearchResultForm>
           <Container>
             <ItemLeft>
-              <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다 🙂</AnswerDiv>
-              <SearchCountDiv>검색결과 총 {plantsTotal}건</SearchCountDiv>
+              <AnswerDiv>당신의 공간에 어울리는 식물을 찾아보세요 🙂</AnswerDiv>
+              <SearchCountDiv>총 {plantsTotal}건</SearchCountDiv>
             </ItemLeft>
 
             <ContainerRow2>
@@ -81,7 +78,7 @@ function SearchResult() {
     </>
   );
 }
-export default SearchResult;
+export default All;
 
 const AnswerDiv = styled.div`
   font-size: 2.5rem;
