@@ -44,15 +44,18 @@ module.exports = {
     console.log(req.fileName, 's3에서 삭제할 파일이름');
     s3.deleteObject(
       {
-        bucket: 'pida-interior-bucket',
-        key: req.fileName,
+        Bucket: 'pida-interior-bucket',
+        Key: req.fileName,
       },
       (err, data) => {
         if (err) {
           throw err;
         }
         //돌아오는 데이터: 여기에는 url없다
-        console.log('s3 deleteObject ', data);
+        console.log('s3 deleteObject 작동잘됨', data);
+        res
+          .status(204)
+          .json({ message: '인테리어 게시글 삭제를 성공했습니다' });
       },
     );
   },
