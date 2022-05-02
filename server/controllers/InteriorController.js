@@ -12,9 +12,22 @@ module.exports = {
           .status(400)
           .json({ message: '인테리어 게시글 조회에 실패했습니다' });
       }
+
+      //게시글 본문 불러오기
+      const post = Interior.findByPk(postId, {
+        attributes: [
+          'id',
+          'userId',
+          'plantId',
+          'content',
+          'image',
+          'createdAt',
+        ],
+      });
+
       //로딩했을때 좋아요 눌렀었는지 여부.좋아요 테이블에 현재 포스트와 사용자 아이디 쌍이 존재한다면 좋아요를 누른 것.
       let isliked = false;
-      const liked = await Interior_like.findOne({
+      const liked = Interior_like.findOne({
         where: { userId: req.id, interiorId: postId },
         //현재 게시글에 있는 게시글 아이디, 해당 사용자가 좋아요를 눌렀는지의 여부,
         //작성자 아이디, 작성자 닉네임, 작성시각, 사진, 글
@@ -23,7 +36,7 @@ module.exports = {
         isliked = true;
       }
       //댓글 목록 전체: 현재 댓글에 존재하는 userId가 req.id와 다른 경우, 수정 삭제 권한 없다고 알려주자.: api 수정 필요
-      let comments = await Comment.findAll({
+      let comments = Comment.findAll({
         attributes: ['id', 'userId', 'comment'],
         include: [
           {
@@ -50,10 +63,14 @@ module.exports = {
           isEditable: userId === req.id ? true : false,
         };
       });
-
-      return res.status(200).json({
-        data: { comments },
-        message: '인테리어 게시글과 댓글 조회에 성공했습니다',
+      Promise.all([post, liked, comments]).then(value => {
+        const [post, liked, comments] = value;
+        console.log(post, liked, comments);
+        //여기서 데이터 가공 후 응답.
+        return res.status(200).json({
+          data: {},
+          message: '인테리어 게시글과 댓글 조회에 성공했습니다',
+        });
       });
     } catch (e) {
       //서버 에러 처리
@@ -63,8 +80,123 @@ module.exports = {
         .json({ message: '서버가 인테리어 게시글과 댓글 조회에 실패했습니다' });
     }
   },
+  //게시글 작성
+  post: async (req, res) => {
+    try {
+      //만약에 게시글과 넘어온 파일링크가 하나라도 없으면 작성거부: 클라에서 사전에 차단.
+      //문제점: 클라에서 이거 안해줄 경우엔 실패해도 s3에 이미지 올라감..
+      const { id: plantId } = req.params;
+      const { content } = req.body;
+      console.log(
+        '식물:',
+        plantId,
+        '이미지주소',
+        req.file.location,
+        '내용',
+        content,
+      );
+      if (!plantId || !req.file.location || !content) {
+        return res
+          .status(400)
+          .json({ message: '인테리어 게시글 업로드에 실패했습니다' });
+      }
+      //다 있을 경우 201	인테리어 게시글 업로드에 성공했습니다.
+      //게시글 아이디 및 생성시각
+      const newPost = Interior.create({
+        userId: req.id,
+        plantId,
+        content,
+        image: req.file.location,
+      });
+      //사용자 닉네임
+      const nickname = User.findByPk(req.id);
 
-  // post: async (req, res) => {},
-  // patch: async (req, res) => {},
-  // delete: async (req, res) => {},
+      Promise.all([newPost, nickname])
+        .then(value => {
+          const [newPost, nickname] = value;
+          console.log(newPost, nickname, '결과');
+          const { id, userId, content, image, createdAt } = newPost.dataValues;
+          return res.status(201).json({
+            data: {
+              id,
+              isliked: false, //처음 생성한 게시물이니 좋아요는 초기상태로.
+              userId,
+              nickname,
+              image,
+              content,
+              createdAt,
+            },
+            message: '인테리어 게시글 업로드에 성공했습니다',
+          });
+        })
+        .catch(console.log);
+    } catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 인테리어 게시글과 댓글 조회에 실패했습니다' });
+    }
+  },
+  //게시글 수정 https://velog.io/@sangeun-jo/NodeJS-AWS-S3-%EB%B2%84%ED%82%B7-%EC%97%B0%EB%8F%99#5-%EA%B0%9D%EC%B2%B4-%EB%B3%80%EA%B2%BD
+  patch: async (req, res, next) => {
+    //글과 사진 받음. 글은 두고 사진만 삭제요청
+    //받은 사진 업로드 명령.
+    //여기선 가장 마지막 부분
+    try {
+      //만약에 게시글과 넘어온 파일링크가 하나라도 없으면 작성거부
+      const { id: postId } = req.params;
+      const { content: newContent } = req.body;
+      if (!plantId || !req.file.location || !content) {
+        return res
+          .status(400)
+          .json({ message: '인테리어 게시글 수정에 실패했습니다' });
+      }
+      //게시물 수정
+      const updatedPost = await Interior.update(
+        {
+          content: newContent,
+          image: req.file.location,
+        },
+        { where: { id: postId } },
+      );
+
+      const { id, userId, nickname, content, image, createdAt } =
+        updatedPost.dataValues;
+      return res.status(201).json({
+        data: {
+          id,
+          userId,
+          nickname,
+          content,
+          image,
+          createdAt,
+        },
+        message: '인테리어 게시글 수정에 성공했습니다',
+      });
+      next();
+    } catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 인테리어 게시글 수정에 실패했습니다' });
+    }
+  },
+  //게시글 삭제
+  delete: async (req, res, next) => {
+    //로직: 삭제할 게시글의 아이디를 받아와서 DB 테이블에서 삭제한다
+    //s3상에 올라간 이미지는 어떻게 삭제해야할까?
+    try {
+      //파일 이름은 DB 상에 저장된 url 값에서 추출한다.
+
+      next();
+    } catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 인테리어 게시글과 댓글 조회에 실패했습니다' });
+    }
+  },
 };
