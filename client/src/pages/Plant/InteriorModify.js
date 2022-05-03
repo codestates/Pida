@@ -42,6 +42,8 @@ function InteriorModify() {
 
   // 이미지와 내용 보내기
   const handelInterior = () => {
+    // console.log('image', image, 'content', content);
+
     setErrorMessage1('');
     setErrorMessage2('');
 
@@ -90,6 +92,7 @@ function InteriorModify() {
       <ContentTextArea
         placeholder="내용"
         maxLength="1000"
+        value={content}
         onChange={handleContent}
       />
 
