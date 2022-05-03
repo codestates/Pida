@@ -148,17 +148,49 @@ module.exports = {
         .json({ message: '서버가 인테리어 게시글과 댓글 조회에 실패했습니다' });
     }
   },
-  //게시글 수정 https://velog.io/@sangeun-jo/NodeJS-AWS-S3-%EB%B2%84%ED%82%B7-%EC%97%B0%EB%8F%99#5-%EA%B0%9D%EC%B2%B4-%EB%B3%80%EA%B2%BD
+  //수정
   patch: async (req, res, next) => {
     try {
-      //만약에 게시글과 넘어온 파일링크가 하나라도 없으면 작성거부
       const { id: postId } = req.params;
-      const { content: newContent } = req.body;
-      if (!postId || !req.file.location || !newContent) {
+      //만약에 게시글 아이디가 없을 시 수정거부
+      if (!postId) {
         return res
           .status(400)
           .json({ message: '인테리어 게시글 수정에 실패했습니다' });
       }
+      const { content: newContent } = req.body;
+
+      //만약에 기존 이미지는 , 안 바꾸고 글만 수정요청을 보냈다면 글만 업데이트 하고 돌려보낸다.
+      if (req.body.image && req.file === undefined) {
+        console.log('이미지 안 바꾸고 글만 바꿔서 보냄');
+        await Interior.update(
+          {
+            content: newContent,
+          },
+          { where: { id: postId } },
+        );
+
+        const user = await User.findByPk(req.id);
+        const updatedPost = await Interior.findByPk(postId);
+        console.log(updatedPost, '수정된 글');
+        const { id, userId, image, content, createdAt } =
+          updatedPost.dataValues;
+        const data = {
+          nickname: user.nickname,
+          isliked: false,
+          id,
+          userId,
+          createdAt,
+          image,
+          content,
+        };
+
+        return res
+          .status(200)
+          .json({ data, message: '인테리어 게시글 수정에 성공했습니다' });
+      }
+
+      //완전 새 이미지로 교체하는 경우 처리.
       //기존에 존재하는 이미지 파일의 이름을 알아낸다.
       const imageUrl = await Interior.findByPk(postId, {
         attributes: ['image'],
