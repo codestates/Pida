@@ -8,7 +8,7 @@ import {
   CommentButton,
 } from '../../components/Button';
 import { ContainerRow, ModalContainer } from '../../components/Container';
-import { WriteUser } from '../../components/Div';
+import { WriteUser, DropDown, DropDownC, ChatMenu } from '../../components/Div';
 import { ImageD } from '../../components/Image';
 import { ComentWrite } from '../../components/Input';
 import { Modal } from '../../components/Modal';
@@ -42,24 +42,15 @@ function InteriorDetail(props) {
     image: '',
     content: '',
   });
-  const [commentArray, setCommentArray] = useState([
-    {
-      id: '1',
-      nickname: '꼬부기',
-      comment: '이거 나중에 지워주세요',
-      isEditable: false,
-    },
-    {
-      id: '2',
-      nickname: '꼬부기2',
-      comment: '이거 나중에 지워주세요',
-      isEditable: true,
-    },
-  ]);
+  const [commentArray, setCommentArray] = useState([]);
 
   /* 페이지 로드 */
   useEffect(() => {
-    console.log('props.interiorId', props.interiorId);
+    //console.log('props.interiorId', props.interiorId);
+    getInterior();
+  }, []);
+
+  const getInterior = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}`, {
         withCredentials: true,
@@ -78,7 +69,7 @@ function InteriorDetail(props) {
         });
         setCommentArray(res.data.data.comments);
       });
-  }, []);
+  };
 
   /* 글 수정 */
   const handleModifyInterior = () => {
@@ -122,7 +113,7 @@ function InteriorDetail(props) {
         .then(res => {
           setIsLike(false);
           setInterior({ ...interior, likeCount: interior.likeCount - 1 }); // 직접 숫자 빼기?
-          //setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침?
+          // getInterior(); // 다시 부르기?
           console.log('좋아요 취소 성공!');
         });
     }
@@ -137,7 +128,7 @@ function InteriorDetail(props) {
         .then(res => {
           setIsLike(true);
           setInterior({ ...interior, likeCount: interior.likeCount + 1 }); // 직접 숫자 더하기?
-          //setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침?
+          // getInterior(); // 다시 부르기?
           console.log('좋아요 성공!');
         });
     }
@@ -157,7 +148,7 @@ function InteriorDetail(props) {
       )
       .then(res => {
         console.log('댓글이 작성되었습니다');
-        setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침..
+        getInterior();
       });
   };
 
@@ -166,43 +157,52 @@ function InteriorDetail(props) {
       <ModalContainer>
         <div>
           <div style={{ margin: '0rem 0 1rem 0' }}>
-            <WriteUser>김코딩{interior.nickname}</WriteUser>
+            <ContainerRow>
+              <DropDown>
+                <WriteUser>{interior.nickname}</WriteUser>
+                <DropDownC>
+                  <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
+                </DropDownC>
+              </DropDown>
 
-            {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
-            {isLike ? (
-              <>
-                <DetailButtonRed onClick={handleLike}>
-                  ❤ {interior.likeCount}
-                </DetailButtonRed>
-              </>
-            ) : (
-              <>
-                <DetailButton onClick={handleLike}>
-                  ❤ {interior.likeCount}
-                </DetailButton>
-              </>
-            )}
+              {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
+              {isLike ? (
+                <>
+                  <DetailButtonRed onClick={handleLike}>
+                    ❤ {interior.likeCount}
+                  </DetailButtonRed>
+                </>
+              ) : (
+                <>
+                  <DetailButton onClick={handleLike}>
+                    ❤ {interior.likeCount}
+                  </DetailButton>
+                </>
+              )}
 
-            {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
-            {interior.isEditable ? (
-              <span>
-                <DetailButton onClick={handleModifyInterior}>수정</DetailButton>
-                <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
-                {isDeleteModalOpen ? (
-                  <Modal>
-                    <h3>정말로 삭제하시겠습니까?</h3>
-                    <span>
-                      <ConfirmButton onClick={handleDeleteModal}>
-                        취소
-                      </ConfirmButton>
-                      <ConfirmButton onClick={handleDeleteInterior}>
-                        확인
-                      </ConfirmButton>
-                    </span>
-                  </Modal>
-                ) : null}
-              </span>
-            ) : null}
+              {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
+              {interior.isEditable ? (
+                <span>
+                  <DetailButton onClick={handleModifyInterior}>
+                    수정
+                  </DetailButton>
+                  <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
+                  {isDeleteModalOpen ? (
+                    <Modal>
+                      <h3>정말로 삭제하시겠습니까?</h3>
+                      <span>
+                        <ConfirmButton onClick={handleDeleteModal}>
+                          취소
+                        </ConfirmButton>
+                        <ConfirmButton onClick={handleDeleteInterior}>
+                          확인
+                        </ConfirmButton>
+                      </span>
+                    </Modal>
+                  ) : null}
+                </span>
+              ) : null}
+            </ContainerRow>
           </div>
           <div>
             <ImageD src={interior.image} width="300" height="300" />
@@ -210,7 +210,6 @@ function InteriorDetail(props) {
         </div>
 
         <div style={{ width: '31rem', marginTop: '1rem', fontSize: '0.8rem' }}>
-          여기에는 인테리어에 대한 게시글 내용이 들어갑니다.
           {interior.content}
         </div>
         <CommentBox>
@@ -224,7 +223,7 @@ function InteriorDetail(props) {
             <CommentButton onClick={handleWriteComment}>전송</CommentButton>
           </ContainerRow>
 
-          <Comment commentArray={commentArray} />
+          <Comment commentArray={commentArray} getInterior={getInterior} />
         </CommentBox>
       </ModalContainer>
     </div>
