@@ -42,24 +42,15 @@ function InteriorDetail(props) {
     image: '',
     content: '',
   });
-  const [commentArray, setCommentArray] = useState([
-    {
-      id: '1',
-      nickname: '꼬부기',
-      comment: '이거 나중에 지워주세요',
-      isEditable: false,
-    },
-    {
-      id: '2',
-      nickname: '꼬부기2',
-      comment: '이거 나중에 지워주세요',
-      isEditable: true,
-    },
-  ]);
+  const [commentArray, setCommentArray] = useState([]);
 
   /* 페이지 로드 */
   useEffect(() => {
-    console.log('props.interiorId', props.interiorId);
+    //console.log('props.interiorId', props.interiorId);
+    getInterior();
+  }, []);
+
+  const getInterior = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}`, {
         withCredentials: true,
@@ -78,7 +69,7 @@ function InteriorDetail(props) {
         });
         setCommentArray(res.data.data.comments);
       });
-  }, []);
+  };
 
   /* 글 수정 */
   const handleModifyInterior = () => {
@@ -122,7 +113,7 @@ function InteriorDetail(props) {
         .then(res => {
           setIsLike(false);
           setInterior({ ...interior, likeCount: interior.likeCount - 1 }); // 직접 숫자 빼기?
-          //setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침?
+          // getInterior(); // 다시 부르기?
           console.log('좋아요 취소 성공!');
         });
     }
@@ -137,7 +128,7 @@ function InteriorDetail(props) {
         .then(res => {
           setIsLike(true);
           setInterior({ ...interior, likeCount: interior.likeCount + 1 }); // 직접 숫자 더하기?
-          //setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침?
+          // getInterior(); // 다시 부르기?
           console.log('좋아요 성공!');
         });
     }
@@ -157,7 +148,7 @@ function InteriorDetail(props) {
       )
       .then(res => {
         console.log('댓글이 작성되었습니다');
-        setTimeout(window.location.reload.bind(window.location), 600000); // 새로고침..
+        getInterior();
       });
   };
 
@@ -166,7 +157,7 @@ function InteriorDetail(props) {
       <ModalContainer>
         <div>
           <div style={{ margin: '0rem 0 1rem 0' }}>
-            <WriteUser>김코딩{interior.nickname}</WriteUser>
+            <WriteUser>{interior.nickname}</WriteUser>
 
             {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
             {isLike ? (
@@ -210,7 +201,6 @@ function InteriorDetail(props) {
         </div>
 
         <div style={{ width: '31rem', marginTop: '1rem', fontSize: '0.8rem' }}>
-          여기에는 인테리어에 대한 게시글 내용이 들어갑니다.
           {interior.content}
         </div>
         <CommentBox>
@@ -224,7 +214,7 @@ function InteriorDetail(props) {
             <CommentButton onClick={handleWriteComment}>전송</CommentButton>
           </ContainerRow>
 
-          <Comment commentArray={commentArray} />
+          <Comment commentArray={commentArray} getInterior={getInterior} />
         </CommentBox>
       </ModalContainer>
     </div>
