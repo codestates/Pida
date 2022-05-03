@@ -45,10 +45,10 @@ module.exports = {
           { expiresIn: '3d' },
         );
         const options = {
-          httpOnly: true,
-          sameSite: 'none',
-          secure: true,
-          domain: '.server.pida.link',
+          // httpOnly: true,
+          // sameSite: 'none',
+          // secure: true,
+          // domain: '.server.pida.link',
           path: '/',
           // 1 week
           maxAge: 1000 * 60 * 60 * 24 * 7,

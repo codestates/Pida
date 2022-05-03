@@ -36,6 +36,7 @@ module.exports = {
       });
       console.log(post, '이미지');
       const nickname = await User.findByPk(post[0].userId, {
+        //
         attributes: ['nickname'],
       });
 
@@ -149,20 +150,25 @@ module.exports = {
   },
   //게시글 수정 https://velog.io/@sangeun-jo/NodeJS-AWS-S3-%EB%B2%84%ED%82%B7-%EC%97%B0%EB%8F%99#5-%EA%B0%9D%EC%B2%B4-%EB%B3%80%EA%B2%BD
   patch: async (req, res, next) => {
-    //글과 사진 받음. 글은 두고 사진만 삭제요청
-    //받은 사진 업로드 명령.
-    //여기선 가장 마지막 부분
     try {
       //만약에 게시글과 넘어온 파일링크가 하나라도 없으면 작성거부
       const { id: postId } = req.params;
       const { content: newContent } = req.body;
-      if (!plantId || !req.file.location || !content) {
+      if (!postId || !req.file.location || !newContent) {
         return res
           .status(400)
           .json({ message: '인테리어 게시글 수정에 실패했습니다' });
       }
-      //게시물 수정
-      const updatedPost = await Interior.update(
+      //기존에 존재하는 이미지 파일의 이름을 알아낸다.
+      const imageUrl = await Interior.findByPk(postId, {
+        attributes: ['image'],
+      });
+      //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
+      console.log(imageUrl, '파일주소');
+      req.fileName = imageUrl.image.split('.com/')[1];
+
+      //이제 DB테이블 업데이트 해도 된다.
+      await Interior.update(
         {
           content: newContent,
           image: req.file.location,
@@ -170,19 +176,21 @@ module.exports = {
         { where: { id: postId } },
       );
 
-      const { id, userId, nickname, content, image, createdAt } =
-        updatedPost.dataValues;
-      return res.status(201).json({
-        data: {
-          id,
-          userId,
-          nickname,
-          content,
-          image,
-          createdAt,
-        },
-        message: '인테리어 게시글 수정에 성공했습니다',
-      });
+      const user = await User.findByPk(req.id);
+      const updatedPost = await Interior.findByPk(postId);
+      console.log(updatedPost, '수정된 글');
+      const { id, userId, image, content, createdAt } = updatedPost.dataValues;
+      const data = {
+        nickname: user.nickname,
+        isliked: false,
+        id,
+        userId,
+        createdAt,
+        image,
+        content,
+      };
+      console.log(data, '응답으로 돌려줄 데이터');
+      req.data = data;
       next();
     } catch (e) {
       //서버 에러 처리
