@@ -8,7 +8,7 @@ import {
   CommentButton,
 } from '../../components/Button';
 import { ContainerRow, ModalContainer } from '../../components/Container';
-import { WriteUser } from '../../components/Div';
+import { WriteUser, DropDown, DropDownC, ChatMenu } from '../../components/Div';
 import { ImageD } from '../../components/Image';
 import { ComentWrite } from '../../components/Input';
 import { Modal } from '../../components/Modal';
@@ -157,43 +157,52 @@ function InteriorDetail(props) {
       <ModalContainer>
         <div>
           <div style={{ margin: '0rem 0 1rem 0' }}>
-            <WriteUser>{interior.nickname}</WriteUser>
+            <ContainerRow>
+              <DropDown>
+                <WriteUser>{interior.nickname}</WriteUser>
+                <DropDownC>
+                  <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
+                </DropDownC>
+              </DropDown>
 
-            {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
-            {isLike ? (
-              <>
-                <DetailButtonRed onClick={handleLike}>
-                  ❤ {interior.likeCount}
-                </DetailButtonRed>
-              </>
-            ) : (
-              <>
-                <DetailButton onClick={handleLike}>
-                  ❤ {interior.likeCount}
-                </DetailButton>
-              </>
-            )}
+              {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
+              {isLike ? (
+                <>
+                  <DetailButtonRed onClick={handleLike}>
+                    ❤ {interior.likeCount}
+                  </DetailButtonRed>
+                </>
+              ) : (
+                <>
+                  <DetailButton onClick={handleLike}>
+                    ❤ {interior.likeCount}
+                  </DetailButton>
+                </>
+              )}
 
-            {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
-            {interior.isEditable ? (
-              <span>
-                <DetailButton onClick={handleModifyInterior}>수정</DetailButton>
-                <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
-                {isDeleteModalOpen ? (
-                  <Modal>
-                    <h3>정말로 삭제하시겠습니까?</h3>
-                    <span>
-                      <ConfirmButton onClick={handleDeleteModal}>
-                        취소
-                      </ConfirmButton>
-                      <ConfirmButton onClick={handleDeleteInterior}>
-                        확인
-                      </ConfirmButton>
-                    </span>
-                  </Modal>
-                ) : null}
-              </span>
-            ) : null}
+              {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
+              {interior.isEditable ? (
+                <span>
+                  <DetailButton onClick={handleModifyInterior}>
+                    수정
+                  </DetailButton>
+                  <DetailButton onClick={handleDeleteModal}>삭제</DetailButton>
+                  {isDeleteModalOpen ? (
+                    <Modal>
+                      <h3>정말로 삭제하시겠습니까?</h3>
+                      <span>
+                        <ConfirmButton onClick={handleDeleteModal}>
+                          취소
+                        </ConfirmButton>
+                        <ConfirmButton onClick={handleDeleteInterior}>
+                          확인
+                        </ConfirmButton>
+                      </span>
+                    </Modal>
+                  ) : null}
+                </span>
+              ) : null}
+            </ContainerRow>
           </div>
           <div>
             <ImageD src={interior.image} width="300" height="300" />

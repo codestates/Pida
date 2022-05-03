@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
 import { DetailButton } from '../../components/Button';
-import { WriteUser } from '../../components/Div';
+import { ContainerRow } from '../../components/Container';
+import { ChatMenu, DropDown, DropDownC, WriteUser } from '../../components/Div';
 import { ComentWrite } from '../../components/Input';
 
 function Comment(props) {
@@ -72,23 +72,30 @@ function Comment(props) {
         {props.commentArray.map(comment => {
           return (
             <>
-              <WriteUser>{comment.nickname}</WriteUser>
-              {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
               {comment.isEditable ? (
                 <>
                   {isModifyComment && comment.id === modifyComment.id ? (
                     <>
                       {/* 수정 가능 유저 클릭 후 */}
-                      <DetailButton
-                        onClick={() => handleModifyCommentEnd(comment)}
-                      >
-                        확인
-                      </DetailButton>
-                      <DetailButton
-                        onClick={() => handleCancelComment(comment)}
-                      >
-                        취소
-                      </DetailButton>
+                      <ContainerRow>
+                        <DropDown>
+                          <WriteUser>{comment.nickname}</WriteUser>
+                          <DropDownC>
+                            <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
+                          </DropDownC>
+                        </DropDown>
+                        <DetailButton
+                          onClick={() => handleModifyCommentEnd(comment)}
+                        >
+                          확인
+                        </DetailButton>
+                        <DetailButton
+                          onClick={() => handleCancelComment(comment)}
+                        >
+                          취소
+                        </DetailButton>
+                      </ContainerRow>
+
                       <div>
                         <ComentWrite
                           style={{ marginLeft: '0rem' }}
@@ -102,16 +109,25 @@ function Comment(props) {
                   ) : (
                     <>
                       {/* 수정 가능 유저 클릭 전 */}
-                      <DetailButton
-                        onClick={() => handleModifyCommentStart(comment)}
-                      >
-                        수정
-                      </DetailButton>
-                      <DetailButton
-                        onClick={() => handleDeleteComment(comment)}
-                      >
-                        삭제
-                      </DetailButton>
+                      <ContainerRow>
+                        <DropDown>
+                          <WriteUser>{comment.nickname}</WriteUser>
+                          <DropDownC>
+                            <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
+                          </DropDownC>
+                        </DropDown>
+                        <DetailButton
+                          onClick={() => handleModifyCommentStart(comment)}
+                        >
+                          수정
+                        </DetailButton>
+                        <DetailButton
+                          onClick={() => handleDeleteComment(comment)}
+                        >
+                          삭제
+                        </DetailButton>
+                      </ContainerRow>
+
                       <div
                         style={{
                           padding: '0 0 1.5rem 0.5rem',
@@ -126,6 +142,14 @@ function Comment(props) {
               ) : (
                 <>
                   {/* 수정 불가능 유저 */}
+                  <ContainerRow>
+                    <DropDown>
+                      <WriteUser>{comment.nickname}</WriteUser>
+                      <DropDownC>
+                        <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
+                      </DropDownC>
+                    </DropDown>
+                  </ContainerRow>
                   <div
                     style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}
                   >
