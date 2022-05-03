@@ -5,7 +5,6 @@ require('dotenv').config();
 module.exports = async (req, res, next) => {
   try {
     const { accessToken } = req.cookies;
-
     if (!accessToken) {
       //사용자 댓글 수정 삭제 권한을 제한하기 위함
       if (

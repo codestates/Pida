@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const usersRouter = require('./Users');
-const searchRouter = require('./Search');
 const plantsRouter = require('./Plants');
 const interiorsRouter = require('./Interiors');
 const commentsRouter = require('./Comments');
