@@ -22,7 +22,7 @@ module.exports = {
 
       // 404: 로그인 시도 유저의 정보가 없는 경우에 대한 처리
       if (!userInfo) {
-        return res.status(400).json({ message: '해당 유저가 없습니다' });
+        return res.status(404).json({ message: '해당 유저가 없습니다' });
       }
 
       // db 상의 비밀번호와 입력값의 매칭 여부 확인
