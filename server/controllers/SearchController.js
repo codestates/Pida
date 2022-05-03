@@ -1,39 +1,102 @@
 const { Plant, Plant_category } = require('../models/Index');
 
-module.exports = async (req, res) => {
-  try {
-    //사용자 단에서는 3가지 검색 조건을 다 전달한다!
-    const { size, space, species } = req.query;
+module.exports = {
+  // 사용자 선택을 통한 검색
+  get: async (req, res) => {
+    try {
+      //사용자 단에서는 3가지 검색 조건을 다 전달한다!
+      const { size, space, species } = req.query;
 
-    //만약에 검색 조건 3가지가 모두 전달되지 않았다면 실패 응답을 보낸다.
-    if (!size || !space || !species) {
-      return res.status(400).json({ message: '검색 조건을 다시 확인해주세요' });
+      //만약에 검색 조건 3가지가 모두 전달되지 않았다면 실패 응답을 보낸다.
+      if (!size || !space || !species) {
+        return res.status(400).json({ message: '검색 조건을 다시 확인해주세요' });
+      }
+      const searchResults = await Plant_category.findAll({
+        attributes: [],
+        include: {
+          model: Plant,
+          attributes: ['id', 'name', 'image'],
+          required: true,
+        },
+        where: { size, space, species },
+      });
+      console.log(
+        searchResults.map(el => el.Plant.dataValues),
+        '검색결과',
+      );
+      return res.status(200).json({
+        data: {
+          plantsTotal: searchResults.length,
+          plantsArray: searchResults.map(el => el.Plant.dataValues),
+        },
+        message: '검색한 게시물들을 가져왔습니다',
+      });
+    } catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 검색 결과 조회에 실패했습니다' });
     }
-    const searchResults = await Plant_category.findAll({
-      attributes: [],
-      include: {
-        model: Plant,
-        attributes: ['id', 'name', 'image'],
-        required: true,
-      },
-      where: { size, space, species },
-    });
-    console.log(
-      searchResults.map(el => el.Plant.dataValues),
-      '검색결과',
-    );
-    return res.status(200).json({
-      data: {
-        plantsTotal: searchResults.length,
-        plantsArray: searchResults.map(el => el.Plant.dataValues),
-      },
-      message: '검색한 게시물들을 가져왔습니다',
-    });
-  } catch (e) {
-    //서버 에러 처리
-    console.error(e);
-    return res
-      .status(500)
-      .json({ message: '서버가 검색 결과 조회에 실패했습니다' });
-  }
-};
+  },
+
+  // 전체 식물 보기
+  getAll: async (req, res) => {
+
+    /*
+      {
+        "data": [
+          {
+            "id": Plant 테이블의 id,
+            "image": "http~"
+            "name": 식물 이름
+          }
+        ],
+        "message": 전체 식물 정보를 가져왔습니다
+      }
+
+      400: 전체 식물 사진 가져오기에 실패했습니다
+    */
+
+    // 일단 필요한 식물 정보를 다 받아오기 findAll
+    // SELECT 'id', 'image', 'name' FROM Plants
+    // 배열로 처리
+    // map?
+
+    try {
+      const allPlants = await Plant.findAll({
+        attributes: ['id', 'image', 'name']
+      });
+
+      console.log('====================>  ', allPlants);
+      // console.log('-------------->  ',
+      //   allPlants.map(el => el.Plant.dataValues));
+
+      if (allPlants) {
+        return res
+          .status(200)
+          .json({
+            data: allPlants,
+            message: '전체 식물 정보를 가져왔습니다'
+          });
+      } else {
+        return res
+          .status(404)
+          .json({ message: '전체 식물 사진 가져오기에 실패했습니다' });
+      }
+
+    }
+
+    catch (e) {
+      //서버 에러 처리
+      console.error(e);
+      return res
+        .status(500)
+        .json({ message: '서버가 전체 식물 조회에 실패했습니다' });
+    } // catch Err EOP
+
+
+
+  },
+
+}; // EOP
