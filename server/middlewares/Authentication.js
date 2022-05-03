@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
         req.id = 'notLoggedin';
         return next();
       }
-      return res.status(400).json({ message: '토큰이 존재하지 않습니다' });
+      return res.status(401).json({ message: '토큰이 존재하지 않습니다' });
     }
     const decoded = verify(accessToken, process.env.ACCESS_SECRET);
     const userInfo = await User.findByPk(decoded.id);
@@ -27,7 +27,7 @@ module.exports = async (req, res, next) => {
       req.id = userInfo.dataValues.id;
       return next();
     } else {
-      return res.status(400).json({ message: '유효하지 않은 토큰입니다' });
+      return res.status(401).json({ message: '유효하지 않은 토큰입니다' });
     }
   } catch (e) {
     //토큰 검증에 실패!

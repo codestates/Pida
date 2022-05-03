@@ -17,8 +17,7 @@ module.exports = {
       console.log(postId, '게시물아이디');
 
       //편집 가능 여부,
-      const Author = await Interior.findOne({
-        where: { userId: req.id },
+      const Author = await Interior.findByPk(postId, {
         attributes: ['userId'],
       });
       let isEditable =
