@@ -13,7 +13,7 @@ module.exports = {
       key: function (req, file, cb) {
         cb(null, `${Date.now()}_${file.originalname}`);
       },
-      limits: { fileSize: 1000 * 1000 * 10 }, //최대용량 1천만바이트 = 10MB(사용자기준)= 9.xxMiB
+      limits: { fileSize: 1000 * 1000 * 3 }, //최대용량 1천만바이트 = 10MB(사용자기준)= 9.xxMiB
     }),
   }),
   /*
