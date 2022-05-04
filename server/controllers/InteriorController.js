@@ -46,6 +46,7 @@ module.exports = {
           },
         ],
         group: ['Interior.id'],
+        where: { id: postId },
       });
 
       const nickname = await User.findByPk(post[0].dataValues.userId, {
