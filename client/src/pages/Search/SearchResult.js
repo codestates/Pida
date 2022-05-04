@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
 import { TButton } from '../../components/Button';
 import {
   Container,
@@ -9,6 +8,12 @@ import {
   ContainerRow2,
   Item,
 } from '../../components/Container';
+import {
+  AnswerDiv,
+  SearchCountDiv,
+  SearchResultForm,
+  ItemLeft,
+} from '../../components/Div';
 import { ImageR } from '../../components/Image';
 
 function SearchResult() {
@@ -82,21 +87,3 @@ function SearchResult() {
   );
 }
 export default SearchResult;
-
-const AnswerDiv = styled.div`
-  font-size: 2.5rem;
-  font-weight: 600;
-`;
-const SearchCountDiv = styled.div`
-  padding: 1rem 0 4rem 0;
-  font-size: 1.3rem;
-`;
-
-const SearchResultForm = styled.div`
-  margin: 3rem 0 2rem 5rem;
-`;
-
-const ItemLeft = styled.div`
-  width: 100%;
-  padding: 1rem;
-`;

@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import styled from 'styled-components';
 import { UDContainer } from '../../components/Container';
 import { SelectButton } from '../../components/Button';
-import { Error } from '../../components/Div';
+import { Error, Label } from '../../components/Div';
 import { ImageR } from '../../components/Image';
 import { UploadInput, ContentTextArea } from '../../components/Input';
 
@@ -22,28 +21,24 @@ function InteriorModify() {
   const [errorMessage1, setErrorMessage1] = useState('');
   const [errorMessage2, setErrorMessage2] = useState('');
 
-  // 이미지
   const handleImageUpload = e => {
-    // 미리보기 띄우기
+    // 이미지 미리보기 띄우기
     const reader = new FileReader();
     reader.readAsDataURL(e.target.files[0]);
-    console.log(reader.result);
     reader.onload = () => {
       setPreview(reader.result);
     };
-    // 이미지
+    // 이미지set
     setImage(e.target.files[0]);
   };
 
-  //내용
   const handleContent = e => {
+    //내용set
     setContent(e.target.value);
   };
 
-  // 이미지와 내용 보내기
+  // 서버로 이미지와 내용 보내기
   const handelInterior = () => {
-    // console.log('image', image, 'content', content);
-
     setErrorMessage1('');
     setErrorMessage2('');
 
@@ -59,7 +54,6 @@ function InteriorModify() {
         setErrorMessage2('내용을 입력하세요');
       }
     } else {
-      console.log('수정요청');
       axios
         .patch(
           `${process.env.REACT_APP_API_URL}/interiors/${interior.id}`,
@@ -77,12 +71,15 @@ function InteriorModify() {
 
   return (
     <UDContainer>
-      <ImageR src={preview} />
+      <ImageR style={{ marginBottom: '0.8rem' }} src={preview} />
       <div>
+        <Label for="inputlabel">사진선택</Label>
         <UploadInput
           type="file"
           name="image"
           accept="image/*"
+          id="inputlabel"
+          style={{ display: 'none' }}
           onChange={handleImageUpload}
         />
         <Error>{errorMessage1}</Error>

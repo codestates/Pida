@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { DetailButton } from '../../components/Button';
 import { ContainerRow } from '../../components/Container';
@@ -15,26 +14,24 @@ function Comment(props) {
 
   /* 댓글 수정 */
   const [isModifyComment, setIsModifyComment] = useState(false);
-
   const [newComment, setNewComment] = useState('');
+
+  // 댓글 수정 시작
   const handleModifyCommentStart = comment => {
-    console.log('댓글 수정시작');
     setModifyComment({
       ...comment,
       id: comment.id,
       nickname: comment.nickname,
       comment: comment.comment,
     });
-
     setIsModifyComment(true);
     setNewComment(comment.comment);
   };
-
   const handleInputComment = e => {
     setNewComment(e.target.value);
   };
 
-  /* 댓글 수정 완료 */
+  // 댓글 수정 완료
   const handleModifyCommentEnd = comment => {
     axios
       .patch(
@@ -46,10 +43,12 @@ function Comment(props) {
         setIsModifyComment(false);
         props.getInterior();
       })
-      .catch();
+      .catch(err => {
+        console.log(err);
+      });
   };
 
-  /* 댓글 수정 취소 */
+  // 댓글 수정 취소
   const handleCancelComment = () => {
     setIsModifyComment(false);
   };
@@ -67,7 +66,6 @@ function Comment(props) {
 
   return (
     <>
-      {/* 인테리어 댓글 맵*/}
       <div style={{ padding: '1.5rem 1.5rem 0rem 1.5em' }}>
         {props.commentArray.map(comment => {
           return (

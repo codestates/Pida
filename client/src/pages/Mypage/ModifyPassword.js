@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { ConfirmButton, SignButton } from '../../components/Button';
 import { UDContainer } from '../../components/Container';
 import { Error } from '../../components/Div';
 import { SignInput } from '../../components/Input';
-import { Modal, Modal2 } from '../../components/Modal';
+import { Modal } from '../../components/Modal';
 import { pwValidator, pwMatchValidator } from '../../utils/validator';
 
 function ModifyPassword({ handleModifyPasswordModal }) {
-  const history = useHistory();
-
   /* 완료 모달 */
   const [isOpen, setIsOpen] = useState(false);
   const handleModal = () => {

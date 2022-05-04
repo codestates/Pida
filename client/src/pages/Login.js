@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { SignButton, ConfirmButton } from '../components/Button';
 import { UDContainer } from '../components/Container';
@@ -9,8 +8,6 @@ import { Modal } from '../components/Modal';
 axios.defaults.withCredentials = true;
 
 function Login(props) {
-  const history = useHistory();
-
   /* 완료 모달 */
   const [isOpen, setIsOpen] = useState(false);
   const handleModal = () => {
@@ -59,6 +56,7 @@ function Login(props) {
           <SignInput
             type="email"
             placeholder="email"
+            value={loginInfo.email}
             onChange={handleLoginInputValue('email')}
           />
         </div>
@@ -66,6 +64,7 @@ function Login(props) {
           <SignInput
             type="password"
             placeholder="password"
+            value={loginInfo.password}
             onChange={handleLoginInputValue('password')}
           />
         </div>

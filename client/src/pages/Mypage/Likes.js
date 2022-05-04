@@ -19,7 +19,6 @@ function Likes(props) {
     setIsNavigate(true); // useEffect 실행해 해당 id 인테리어 상세 모달 띄우기
   };
   useEffect(() => {
-    console.log(interiorId);
     if (isNavigate) {
       setIsInteriorModalOpen(true);
       setIsNavigate(false);
@@ -29,7 +28,6 @@ function Likes(props) {
   return (
     <>
       <ContainerRow2>
-        {/* 아이템 map시키기 */}
         {props.likesArray.map(like => {
           return (
             <Item>
@@ -42,7 +40,11 @@ function Likes(props) {
         {/* 인테리어 상세 모달 */}
         {isInteriorModalOpen ? (
           <Modal3 handleModal={handleInteriorModal}>
-            <InteriorDetail handleInteriorModal={handleInteriorModal} />
+            <InteriorDetail
+              handleInteriorModal={handleInteriorModal}
+              interiorId={interiorId}
+              getMypage={props.getMypage}
+            />
           </Modal3>
         ) : null}
       </ContainerRow2>

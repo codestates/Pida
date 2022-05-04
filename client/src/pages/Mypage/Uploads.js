@@ -19,7 +19,6 @@ function Uploads(props) {
     setIsNavigate(true); // useEffect 실행해 해당 id 인테리어 상세 모달 띄우기
   };
   useEffect(() => {
-    console.log(interiorId);
     if (isNavigate) {
       setIsInteriorModalOpen(true);
       setIsNavigate(false);
@@ -29,7 +28,6 @@ function Uploads(props) {
   return (
     <>
       <ContainerRow2>
-        {/* 아이템 map시키기 */}
         {props.uploadsArray.map(upload => {
           return (
             <Item>
@@ -42,25 +40,13 @@ function Uploads(props) {
         {/* 인테리어 상세 모달 */}
         {isInteriorModalOpen ? (
           <Modal3 handleModal={handleInteriorModal}>
-            <InteriorDetail handleInteriorModal={handleInteriorModal} />
+            <InteriorDetail
+              handleInteriorModal={handleInteriorModal}
+              interiorId={interiorId}
+              getMypage={props.getMypage}
+            />
           </Modal3>
         ) : null}
-
-        <Item>
-          <TButton onClick={() => handleInteriorDetail('ooo')}>
-            <ImageR src="../images/select/가구.png" alt="" />
-          </TButton>
-        </Item>
-        <Item>
-          <TButton>
-            <ImageR src="../images/select/가구.png" alt="" />
-          </TButton>
-        </Item>
-        <Item>
-          <TButton>
-            <ImageR src="../images/select/가구.png" alt="" />
-          </TButton>
-        </Item>
       </ContainerRow2>
     </>
   );

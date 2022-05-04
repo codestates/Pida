@@ -37,7 +37,7 @@ function PlantDetail() {
   const handleRecent = () => {
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}/plants/${location.state.plantId}`,
+        `${process.env.REACT_APP_API_URL}/plants/${location.state.plantId}?order=recent`,
         {
           withCredentials: true,
         },
@@ -55,7 +55,23 @@ function PlantDetail() {
   };
   // 인기순
   const handlePopular = () => {
-    // 인기순 API 추가 필요
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/plants/${location.state.plantId}?order=likes`,
+        {
+          withCredentials: true,
+        },
+      )
+      .then(res => {
+        setPlant({
+          ...plant,
+          id: res.data.data.id,
+          plantName: res.data.data.plantName,
+          plantImage: res.data.data.plantImage,
+          plantDescription: res.data.data.plantDescription,
+        });
+        setInteriorsArray(res.data.data.interiorsArray);
+      });
   };
 
   /* 나도 뽐내기 버튼 클릭 시, 글쓰기 페이지로 이동 */
@@ -89,12 +105,12 @@ function PlantDetail() {
     setIsNavigate2(true); // useEffect 실행해 해당 id 인테리어 상세 모달 띄우기
   };
   useEffect(() => {
-    // console.log('선인장사진이면 0이 떠야 정상', interiorId);
     if (isNavigate2) {
       setIsInteriorModalOpen(true);
       setIsNavigate2(false);
     }
   }, [isNavigate2]);
+
   return (
     <>
       <UDContainer>
@@ -103,7 +119,9 @@ function PlantDetail() {
             <ImageP src={plant.plantImage} alt="" />
             <div>
               <h1>{plant.plantName}</h1>
-              <span>{plant.plantDescription}</span>
+              <span style={{ wordBreak: 'keep-all' }}>
+                {plant.plantDescription}
+              </span>
             </div>
           </ContainerRow>
           <hr />
@@ -147,12 +165,6 @@ function PlantDetail() {
                 />
               </Modal3>
             ) : null}
-
-            {/* 테스트용 */}
-            <TButton onClick={() => handleInteriorDetail(interiorId)}>
-              <ImageI src="../../images/select/선인장.png" alt="" />
-            </TButton>
-            {/* 까지 지워 */}
           </Interiors>
         </Form>
       </UDContainer>

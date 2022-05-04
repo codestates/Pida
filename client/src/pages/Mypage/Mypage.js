@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { MypageButton, MypageButton2, TButton } from '../../components/Button';
@@ -26,9 +25,6 @@ const ModiInfo = styled.input`
 `;
 
 function Mypage() {
-  const history = useHistory();
-
-  /* 페이지 로드 */
   const [userInfo, setUserInfo] = useState({
     id: '',
     email: '',
@@ -36,7 +32,13 @@ function Mypage() {
   });
   const [uploadsArray, setUploadsArray] = useState([]);
   const [likesArray, setLikesArray] = useState([]);
+
+  /* 페이지 로드 */
   useEffect(() => {
+    getMypage();
+  }, []);
+
+  const getMypage = () => {
     axios
       .get(`${process.env.REACT_APP_API_URL}/users`, { withCredentials: true })
       .then(res => {
@@ -52,17 +54,17 @@ function Mypage() {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  };
 
   /* 닉네임 변경 */
   const [isModifyNickname, setIsModifyNickname] = useState(false);
+  const [newNickname, setNewNickname] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
   const handleModifyNicknameStart = () => {
     setIsModifyNickname(true);
+    setNewNickname(userInfo.nickname);
   };
-
-  const [newNickname, setNewNickname] = useState(userInfo.nickname);
-  // const [nicknameCheck, setNicknameCheck] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const handleInputValue = e => {
     setNewNickname(e.target.value);
   };
@@ -88,7 +90,6 @@ function Mypage() {
           { withCredentials: true },
         )
         .then(res => {
-          //  setNicknameCheck(true);
           axios
             .patch(
               `${process.env.REACT_APP_API_URL}/users/nickname`,
@@ -134,9 +135,11 @@ function Mypage() {
   const [isUploads, setIsUploads] = useState(true);
   const handleUploads = () => {
     setIsUploads(true);
+    getMypage();
   };
   const handleLikes = () => {
     setIsUploads(false);
+    getMypage();
   };
 
   return (
@@ -199,9 +202,9 @@ function Mypage() {
         </ContainerRow>
         <div>
           {isUploads ? (
-            <Uploads uploadsArray={uploadsArray} />
+            <Uploads uploadsArray={uploadsArray} getMypage={getMypage} />
           ) : (
-            <Likes likesArray={likesArray} />
+            <Likes likesArray={likesArray} getMypage={getMypage} />
           )}
         </div>
       </Form>
