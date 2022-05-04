@@ -33,12 +33,10 @@ function InteriorDetail(props) {
 
   const [interior, setInterior] = useState({
     id: '',
-    isLiked: false,
-    // 좋아요 갯수 필요
-    likeCount: 0,
-    //userId: '',
+    isLiked: '',
     isEditable: false,
     nickname: '',
+    totalLikes: 0,
     image: '',
     content: '',
   });
@@ -46,7 +44,6 @@ function InteriorDetail(props) {
 
   /* 페이지 로드 */
   useEffect(() => {
-    //console.log('props.interiorId', props.interiorId);
     getInterior();
   }, []);
 
@@ -59,9 +56,8 @@ function InteriorDetail(props) {
         setInterior({
           ...interior,
           id: res.data.data.id,
-          isLiked: res.data.data.isliked,
-          //likeCount : res.data.data.likeCount,
-          //userId: res.data.data.userId,
+          isLiked: res.data.data.isLiked,
+          totalLikes: res.data.data.totalLikes,
           isEditable: res.data.data.isEditable,
           nickname: res.data.data.nickname,
           image: res.data.data.image,
@@ -94,27 +90,22 @@ function InteriorDetail(props) {
         { withCredentials: true },
       )
       .then(res => {
-        // props.handleInteriorModal(false); // 모달 닫기
-        window.location.reload(); // 새로고침
-        console.log(`글삭제`);
+        window.location.reload(); // 새로고침 (모달 닫히고 식물 상세 페이지 보임)
       });
   };
 
   /* 좋아요 */
-  const [isLike, setIsLike] = useState(interior.isLiked);
   const handleLike = () => {
     //좋아요 취소 요청
-    if (isLike === true) {
+    if (interior.isLiked === true) {
       axios
         .delete(
           `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
           { withCredentials: true },
         )
         .then(res => {
-          setIsLike(false);
-          setInterior({ ...interior, likeCount: interior.likeCount - 1 }); // 직접 숫자 빼기?
-          // getInterior(); // 다시 부르기?
-          console.log('좋아요 취소 성공!');
+          getInterior(); // 인테리어 모달 업데이트
+          props.getMypage(); // 마이페이지 업데이트
         });
     }
     //좋아요 요청
@@ -122,14 +113,11 @@ function InteriorDetail(props) {
       axios
         .post(
           `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
-          {},
           { withCredentials: true },
         )
         .then(res => {
-          setIsLike(true);
-          setInterior({ ...interior, likeCount: interior.likeCount + 1 }); // 직접 숫자 더하기?
-          // getInterior(); // 다시 부르기?
-          console.log('좋아요 성공!');
+          getInterior(); // 인테리어 모달 업데이트
+          props.getMypage(); // 마이페이지 업데이트
         });
     }
   };
@@ -147,8 +135,8 @@ function InteriorDetail(props) {
         { withCredentials: true },
       )
       .then(res => {
-        console.log('댓글이 작성되었습니다');
-        getInterior();
+        setComment('');
+        getInterior(); // 인테리어 모달 업데이트
       });
   };
 
@@ -166,18 +154,14 @@ function InteriorDetail(props) {
               </DropDown>
 
               {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
-              {isLike ? (
-                <>
-                  <DetailButtonRed onClick={handleLike}>
-                    ❤ {interior.likeCount}
-                  </DetailButtonRed>
-                </>
+              {interior.isLiked ? (
+                <DetailButtonRed onClick={handleLike}>
+                  ❤ {interior.totalLikes}
+                </DetailButtonRed>
               ) : (
-                <>
-                  <DetailButton onClick={handleLike}>
-                    ❤ {interior.likeCount}
-                  </DetailButton>
-                </>
+                <DetailButton onClick={handleLike}>
+                  ❤ {interior.totalLikes}
+                </DetailButton>
               )}
 
               {/* isEditable이 true라면 수정 삭제 버튼을 보여준다 */}
@@ -209,7 +193,14 @@ function InteriorDetail(props) {
           </div>
         </div>
 
-        <div style={{ width: '31rem', marginTop: '1rem', fontSize: '0.8rem' }}>
+        <div
+          style={{
+            width: '31rem',
+            marginTop: '1rem',
+            fontSize: '0.8rem',
+            whiteSpace: 'normal',
+          }}
+        >
           {interior.content}
         </div>
         <CommentBox>
@@ -218,6 +209,7 @@ function InteriorDetail(props) {
               type="text"
               placeholder="댓글쓰기"
               maxLength="200"
+              value={comment}
               onChange={handleInputValue}
             />
             <CommentButton onClick={handleWriteComment}>전송</CommentButton>

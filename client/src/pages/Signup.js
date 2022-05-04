@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { SignButton, ConfirmButton, CheckButton } from '../components/Button';
 import { ContainerRow, UDContainer } from '../components/Container';
 import { Error, Message } from '../components/Div';
-import { SignInput, SignupInput } from '../components/Input';
+import { SignupInput } from '../components/Input';
 import { Modal } from '../components/Modal';
 import {
   emailValidator,
@@ -14,9 +13,14 @@ import {
 } from '../utils/validator';
 import styled from 'styled-components';
 
-function Signup(props) {
-  const history = useHistory();
+const Div = styled.div`
+  border: solid;
+  border-radius: 1.6rem;
+  padding: 0;
+  margin: 0.5rem 0 0.5rem 0;
+`;
 
+function Signup(props) {
   /* 완료 모달 */
   const [isOpen, setIsOpen] = useState(false);
   const handleModal = () => {
@@ -57,7 +61,7 @@ function Signup(props) {
         setErrorMessage1('사용 가능한 이메일입니다');
       })
       .catch(err => {
-        setErrorMessage1('이미 사용 중인 이메일입니다');
+        setErrorMessage1('사용 불가능한 이메일입니다');
       });
   };
   const handleNicknameCheck = () => {
@@ -74,7 +78,7 @@ function Signup(props) {
         setErrorMessage2('사용 가능한 닉네임입니다');
       })
       .catch(err => {
-        setErrorMessage2('이미 사용 중인 닉네임입니다');
+        setErrorMessage2('사용 불가능한 닉네임입니다');
       });
   };
 
@@ -147,7 +151,6 @@ function Signup(props) {
               onChange={handleInputValue('email')}
             />
             <CheckButton onClick={handleEmailCheck}>중복 체크</CheckButton>
-            {/* <span>사용가능</span> */}
           </ContainerRow>
         </Div>
         {emailCheck ? (
@@ -165,7 +168,6 @@ function Signup(props) {
               onChange={handleInputValue('nickname')}
             />
             <CheckButton onClick={handleNicknameCheck}>중복 체크</CheckButton>
-            {/* <span>사용가능</span> */}
           </ContainerRow>
         </Div>
         {nicknameCheck ? (
@@ -216,10 +218,3 @@ function Signup(props) {
   );
 }
 export default Signup;
-
-const Div = styled.div`
-  border: solid;
-  border-radius: 1.6rem;
-  padding: 0;
-  margin: 0.5rem 0 0.5rem 0;
-`;

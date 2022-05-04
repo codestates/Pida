@@ -76,6 +76,7 @@ function Nav() {
         localStorage.removeItem('loginUserId');
         setIsLogoutModalOpen(true); // 성공 모달
         history.replace('/');
+        window.location.reload();
       });
   };
 

@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { ConfirmButton } from '../../components/Button';
 import { Modal } from '../../components/Modal';
+
 function Bye({ handleByeModal }) {
   const history = useHistory();
 
@@ -19,8 +20,10 @@ function Bye({ handleByeModal }) {
         withCredentials: true,
       })
       .then(res => {
+        localStorage.removeItem('loginUserId');
         setIsOpen(true); // 완료 모달
         history.replace('/');
+        window.location.reload();
       });
   };
 
