@@ -87,7 +87,7 @@ module.exports = {
         .json({ message: '서버가 회원 가입 처리에 실패했습니다' });
     }
   },
-  // //회원정보조회
+  // 회원정보조회
   getInfo: async (req, res) => {
     try {
       // Users: 특정 유저 선택 쿼리
@@ -150,7 +150,7 @@ module.exports = {
         .json({ message: '서버가 회원 정보 조회 서버 에러' });
     }
   },
-  // //닉네임수정
+  // 닉네임수정
   editNickname: async (req, res) => {
     try {
       const { newNickname } = req.body;
