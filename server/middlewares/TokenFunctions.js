@@ -12,10 +12,10 @@ module.exports = {
   //토큰을 쿠키로 보내주는 함수
   sendAccessToken: (res, accessToken) => {
     const options = {
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-      domain: '.server.pida.link',
+      // httpOnly: true,
+      // sameSite: 'none',
+      // secure: true,
+      // domain: '.server.pida.link',
       path: '/',
       // 1 week
       maxAge: 1000 * 60 * 60 * 24 * 7,
