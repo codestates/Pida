@@ -1,6 +1,9 @@
 const { User } = require('../models/Index');
-const { sign } = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const {
+  generateAccessToken,
+  sendAccessToken,
+} = require('../middlewares/TokenFunctions');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -36,33 +39,25 @@ module.exports = {
         return res
           .status(401)
           .json({ message: '비밀번호가 일치하지 않습니다' });
-      } else {
-        // 상기 모든 조건을 통과한 경우,
-        // 우선 토큰을 발급하고 cors 옵션을 적용
-        const accessToken = sign(
-          { id: userInfo.dataValues.id },
-          process.env.ACCESS_SECRET,
-          { expiresIn: '3d' },
-        );
-        const options = {
-          httpOnly: true,
-          sameSite: 'none',
-          secure: true,
-          domain: '.server.pida.link',
-          path: '/',
-          // 1 week
-          maxAge: 1000 * 60 * 60 * 24 * 7,
-        };
-
-        // 201: 최종적으로, 발급한 토큰과 옵션을 메시지와 함께 반환
-        return res
-          .status(201)
-          .cookie('accessToken', accessToken, options)
-          .json({
-            data: { userId: userInfo.dataValues.id },
-            message: '로그인에 성공했습니다',
-          });
       }
+
+      //소셜 로그인 계정인데 로그인 창에 회원정보 입력한건 아닌지 확인.
+      if (userInfo.dataValues.platformType !== 0) {
+        return res.status(403).json({ message: '소셜 계정입니다' });
+      }
+
+      // 상기 모든 조건을 통과한 경우,
+      // 우선 토큰을 발급하고 cors 옵션을 적용
+      const accessToken = generateAccessToken(userInfo.dataValues.id);
+
+      //쿠키 전송
+      sendAccessToken(res, accessToken);
+
+      // 201: 최종적으로, 발급한 토큰과 옵션을 메시지와 함께 반환
+      return res.status(201).json({
+        data: { userId: userInfo.dataValues.id },
+        message: '로그인에 성공했습니다',
+      });
     } catch (e) {
       // 서버 에러 처리
       console.error(e);

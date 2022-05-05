@@ -21,10 +21,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       password: {
         type: DataTypes.STRING(70),
-        allowNull: false,
+        allowNull: true,
       },
       nickname: {
         type: DataTypes.STRING(8),
+        allowNull: false,
+      },
+      platformType: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
         allowNull: false,
       },
     },
