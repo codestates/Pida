@@ -5,6 +5,7 @@ require('dotenv').config();
 module.exports = async (req, res, next) => {
   try {
     const { accessToken } = req.cookies;
+    console.log(accessToken, '토큰');
     if (!accessToken) {
       //사용자 댓글 수정 삭제 권한을 제한하기 위함
       if (
@@ -18,7 +19,9 @@ module.exports = async (req, res, next) => {
       return res.status(401).json({ message: '권한이 없습니다' });
     }
     const decoded = verify(accessToken, process.env.ACCESS_SECRET);
+    console.log(decoded, '해독');
     const userInfo = await User.findByPk(decoded.id);
+    console.log(userInfo, '사용자정보');
     if (userInfo) {
       //토큰 검증에 성공. 사용자 정보 존재
       console.log(decoded, accessToken, '토큰검증성공');
