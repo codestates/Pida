@@ -6,9 +6,7 @@ import {
   RightContainer,
 } from '../../components/Container';
 import { ComentWrite } from '../../components/Input';
-
 import { WriteUser } from '../../components/Div';
-
 const ChatBox = styled.div`
   border: 0.1rem solid black;
   border-radius: 1rem;
@@ -58,7 +56,7 @@ function Chat() {
             <YourChat>네 감사합니다^^</YourChat>
           </TotalChat>
           <ContainerRow>
-            <ComentWrite style={{ margin: '0 0 0 0', width: '19rem' }} />
+            <ComentWrite style={{ margin: '0', width: '19rem' }} />
             <CommentButton style={{ margin: '0 0 0 1rem' }}>전송</CommentButton>
           </ContainerRow>
         </ChatBox>

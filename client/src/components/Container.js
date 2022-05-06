@@ -44,4 +44,10 @@ export const Item = styled.div`
   width: 13rem;
   height: 13rem;
   padding: 0 3rem 5rem 0;
+
+  @media screen and (max-width: 760px) {
+    width: 7rem;
+    height: 7rem;
+    padding: 0 2rem 8rem 0;
+  }
 `;

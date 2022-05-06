@@ -6,6 +6,7 @@ import { SelectButton } from '../../components/Button';
 import { Error, Label } from '../../components/Div';
 import { ImageR } from '../../components/Image';
 import { UploadInput, ContentTextArea } from '../../components/Input';
+import styled from 'styled-components';
 
 function InteriorWrite() {
   const history = useHistory();
@@ -94,10 +95,18 @@ function InteriorWrite() {
         onChange={handleContent}
       />
 
-      <div style={{ margin: '1rem 0 0 42rem' }}>
+      <BBom>
         <SelectButton onClick={handelInterior}>뽐내기</SelectButton>
-      </div>
+      </BBom>
     </UDContainer>
   );
 }
 export default InteriorWrite;
+
+const BBom = styled.div`
+  margin: 1rem 0 0 42rem;
+
+  @media screen and (max-width: 760px) {
+    margin: 1rem 0 0 15rem;
+  }
+`;

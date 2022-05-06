@@ -3,6 +3,10 @@ import styled from 'styled-components';
 export const Message = styled.div`
   padding-left: 1.5rem;
   color: #3ba914;
+
+  @media screen and (max-width: 760px) {
+    font-size: 0.2rem;
+  }
 `;
 
 export const Error = styled(Message)`
@@ -19,13 +23,23 @@ export const WriteUser = styled.span`
 export const AnswerDiv = styled.div`
   font-size: 2.5rem;
   font-weight: 600;
+  @media screen and (max-width: 760px) {
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
 `;
 export const SearchCountDiv = styled.div`
   padding: 1rem 0 4rem 0;
   font-size: 1.3rem;
+  @media screen and (max-width: 760px) {
+    font-size: 0.8rem;
+  }
 `;
 export const SearchResultForm = styled.div`
   margin: 3rem 0 2rem 5rem;
+  @media screen and (max-width: 760px) {
+    margin: 1rem;
+  }
 `;
 export const ItemLeft = styled.div`
   width: 100%;

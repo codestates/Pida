@@ -3,7 +3,7 @@ import axios from 'axios';
 import { SignButton, ConfirmButton, CheckButton } from '../components/Button';
 import { ContainerRow, UDContainer } from '../components/Container';
 import { Error, Message } from '../components/Div';
-import { SignupInput } from '../components/Input';
+import { SignupInput, SignupInput2 } from '../components/Input';
 import { Modal } from '../components/Modal';
 import {
   emailValidator,
@@ -18,6 +18,11 @@ const Div = styled.div`
   border-radius: 1.6rem;
   padding: 0;
   margin: 0.5rem 0 0.5rem 0;
+
+  @media screen and (max-width: 760px) {
+    margin: 0.2rem 0 0.2rem 0;
+    border: 0.1rem solid;
+  }
 `;
 
 function Signup(props) {
@@ -179,10 +184,9 @@ function Signup(props) {
       <div>
         <Div>
           <ContainerRow>
-            <SignupInput
+            <SignupInput2
               type="password"
               placeholder="password"
-              style={{ marginRight: '3.74rem' }}
               onChange={handleInputValue('password')}
             />
           </ContainerRow>
@@ -192,10 +196,9 @@ function Signup(props) {
       <div>
         <Div>
           <ContainerRow>
-            <SignupInput
+            <SignupInput2
               type="password"
               placeholder="retype"
-              style={{ marginRight: '3.74rem' }}
               onChange={handleInputValue('rePassword')}
             />
           </ContainerRow>
@@ -204,9 +207,6 @@ function Signup(props) {
       </div>
       <div>
         <SignButton onClick={handleSignup}>회원가입</SignButton>
-      </div>
-      <div>
-        <SignButton>Google로 회원가입</SignButton>
       </div>
       {isOpen ? (
         <Modal handleModal={handleModal}>

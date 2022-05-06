@@ -23,4 +23,8 @@ export const ImageD = styled(Image)`
 export const ImageR = styled(Image)`
   width: 13rem;
   height: 13rem;
+  @media screen and (max-width: 760px) {
+    width: 7rem;
+    height: 7rem;
+  }
 `;

@@ -18,12 +18,34 @@ export const SignInput = styled.input`
   :focus {
     outline: none;
   }
+
+  @media screen and (max-width: 760px) {
+    font-size: 0.9rem;
+    width: 12.5rem;
+    height: 2.2rem;
+    margin: 0.28rem 0 0.28rem 0;
+
+    ::placeholder {
+      font-size: 0.9rem;
+    }
+  }
 `;
 
 export const SignupInput = styled(SignInput)`
   margin: 0;
   width: 26.7rem;
   border: none;
+  @media screen and (max-width: 760px) {
+    width: 10rem;
+    height: 2rem;
+  }
+`;
+
+export const SignupInput2 = styled(SignupInput)`
+  margin-right: 3.74rem;
+  @media screen and (max-width: 760px) {
+    margin-right: 3rem;
+  }
 `;
 
 // 댓글 작성 창
@@ -53,4 +75,8 @@ export const ContentTextArea = styled.textarea`
   padding: 1.5rem;
   margin-top: 1rem;
   font-size: 0.8rem;
+
+  @media screen and (max-width: 760px) {
+    width: 20rem;
+  }
 `;
