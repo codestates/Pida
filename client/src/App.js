@@ -11,6 +11,7 @@ import SearchResult from './pages/Search/SearchResult';
 import Select from './pages/Search/Select';
 import All from './pages/All';
 import Main from './pages/Main';
+import Callback from './components/Callback';
 
 function App() {
   return (
@@ -67,6 +68,12 @@ function App() {
         <Switch>
           <Route exact path="/users">
             <Mypage />
+          </Route>
+        </Switch>
+
+        <Switch>
+          <Route exact path="/callback">
+            <Callback />
           </Route>
         </Switch>
       </div>
