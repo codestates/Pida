@@ -8,12 +8,21 @@ const QuestionDiv = styled.div`
   padding: 0rem 0 3rem 0;
   font-size: 2.3rem;
   font-weight: 600;
+
+  @media screen and (max-width: 760px) {
+    font-size: 1rem;
+  }
 `;
 
 const Image = styled.img`
   padding: 0 1rem 0 1rem;
   width: 12rem;
   height: 16rem;
+  @media screen and (max-width: 760px) {
+    width: 8rem;
+    height: 12rem;
+    padding: 1rem 1rem 0 2rem;
+  }
 `;
 
 function Select() {
@@ -83,63 +92,67 @@ function Select() {
           ) : (
             <>
               {isQ2 ? (
-                <UDContainer>
-                  <QuestionDiv>
-                    Q2. 어떤 공간을 꾸밀 반려 식물을 찾고 있나요?
-                  </QuestionDiv>
-                  <span>
-                    <Image
-                      src="../images/select/가구.png"
-                      onClick={handleSelect('space')}
-                      name="1"
-                    />
-                    <Image
-                      src="../images/select/바닥.png"
-                      onClick={handleSelect('space')}
-                      name="2"
-                    />
-                    <Image
-                      src="../images/select/벽.png"
-                      onClick={handleSelect('space')}
-                      name="3"
-                    />
-                    <Image
-                      src="../images/select/천장.png"
-                      onClick={handleSelect('space')}
-                      name="4"
-                    />
-                  </span>
-                </UDContainer>
+                <div style={{ margin: '1rem' }}>
+                  <UDContainer>
+                    <QuestionDiv>
+                      Q2. 어떤 공간을 꾸밀 반려 식물을 찾고 있나요?
+                    </QuestionDiv>
+                    <span>
+                      <Image
+                        src="../images/select/가구.png"
+                        onClick={handleSelect('space')}
+                        name="1"
+                      />
+                      <Image
+                        src="../images/select/바닥.png"
+                        onClick={handleSelect('space')}
+                        name="2"
+                      />
+                      <Image
+                        src="../images/select/벽.png"
+                        onClick={handleSelect('space')}
+                        name="3"
+                      />
+                      <Image
+                        src="../images/select/천장.png"
+                        onClick={handleSelect('space')}
+                        name="4"
+                      />
+                    </span>
+                  </UDContainer>
+                </div>
               ) : (
                 <>
                   {isQ3 ? (
-                    <UDContainer>
-                      <QuestionDiv>
-                        Q3. 어떤 종류의 반려 식물을 찾고 있나요?
-                      </QuestionDiv>
-                      <span>
-                        <Image
-                          src="../images/select/꽃.png"
-                          onClick={handleSelect('species')}
-                          name="1"
-                        />
-                        <Image
-                          src="../images/select/비꽃.png"
-                          onClick={handleSelect('species')}
-                          name="2"
-                        />
-                        <Image
-                          src="../images/select/선인장.png"
-                          onClick={handleSelect('species')}
-                          name="3"
-                        />
-                        <Image
-                          src="../images/select/다육.png"
-                          onClick={handleSelect('species')}
-                          name="4"
-                        />
-                      </span>
-                    </UDContainer>
+                    <div style={{ margin: '1rem' }}>
+                      <UDContainer>
+                        <QuestionDiv>
+                          Q3. 어떤 종류의 반려 식물을 찾고 있나요?
+                        </QuestionDiv>
+                        <span>
+                          <Image
+                            src="../images/select/꽃.png"
+                            onClick={handleSelect('species')}
+                            name="1"
+                          />
+                          <Image
+                            src="../images/select/비꽃.png"
+                            onClick={handleSelect('species')}
+                            name="2"
+                          />
+                          <Image
+                            src="../images/select/선인장.png"
+                            onClick={handleSelect('species')}
+                            name="3"
+                          />
+                          <Image
+                            src="../images/select/다육.png"
+                            onClick={handleSelect('species')}
+                            name="4"
+                          />
+                        </span>
+                      </UDContainer>
+                    </div>
                   ) : null}
                 </>
               )}

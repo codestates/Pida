@@ -13,6 +13,10 @@ export const CheckButton = styled.button`
   :hover {
     color: grey;
   }
+
+  @media screen and (max-width: 760px) {
+    font-size: 0.5rem;
+  }
 `;
 
 // 짧은 버튼
@@ -30,6 +34,11 @@ export const SelectButton = styled.button`
   }
   font-size: 1.5rem;
   font-weight: 700;
+  @media screen and (max-width: 760px) {
+    width: 7rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
 `;
 
 // 긴 버튼
@@ -46,6 +55,13 @@ export const SignButton = styled.button`
   }
   font-size: 1.5rem;
   font-weight: 800;
+
+  @media screen and (max-width: 760px) {
+    width: 14rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    margin: 0.3rem;
+  }
 `;
 
 export const ConfirmButton = styled.button`

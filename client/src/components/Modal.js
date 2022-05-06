@@ -61,6 +61,11 @@ const ModalView2 = styled.div.attrs(props => ({ role: 'dialog' }))`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 760px) {
+    width: 13rem;
+    height: 20rem;
+  }
 `;
 
 const ModalView3 = styled.div.attrs(props => ({ role: 'dialog' }))`

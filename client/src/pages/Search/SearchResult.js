@@ -58,28 +58,23 @@ function SearchResult() {
         <SearchResultForm>
           <Container>
             <ItemLeft>
-              <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다 🙂</AnswerDiv>
+              <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다</AnswerDiv>
               <SearchCountDiv>검색결과 총 {plantsTotal}건</SearchCountDiv>
             </ItemLeft>
-
-            <ContainerRow2>
-              {plantsArray.map(plant => {
-                return (
-                  <Item>
-                    <TButton onClick={() => handlePlantDetail(plant.id)}>
-                      <ImageR src={plant.image} alt="" />
-                      <h2>{plant.name}</h2>
-                    </TButton>
-                  </Item>
-                );
-              })}
-              <Item>
-                <TButton onClick={() => handlePlantDetail(0)}>
-                  <ImageR src="../../images/logo.png" alt="" />
-                  <h2>로고</h2>
-                </TButton>
-              </Item>
-            </ContainerRow2>
+            <div style={{ margin: '1rem' }}>
+              <ContainerRow2>
+                {plantsArray.map(plant => {
+                  return (
+                    <Item>
+                      <TButton onClick={() => handlePlantDetail(plant.id)}>
+                        <ImageR src={plant.image} alt="" />
+                        <h3>{plant.name}</h3>
+                      </TButton>
+                    </Item>
+                  );
+                })}
+              </ContainerRow2>
+            </div>
           </Container>
         </SearchResultForm>
       </UDContainer>
