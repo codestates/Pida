@@ -93,7 +93,7 @@ module.exports = {
       // Users: 특정 유저 선택 쿼리
       const userInfo = await User.findOne({
         where: { id: req.id },
-        attributes: ['id', 'email', 'nickname'],
+        attributes: ['id', 'email', 'nickname', 'platformType'],
       });
 
       //사용자가 업로드한 글 모아보기
@@ -121,7 +121,7 @@ module.exports = {
           },
         ],
       });
-      const { id, email, nickname } = userInfo;
+      const { id, email, nickname, platformType } = userInfo;
 
       // 해당 유저가 존재하지 않는 경우
       if (!userInfo) {
@@ -135,6 +135,7 @@ module.exports = {
             id,
             email,
             nickname,
+            platformType,
             uploads,
             //문제의 코드 수정
             likes: likes.map(el => el.dataValues),

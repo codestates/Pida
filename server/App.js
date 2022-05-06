@@ -3,6 +3,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+dotenv.config();
 const cookieParser = require('cookie-parser');
 const indexRouter = require('./routes/Index');
 const { sequelize } = require('./models/Index');
@@ -12,7 +13,7 @@ const port = process.env.DEV_PORT || 80;
 
 //cors 옵션 설정
 const corsOptions = {
-  origin: 'http://localhost:3000',
+  origin: process.env.DEV_PORT ? 'http://localhost:3000' : 'https://pida.ga',
   credentials: true,
 };
 //주석!!!!

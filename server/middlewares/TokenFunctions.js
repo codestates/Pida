@@ -11,7 +11,12 @@ module.exports = {
   },
   //토큰을 쿠키로 보내주는 함수
   sendAccessToken: (res, accessToken) => {
-    const options = {
+    const options_dev = {
+      path: '/',
+      // 1 week
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    };
+    const options_prod = {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
@@ -20,6 +25,10 @@ module.exports = {
       // 1 week
       maxAge: 1000 * 60 * 60 * 24 * 7,
     };
-    return res.cookie('accessToken', accessToken, options);
+    return res.cookie(
+      'accessToken',
+      accessToken,
+      process.env.DEV_PORT ? options_dev : options_prod,
+    );
   },
 };
