@@ -5,8 +5,8 @@ const interiorController = require('../controllers/InteriorController');
 const likeController = require('../controllers/LikeController');
 const commentController = require('../controllers/CommentController');
 const isAuth = require('../middlewares/Authentication');
-const imageHandler = require('../middlewares/imageHandler');
-const { post } = require('../middlewares/imageHandler');
+const interiorImageHandler = require('../middlewares/InteriorImageHandler');
+const { interiorPost } = require('../middlewares/InteriorImageHandler');
 
 //게시글 조회
 router.get('/:id', isAuth, interiorController.get);
@@ -14,12 +14,17 @@ router.get('/:id', isAuth, interiorController.get);
 router.patch(
   '/:id',
   isAuth,
-  post.single('image'),
+  interiorPost.single('image'),
   interiorController.patch,
-  imageHandler.delete,
+  interiorImageHandler.delete,
 );
 //삭제
-router.delete('/:id', isAuth, interiorController.delete, imageHandler.delete);
+router.delete(
+  '/:id',
+  isAuth,
+  interiorController.delete,
+  interiorImageHandler.delete,
+);
 
 //좋아요
 router.post('/:id/likes', isAuth, likeController.post);
