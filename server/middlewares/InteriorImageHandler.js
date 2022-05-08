@@ -1,10 +1,10 @@
-const s3 = require('../modules/s3');
+const s3 = require('../config/s3_interior');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 
 module.exports = {
   //이미지 업로드
-  post: multer({
+  interiorPost: multer({
     storage: multerS3({
       s3,
       bucket: 'pida-interior-bucket',

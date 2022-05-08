@@ -25,8 +25,17 @@ module.exports = async (req, res, next) => {
     if (userInfo) {
       //토큰 검증에 성공. 사용자 정보 존재
       console.log(decoded, accessToken, '토큰검증성공');
-
+      //만약에 id가 1이 아니고 path가 /plant/이고 메서드가 get이 아니면 관리자 권한이 없습니다 처리
       req.id = userInfo.dataValues.id;
+      console.log(req.id, '아이디');
+      if (
+        req.id !== 1 &&
+        req.originalUrl.includes('/plants') &&
+        req.route.stack[0].method !== 'get'
+      ) {
+        console.log('관리자 권한 아니야');
+        return res.status(401).json({ message: '관리자 권한이 없습니다' });
+      }
       return next();
     } else {
       return res.status(401).json({ message: '권한이 없습니다' });
