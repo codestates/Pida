@@ -29,7 +29,7 @@ module.exports = async (req, res, next) => {
       req.id = userInfo.dataValues.id;
       console.log(req.id, '아이디');
       if (
-        req.id !== 1 &&
+        req.id !== process.env.DB_ADMIN_ID &&
         req.originalUrl.includes('/plants') &&
         req.route.stack[0].method !== 'get'
       ) {
