@@ -3,7 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { SelectButton, TButton, MypageButton } from '../../components/Button';
-import { ContainerRow, UDContainer, Form } from '../../components/Container';
+import {
+  ContainerRow,
+  UDContainer,
+  Form,
+  TransContainer,
+} from '../../components/Container';
 import { ImageP, ImageI } from '../../components/Image';
 import { Modal3 } from '../../components/Modal';
 import InteriorDetail from './InteriorDetail';
@@ -115,15 +120,24 @@ function PlantDetail() {
     <>
       <UDContainer>
         <Form>
-          <ContainerRow>
+          <TransContainer>
             <ImageP src={plant.plantImage} alt="" />
             <div>
-              <h1>{plant.plantName}</h1>
+              <h1>아무꽃이나말해{plant.plantName}</h1>
               <span style={{ wordBreak: 'keep-all' }}>
+                작품의 배경은 이탈리아의 베로나. 이 곳에 몬테규 가문과 캐퓰렛
+                가문이라는 두 가문이 서로 반목하고 있었다. 둘 다 권세가 있는
+                도시 귀족 집안이라 이들 집안에 고용된 하인들이 많았는데, 이들은
+                서로 길거리에서 보기라도 하면 으르렁거리기 일쑤였다.
+                도입부에서는 두 집안의 하인들끼리 벌인 싸움이 두 가문의 귀족
+                청년인 벤볼리오와 티볼트의 싸움으로 번지고, 이어서 시민들의 집단
+                싸움으로 커지고 만다. 이 꼴을 보다 못한 베로나 영주 에스칼루스
+                대공이 싸움 현장에 행차하여 이제부터 두 집안이 한 번만 더 소란을
+                벌이면 엄벌을 내리겠다"고 엄명을 내리기에 이른다.
                 {plant.plantDescription}
               </span>
             </div>
-          </ContainerRow>
+          </TransContainer>
           <hr />
 
           <MypageButton onClick={handleRecent} style={{ paddingLeft: '1rem' }}>
@@ -156,6 +170,10 @@ function PlantDetail() {
                 </>
               );
             })}
+
+            <TButton onClick={() => handleInteriorDetail(1)}>
+              <ImageI src="../images/logo.png" alt="" />
+            </TButton>
             {/* 인테리어 상세 모달 */}
             {isInteriorModalOpen ? (
               <Modal3 handleModal={handleInteriorModal}>

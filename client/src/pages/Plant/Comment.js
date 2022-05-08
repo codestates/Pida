@@ -2,8 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { DetailButton } from '../../components/Button';
 import { ContainerRow } from '../../components/Container';
-import { ChatMenu, DropDown, DropDownC, WriteUser } from '../../components/Div';
+import {
+  ChatMenu,
+  DropDown,
+  DropDownC,
+  WriteUser,
+  Content,
+} from '../../components/Div';
 import { ComentWrite } from '../../components/Input';
+import styled from 'styled-components';
 
 function Comment(props) {
   const [modifyComment, setModifyComment] = useState({
@@ -66,7 +73,7 @@ function Comment(props) {
 
   return (
     <>
-      <div style={{ padding: '1.5rem 1.5rem 0rem 1.5em' }}>
+      <div style={{ padding: '1.5rem 1.5rem 0rem 2em' }}>
         {props.commentArray.map(comment => {
           return (
             <>
@@ -126,14 +133,7 @@ function Comment(props) {
                         </DetailButton>
                       </ContainerRow>
 
-                      <div
-                        style={{
-                          padding: '0 0 1.5rem 0.5rem',
-                          fontSize: '0.8rem',
-                        }}
-                      >
-                        {comment.comment}
-                      </div>
+                      <Content>{comment.comment}</Content>
                     </>
                   )}
                 </>
@@ -148,11 +148,7 @@ function Comment(props) {
                       </DropDownC>
                     </DropDown>
                   </ContainerRow>
-                  <div
-                    style={{ padding: '0 0 1.5rem 0.5rem', fontSize: '0.8rem' }}
-                  >
-                    {comment.comment}
-                  </div>
+                  <Content>{comment.comment}</Content>
                 </>
               )}
             </>

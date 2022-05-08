@@ -64,7 +64,7 @@ const ModalView2 = styled.div.attrs(props => ({ role: 'dialog' }))`
 
   @media screen and (max-width: 760px) {
     width: 13rem;
-    height: 20rem;
+    height: 25rem;
   }
 `;
 
@@ -85,6 +85,10 @@ const ModalView3 = styled.div.attrs(props => ({ role: 'dialog' }))`
   /* 스크롤 */
   overflow-y: auto;
   max-height: 90%;
+
+  @media screen and (max-width: 760px) {
+    width: 20rem;
+  }
 `;
 
 const Contents = styled.div`
@@ -104,7 +108,6 @@ export function Modal({ handleModal, children, ...rest }) {
             event.stopPropagation();
           }}
         >
-          {/* <Close onClick={handleModal} /> */}
           <Contents>{children}</Contents>
         </ModalView>
       </ModalBackdrop>
@@ -121,7 +124,6 @@ export function Modal2({ handleModal, children, ...rest }) {
             event.stopPropagation();
           }}
         >
-          {/* <Close onClick={handleModal} /> */}
           <Contents>{children}</Contents>
         </ModalView2>
       </ModalBackdrop>
@@ -138,7 +140,6 @@ export function Modal3({ handleModal, children, ...rest }) {
             event.stopPropagation();
           }}
         >
-          {/* <Close onClick={handleModal} /> */}
           <Contents>{children}</Contents>
         </ModalView3>
       </ModalBackdrop>

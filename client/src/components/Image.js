@@ -28,3 +28,14 @@ export const ImageR = styled(Image)`
     height: 7rem;
   }
 `;
+
+// 소셜 로그인 아이콘
+export const SocialImage = styled.img`
+  width: 3rem;
+  margin-right: 1rem;
+
+  @media screen and (max-width: 760px) {
+    width: 2rem;
+    margin-right: 0.5rem;
+  }
+`;

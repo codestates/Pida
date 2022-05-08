@@ -53,7 +53,7 @@ function Login(props) {
   };
 
   return (
-    <UDContainer>
+    <>
       <div>
         <div>
           <SignInput
@@ -84,7 +84,7 @@ function Login(props) {
 
       <NaverLogin setIsOpen={setIsOpen} />
       <GithubLogin setIsOpen={setIsOpen} />
-    </UDContainer>
+    </>
   );
 }
 export default Login;

@@ -8,11 +8,18 @@ import {
   CommentButton,
 } from '../../components/Button';
 import { ContainerRow, ModalContainer } from '../../components/Container';
-import { WriteUser, DropDown, DropDownC, ChatMenu } from '../../components/Div';
+import {
+  WriteUser,
+  DropDown,
+  DropDownC,
+  ChatMenu,
+  Content,
+} from '../../components/Div';
 import { ImageD } from '../../components/Image';
 import { ComentWrite } from '../../components/Input';
 import { Modal } from '../../components/Modal';
 import Comment from './Comment';
+import { BsFillSuitHeartFill } from 'react-icons/bs';
 
 const DetailButtonRed = styled(DetailButton)`
   color: red;
@@ -25,6 +32,10 @@ const CommentBox = styled.div`
   width: 38rem;
   padding: 1rem;
   margin: 2rem;
+
+  @media screen and (max-width: 760px) {
+    width: 20rem;
+  }
 `;
 
 function InteriorDetail(props) {
@@ -156,11 +167,13 @@ function InteriorDetail(props) {
               {/* isLike가 true라면 빨간하트, false라면 회색하트 */}
               {interior.isLiked ? (
                 <DetailButtonRed onClick={handleLike}>
-                  ❤ {interior.totalLikes}
+                  <BsFillSuitHeartFill />
+                  {interior.totalLikes}
                 </DetailButtonRed>
               ) : (
                 <DetailButton onClick={handleLike}>
-                  ❤ {interior.totalLikes}
+                  <BsFillSuitHeartFill />
+                  {interior.totalLikes}
                 </DetailButton>
               )}
 
@@ -193,16 +206,7 @@ function InteriorDetail(props) {
           </div>
         </div>
 
-        <div
-          style={{
-            width: '31rem',
-            marginTop: '1rem',
-            fontSize: '0.8rem',
-            whiteSpace: 'normal',
-          }}
-        >
-          {interior.content}
-        </div>
+        <Content>{interior.content}</Content>
         <CommentBox>
           <ContainerRow>
             <ComentWrite

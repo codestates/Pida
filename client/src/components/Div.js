@@ -5,7 +5,7 @@ export const Message = styled.div`
   color: #3ba914;
 
   @media screen and (max-width: 760px) {
-    font-size: 0.2rem;
+    //font-size: 0.8rem;
   }
 `;
 
@@ -16,7 +16,7 @@ export const Error = styled(Message)`
 export const WriteUser = styled.span`
   font-size: 1.2rem;
   font-weight: 600;
-  padding: 0 0.5rem 0 0.5rem;
+  padding: 0 0.5rem 0 0rem;
 `;
 
 /* SearchResult, All */
@@ -36,10 +36,10 @@ export const SearchCountDiv = styled.div`
   }
 `;
 export const SearchResultForm = styled.div`
-  margin: 3rem 0 2rem 5rem;
-  @media screen and (max-width: 760px) {
+  margin: 3rem 2rem 2rem 2rem;
+  /* @media screen and (max-width: 760px) {
     margin: 1rem;
-  }
+  } */
 `;
 export const ItemLeft = styled.div`
   width: 100%;
@@ -81,4 +81,15 @@ export const ChatMenu = styled.a`
   padding-bottom: 3rem;
   color: #3ba914;
   font-weight: 550;
+`;
+
+// 글 내용, 댓글 내용
+export const Content = styled.div`
+  width: 31rem;
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  white-space: normal;
+  @media screen and (max-width: 760px) {
+    width: 17rem;
+  }
 `;

@@ -47,6 +47,41 @@ function Uploads(props) {
             />
           </Modal3>
         ) : null}
+        <Item>
+          <TButton onClick={() => handleInteriorDetail(0)}>
+            <ImageR src="../../images/logo.png" alt="" />
+          </TButton>
+        </Item>
+        <Item>
+          <TButton onClick={() => handleInteriorDetail(0)}>
+            <ImageR src="../../images/logo.png" alt="" />
+          </TButton>
+        </Item>{' '}
+        <Item>
+          <TButton onClick={() => handleInteriorDetail(0)}>
+            <ImageR src="../../images/logo.png" alt="" />
+          </TButton>
+        </Item>{' '}
+        <Item>
+          <TButton onClick={() => handleInteriorDetail(0)}>
+            <ImageR src="../../images/logo.png" alt="" />
+          </TButton>
+        </Item>
+        <Item>
+          <TButton onClick={() => handleInteriorDetail(0)}>
+            <ImageR src="../../images/logo.png" alt="" />
+          </TButton>
+        </Item>
+        <Item>
+          <TButton onClick={() => handleInteriorDetail(0)}>
+            <ImageR src="../../images/logo.png" alt="" />
+          </TButton>
+        </Item>
+        <Item>
+          <TButton onClick={() => handleInteriorDetail(0)}>
+            <ImageR src="../../images/logo.png" alt="" />
+          </TButton>
+        </Item>
       </ContainerRow2>
     </>
   );

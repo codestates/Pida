@@ -146,7 +146,7 @@ function Signup(props) {
   };
 
   return (
-    <UDContainer>
+    <>
       <div>
         <Div>
           <ContainerRow>
@@ -214,7 +214,7 @@ function Signup(props) {
           <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
         </Modal>
       ) : null}
-    </UDContainer>
+    </>
   );
 }
 export default Signup;

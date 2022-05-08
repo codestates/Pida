@@ -28,6 +28,7 @@ export const ContainerRow = styled.div`
 
 // 화면 넘어가면 밑줄로
 export const ContainerRow2 = styled(ContainerRow)`
+  //justify-content: start;
   flex-wrap: wrap;
 `;
 
@@ -43,11 +44,24 @@ export const Form = styled.div`
 export const Item = styled.div`
   width: 13rem;
   height: 13rem;
-  padding: 0 3rem 5rem 0;
+  padding: 0 1.5rem 5rem 1.5rem;
 
   @media screen and (max-width: 760px) {
-    width: 7rem;
-    height: 7rem;
-    padding: 0 2rem 8rem 0;
+    width: 6rem;
+    height: 6rem;
+    padding: 0rem 3rem 7rem 3rem;
+  }
+`;
+
+// 데스크탑에서는 가로정렬, 모바일에서는 세로정렬
+export const TransContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 760px) {
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    margin: 2rem;
   }
 `;
