@@ -115,7 +115,7 @@ module.exports = {
       size = JSON.parse(size);
       space = JSON.parse(space);
       species = JSON.parse(species);
-      console.log(size, space, species, '파싱한 식물 분류');
+
       for (let i of size) {
         console.log('size:', i, '새 식물의id:', newPlant.id); //[1,2]
         //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
