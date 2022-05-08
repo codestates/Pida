@@ -24,6 +24,13 @@ module.exports = {
 
       //식물 아이디, 이름, 이미지, 설명
       const plantInfo = Plant.findByPk(plantId);
+      //식물 크기정보
+      //식물 공간정보
+      //식물 종류정보
+      const size = Plant_size.findAll({ where: { plantId } });
+      const space = Plant_space.findAll({ where: { plantId } });
+      const species = Plant_specie.findAll({ where: { plantId } });
+
       //인테리어 아이디, 이미지
       const totalLike =
         '(SELECT COUNT(*) FROM Interior_likes WHERE Interior_likes.interiorId = Interior.id)';
@@ -42,21 +49,25 @@ module.exports = {
         ],
       });
 
-      Promise.all([plantInfo, interiors])
-        .then(value => {
-          const [plantData, interiorData] = value;
-          console.log(
-            interiorData.map(el => el.dataValues),
-            '인테리어 결과물',
-          );
-          const { id, name, description, image } = plantData.dataValues;
+      Promise.all([plantInfo, interiors, size, space, species])
+        .then(([plantInfo, interiors, size, space, species]) => {
+          // console.log(
+          //   '카테고리',
+          //   size.map(el => el.dataValues.sizeId),
+          //   space.map(el => el.dataValues.spaceId),
+          //   species.map(el => el.dataValues.speciesId),
+          // );
+          const { id, name, description, image } = plantInfo.dataValues;
           return res.status(200).json({
             data: {
               id,
               plantName: name,
               plantImage: image,
               plantDescription: description,
-              interiorsArray: interiorData.map(el => el.dataValues),
+              plantSize: size.map(el => el.dataValues.sizeId),
+              plantSpace: space.map(el => el.dataValues.spaceId),
+              plantSpecies: species.map(el => el.dataValues.speciesId),
+              interiorsArray: interiors.map(el => el.dataValues),
             },
             message: '식물 상세 정보를 성공적으로 가져왔습니다',
           });
