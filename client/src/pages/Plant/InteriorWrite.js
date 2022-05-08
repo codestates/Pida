@@ -76,7 +76,7 @@ function InteriorWrite() {
     <UDContainer>
       <ImageR style={{ marginBottom: '0.8rem' }} src={preview} />
       <div>
-        <Label for="inputlabel">사진선택</Label>
+        <Label htmlFor="inputlabel">사진선택</Label>
         <UploadInput
           type="file"
           name="image"
@@ -104,9 +104,9 @@ function InteriorWrite() {
 export default InteriorWrite;
 
 const BBom = styled.div`
-  margin: 1rem 0 0 42rem;
+  margin: 0rem 0 0 42rem;
 
   @media screen and (max-width: 760px) {
-    margin: 1rem 0 0 15rem;
+    margin: 0rem 0 0 15rem;
   }
 `;

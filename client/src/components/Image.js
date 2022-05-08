@@ -5,7 +5,7 @@ const Image = styled.img`
 `;
 
 export const ImageP = styled(Image)`
-  margin-right: 1.5rem;
+  margin: 0 1.5rem;
   width: 20rem;
   height: 20rem;
 `;

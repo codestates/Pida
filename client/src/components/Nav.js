@@ -70,7 +70,7 @@ const MenuColumn = styled.div`
     display: ${({ menu }) => {
       return menu === false ? 'none' : 'flex';
     }};
-    font-size: 2rem;
+    font-size: 1.6rem;
     flex-direction: column;
     background-color: white;
   }
@@ -148,21 +148,44 @@ function Nav() {
 
             {localStorage.getItem('loginUserId') ? (
               <>
-                <NavLink to="/users">
-                  <Menuli>마이페이지</Menuli>
-                </NavLink>
-                <Menuli onClick={handleLogout}>로그아웃</Menuli>
-                {isLogoutModalOpen ? (
-                  <Modal handleModal={handleLogoutModal}>
-                    <h3>로그아웃에 성공했습니다</h3>
-                    <ConfirmButton onClick={handleLogoutModal}>
-                      확인
-                    </ConfirmButton>
-                  </Modal>
-                ) : null}
+                {/* 로그인 상태 */}
+                {localStorage.getItem('loginUserId') === '1' ? (
+                  <>
+                    {/* 관리자 */}
+                    <NavLink to="/plants">
+                      <Menuli>식물등록</Menuli>
+                    </NavLink>
+                    <Menuli onClick={handleLogout}>로그아웃</Menuli>
+                    {isLogoutModalOpen ? (
+                      <Modal handleModal={handleLogoutModal}>
+                        <h3>로그아웃에 성공했습니다</h3>
+                        <ConfirmButton onClick={handleLogoutModal}>
+                          확인
+                        </ConfirmButton>
+                      </Modal>
+                    ) : null}
+                  </>
+                ) : (
+                  <>
+                    {/* 일반 회원 */}
+                    <NavLink to="/users">
+                      <Menuli>마이페이지</Menuli>
+                    </NavLink>
+                    <Menuli onClick={handleLogout}>로그아웃</Menuli>
+                    {isLogoutModalOpen ? (
+                      <Modal handleModal={handleLogoutModal}>
+                        <h3>로그아웃에 성공했습니다</h3>
+                        <ConfirmButton onClick={handleLogoutModal}>
+                          확인
+                        </ConfirmButton>
+                      </Modal>
+                    ) : null}
+                  </>
+                )}
               </>
             ) : (
               <>
+                {/* 비로그인 상태 */}
                 <Menuli onClick={handleSignup}>회원가입</Menuli>
                 {isSignupModalOpen ? (
                   <Modal2 handleModal={handleSignupModal}>

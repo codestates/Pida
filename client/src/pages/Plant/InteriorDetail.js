@@ -82,7 +82,7 @@ function InteriorDetail(props) {
   const handleModifyInterior = () => {
     // 글 정보 들고 이동
     history.push({
-      pathname: '/interiorModify',
+      pathname: '/interiors/:id',
       state: { interior: interior },
     });
   };

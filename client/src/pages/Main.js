@@ -1,10 +1,4 @@
-import {
-  UDContainer,
-  ContainerRow,
-  RightContainer,
-  Container,
-  TransContainer,
-} from '../components/Container';
+import { RightContainer, TransContainer } from '../components/Container';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 
@@ -15,19 +9,12 @@ const MainDivGreen = styled.span`
   font-size: 3.3rem;
   font-weight: 570;
   letter-spacing: 0.3rem;
-
-  /* @media screen and (max-width: 760px) {
-    font-size: 2rem;
-  } */
 `;
 
 const MainDivBlack = styled.span`
   font-size: 3.3rem;
   font-weight: 570;
   letter-spacing: 0.3rem;
-  /* @media screen and (max-width: 760px) {
-    font-size: 2rem;
-  } */
 `;
 
 const MainPida = styled.div`
@@ -37,7 +24,6 @@ const MainPida = styled.div`
   font-weight: 600;
   letter-spacing: 0.5rem;
   @media screen and (max-width: 760px) {
-    /* font-size: 3rem; */
     margin-left: 14rem;
   }
 `;
@@ -52,14 +38,9 @@ const MainButton = styled.button`
   font-weight: 500;
   color: rgb(163, 163, 163);
   letter-spacing: 0.5rem;
-
   :hover {
     color: black;
   }
-
-  /* @media screen and (max-width: 760px) {
-    font-size: 1rem;
-  } */
 `;
 
 const MainItem = styled.div`
@@ -73,12 +54,12 @@ function Main() {
     history.replace('/select');
   };
   const handleAll = () => {
-    history.replace('/all');
+    history.replace('/search/all');
   };
 
   return (
     <>
-      <TransContainer style={{ minHeight: '87vh' }}>
+      <TransContainer style={{ minHeight: '87vh', alignItems: 'center' }}>
         <div>
           <img src="../images/mainImage.png" width="400rem"></img>
         </div>
