@@ -3,6 +3,7 @@ import {
   ContainerRow,
   RightContainer,
   Container,
+  TransContainer,
 } from '../components/Container';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
@@ -15,18 +16,18 @@ const MainDivGreen = styled.span`
   font-weight: 570;
   letter-spacing: 0.3rem;
 
-  @media screen and (max-width: 760px) {
+  /* @media screen and (max-width: 760px) {
     font-size: 2rem;
-  }
+  } */
 `;
 
 const MainDivBlack = styled.span`
   font-size: 3.3rem;
   font-weight: 570;
   letter-spacing: 0.3rem;
-  @media screen and (max-width: 760px) {
+  /* @media screen and (max-width: 760px) {
     font-size: 2rem;
-  }
+  } */
 `;
 
 const MainPida = styled.div`
@@ -36,7 +37,7 @@ const MainPida = styled.div`
   font-weight: 600;
   letter-spacing: 0.5rem;
   @media screen and (max-width: 760px) {
-    font-size: 3rem;
+    /* font-size: 3rem; */
     margin-left: 14rem;
   }
 `;
@@ -56,9 +57,9 @@ const MainButton = styled.button`
     color: black;
   }
 
-  @media screen and (max-width: 760px) {
+  /* @media screen and (max-width: 760px) {
     font-size: 1rem;
-  }
+  } */
 `;
 
 const MainItem = styled.div`
@@ -77,12 +78,12 @@ function Main() {
 
   return (
     <>
-      <TotalContainer>
+      <TransContainer style={{ minHeight: '87vh' }}>
         <div>
           <img src="../images/mainImage.png" width="400rem"></img>
         </div>
         <div style={{ display: 'flex', textAlign: 'center' }}>
-          <div style={{ paddingTop: '6rem' }}>
+          <div style={{ paddingTop: '3rem' }}>
             <MainDivGreen>당신의 플</MainDivGreen>
             <MainDivBlack>랜테리어,</MainDivBlack>
             <MainPida>"Pida"</MainPida>
@@ -105,20 +106,8 @@ function Main() {
             </div>
           </div>
         </div>
-      </TotalContainer>
+      </TransContainer>
     </>
   );
 }
 export default Main;
-
-const TotalContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 87vh;
-  @media screen and (max-width: 760px) {
-    display: flex;
-    text-align: center;
-    flex-direction: column;
-  }
-`;

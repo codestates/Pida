@@ -92,6 +92,11 @@ export const MypageButton2 = styled(MypageButton)`
   font-size: 1.2rem;
 
   padding: 2.5rem 7rem 0 7rem;
+
+  @media screen and (max-width: 760px) {
+    font-size: 0.8rem;
+    padding: 2.5rem 3rem 0 3rem;
+  }
 `;
 
 export const DetailButton = styled(MypageButton)`

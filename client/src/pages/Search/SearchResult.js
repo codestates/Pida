@@ -73,6 +73,36 @@ function SearchResult() {
                     </Item>
                   );
                 })}
+                <Item>
+                  <TButton onClick={() => handlePlantDetail(1)}>
+                    <ImageR src="../images/logo.png" alt="" />
+                    <h3>아무꽃</h3>
+                  </TButton>
+                </Item>
+                <Item>
+                  <TButton onClick={() => handlePlantDetail(1)}>
+                    <ImageR src="../images/logo.png" alt="" />
+                    <h3>아무꽃</h3>
+                  </TButton>
+                </Item>
+                <Item>
+                  <TButton onClick={() => handlePlantDetail(1)}>
+                    <ImageR src="../images/logo.png" alt="" />
+                    <h3>아무꽃</h3>
+                  </TButton>
+                </Item>
+                <Item>
+                  <TButton onClick={() => handlePlantDetail(1)}>
+                    <ImageR src="../images/logo.png" alt="" />
+                    <h3>아무꽃</h3>
+                  </TButton>
+                </Item>
+                <Item>
+                  <TButton onClick={() => handlePlantDetail(1)}>
+                    <ImageR src="../images/logo.png" alt="" />
+                    <h3>아무꽃</h3>
+                  </TButton>
+                </Item>
               </ContainerRow2>
             </div>
           </Container>

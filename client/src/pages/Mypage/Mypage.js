@@ -29,6 +29,7 @@ function Mypage() {
     id: '',
     email: '',
     nickname: '',
+    platformType: '', // 0이면 일반로그인회원, 1이면 소셜로그인회원
   });
   const [uploadsArray, setUploadsArray] = useState([]);
   const [likesArray, setLikesArray] = useState([]);
@@ -47,6 +48,7 @@ function Mypage() {
           id: res.data.data.id,
           email: res.data.data.email,
           nickname: res.data.data.nickname,
+          platformType: res.data.data.platformType,
         });
         setUploadsArray(res.data.data.uploads);
         setLikesArray(res.data.data.likes);
@@ -167,17 +169,23 @@ function Mypage() {
                 </TButton>
               </ContainerRow>
             )}
-            <Info style={{ fontSize: '1.2rem', color: 'rgb(163, 163, 163)' }}>
-              {userInfo.email}
-            </Info>
+            {userInfo.platformType === 0 ? (
+              <Info style={{ fontSize: '1.2rem', color: 'rgb(163, 163, 163)' }}>
+                {userInfo.email}
+              </Info>
+            ) : (
+              <Info />
+            )}
           </span>
 
           <span
             style={{ display: 'inline-block', display: 'flex', float: 'right' }}
           >
-            <MypageButton onClick={handleModifyPassword}>
-              비밀번호변경
-            </MypageButton>
+            {userInfo.platformType === 0 ? (
+              <MypageButton onClick={handleModifyPassword}>
+                비밀번호변경
+              </MypageButton>
+            ) : null}
             {isModifyPasswordModalOpen ? (
               <Modal2 handleModal={handleModifyPasswordModal}>
                 <ModifyPassword
