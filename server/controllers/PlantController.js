@@ -87,15 +87,19 @@ module.exports = {
           .status(400)
           .json({ message: '식물 상세정보 등록에 실패했습니다' });
       }
+      //중복 등록 방지
+      const plant = await Plant.findOne({ where: { name } });
+      if (plant) {
+        return res.status(409).json({ message: '이미 등록한 식물입니다' });
+      }
       //식물 테이블에 등록
       const newPlant = await Plant.create({
         name,
         description,
         image: req.file.location,
       });
-      console.log(newPlant.id, '새 식물 아이ㄷ');
+
       //카테고리 등록
-      //반복해서 할 일.
       const categoryPromises = [];
       size = JSON.parse(size);
       space = JSON.parse(space);
