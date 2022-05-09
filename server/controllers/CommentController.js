@@ -5,8 +5,11 @@ module.exports = {
   post: async (req, res) => {
     try {
       //어떤 게시글에 댓글을 다는지 알아내기
-      const { id: postId } = req.params;
+      const { id: commentId } = req.params;
       const { comment: content } = req.body;
+      if (!commentId || !content || content.trim() === '') {
+        return res.status(400).json({ message: '댓글 달기에 실패했습니다' });
+      }
       //사용자 아이디 알아내서, 닉네임 가지고오기
       const nickname = await User.findByPk(req.id, {
         attributes: ['nickname'],
@@ -14,7 +17,7 @@ module.exports = {
 
       const newComment = await Comment.create({
         userId: req.id,
-        interiorId: postId,
+        interiorId: commentId,
         comment: content,
       });
 
@@ -42,7 +45,7 @@ module.exports = {
       //어떤 댓글을 수정할지, 어떻게 수정할건지 내용을 받는다
       const { id: commentId } = req.params;
       const { comment } = req.body;
-      if (!commentId || !comment) {
+      if (!commentId || !comment || content.trim() === '') {
         return res.status(400).json({ message: '댓글 수정에 실패했습니다' });
       }
 
