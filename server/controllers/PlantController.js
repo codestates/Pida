@@ -115,7 +115,7 @@ module.exports = {
       size = JSON.parse(size);
       space = JSON.parse(space);
       species = JSON.parse(species);
-      console.log(size, space, species, '파싱한 식물 분류');
+
       for (let i of size) {
         console.log('size:', i, '새 식물의id:', newPlant.id); //[1,2]
         //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
@@ -257,79 +257,79 @@ module.exports = {
             });
           })
           .catch(e => console.log('식물정보 수정 실패', e));
-      }
-
-      //이미지도 교체하는 경우
-      const imageUrl = await Plant.findByPk(plantId, {
-        attributes: ['image'],
-      });
-      //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
-      console.log(imageUrl, '파일주소');
-      req.fileName = imageUrl.image.split('.com/')[1];
-
-      //식물 테이블 업데이트
-      await Plant.update(
-        {
-          name: newName,
-          description: newDescription,
-          image: req.file.location,
-        },
-        { where: { id: plantId } },
-      );
-      const promises = [];
-
-      const newPlant = Plant.findByPk(plantId, {
-        attributes: ['id', 'name', 'image', 'description'],
-      });
-      promises.push(newPlant);
-      //새로운 정보로 채운다.
-      newSize = JSON.parse(newSize);
-      newSpace = JSON.parse(newSpace);
-      newSpecies = JSON.parse(newSpecies);
-
-      for (let i of newSize) {
-        console.log(typeof i, '타입'); //[1,2]
-        //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
-        const newPlantSize = Plant_size.create({
-          plantId,
-          sizeId: i,
+      } else {
+        //이미지도 교체하는 경우
+        const imageUrl = await Plant.findByPk(plantId, {
+          attributes: ['image'],
         });
-        promises.push(newPlantSize);
-      }
-      for (let j of newSpace) {
-        const newPlantSpace = Plant_space.create({
-          plantId,
-          spaceId: j,
-        });
-        promises.push(newPlantSpace);
-      }
-      for (let k of newSpecies) {
-        //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
-        const newPlantSpecies = Plant_specie.create({
-          plantId,
-          speciesId: k,
-        });
-        promises.push(newPlantSpecies);
-      }
+        //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
+        console.log(imageUrl, '파일주소');
+        req.fileName = imageUrl.image.split('.com/')[1];
 
-      Promise.all(promises)
-        .then(value => {
-          //테이블에 정상적 분류 완료
-          //식물 정보 반환
-          console.log(value[0], '프롬이스 처리 후값');
-          const data = {
-            id: value[0].id,
-            name: value[0].name,
-            image: value[0].image,
-            description: value[0].description,
-            size: newSize,
-            space: newSpace,
-            species: newSpecies,
-          };
-          req.data = data;
-          return next();
-        })
-        .catch(console.log);
+        //식물 테이블 업데이트
+        await Plant.update(
+          {
+            name: newName,
+            description: newDescription,
+            image: req.file.location,
+          },
+          { where: { id: plantId } },
+        );
+        const promises = [];
+
+        const newPlant = Plant.findByPk(plantId, {
+          attributes: ['id', 'name', 'image', 'description'],
+        });
+        promises.push(newPlant);
+        //새로운 정보로 채운다.
+        newSize = JSON.parse(newSize);
+        newSpace = JSON.parse(newSpace);
+        newSpecies = JSON.parse(newSpecies);
+
+        for (let i of newSize) {
+          console.log(typeof i, '타입'); //[1,2]
+          //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
+          const newPlantSize = Plant_size.create({
+            plantId,
+            sizeId: i,
+          });
+          promises.push(newPlantSize);
+        }
+        for (let j of newSpace) {
+          const newPlantSpace = Plant_space.create({
+            plantId,
+            spaceId: j,
+          });
+          promises.push(newPlantSpace);
+        }
+        for (let k of newSpecies) {
+          //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
+          const newPlantSpecies = Plant_specie.create({
+            plantId,
+            speciesId: k,
+          });
+          promises.push(newPlantSpecies);
+        }
+
+        Promise.all(promises)
+          .then(value => {
+            //테이블에 정상적 분류 완료
+            //식물 정보 반환
+            console.log(value[0], '프롬이스 처리 후값');
+            const data = {
+              id: value[0].id,
+              name: value[0].name,
+              image: value[0].image,
+              description: value[0].description,
+              size: newSize,
+              space: newSpace,
+              species: newSpecies,
+            };
+            req.data = data;
+            return next();
+          })
+          .catch(console.log);
+      }
     } catch (e) {
       //서버 에러
       console.error(e);
