@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import { SelectButton } from '../../components/Button';
-import {
-  ContainerRow,
-  UDContainer,
-  ContainerRow2,
-} from '../../components/Container';
+import { ContainerRow, UDContainer } from '../../components/Container';
 
 const QuestionDiv = styled.div`
   padding: 0rem 0 3rem 0;
@@ -23,8 +19,6 @@ const Image = styled.img`
   width: 12rem;
   height: 16rem;
   @media screen and (max-width: 760px) {
-    // width: 8rem;
-    // height: 12rem;
     padding: 1rem 1rem 0 2rem;
   }
 `;
@@ -48,7 +42,6 @@ function Select() {
   const [isNavigate, setIsNavigate] = useState('');
   const handleSelect = key => e => {
     setSelect({ ...select, [key]: e.target.name }); // 검색 조건 설정하고
-    //console.log(select);
     if (key === 'size') setIsQ1(false);
     if (key === 'space') setIsQ2(false);
     if (key === 'species') {

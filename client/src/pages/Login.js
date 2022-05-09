@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { SignButton, ConfirmButton } from '../components/Button';
-import { ContainerRow, UDContainer } from '../components/Container';
 import { Error } from '../components/Div';
 import { SignInput } from '../components/Input';
 import { Modal } from '../components/Modal';
-import { GithubLogin, NaverLogin } from '../components/SocialLoginButton';
+import { GithubLogin, KakaoLogin } from '../components/SocialLoginButton';
 
 axios.defaults.withCredentials = true;
 
@@ -82,15 +81,9 @@ function Login(props) {
         </Modal>
       ) : null}
 
-      <NaverLogin setIsOpen={setIsOpen} />
-      <GithubLogin setIsOpen={setIsOpen} />
+      <KakaoLogin />
+      <GithubLogin />
     </>
   );
 }
 export default Login;
-
-const ButtonDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;

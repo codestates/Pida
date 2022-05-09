@@ -37,7 +37,7 @@ function SearchResult() {
 
   /* 식물 사진 클릭하면 식물 상세 페이지로 이동 */
   const [plantId, setPlantId] = useState(0);
-  const [isNavigate, setIsNavigate] = useState('');
+  const [isNavigate, setIsNavigate] = useState(false);
   const handlePlantDetail = id => {
     setPlantId(id); // 클릭한 식물의 id 설정하고
     setIsNavigate(true); // useEffect 실행해 해당 id 식물 상세 페이지로 이동

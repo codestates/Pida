@@ -1,8 +1,10 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { UDContainer } from './Container';
 
-const Callback = () => {
+const KakaoCallback = () => {
   const history = useHistory();
 
   useEffect(() => {
@@ -12,7 +14,7 @@ const Callback = () => {
     if (authorizationCode) {
       axios
         .post(
-          `${process.env.REACT_APP_API_URL}/oauth/github`,
+          `${process.env.REACT_APP_API_URL}/oauth/kakao`,
           { authorizationCode },
           { withCredentials: true },
         )
@@ -28,7 +30,13 @@ const Callback = () => {
     }
   }, []);
 
-  return <>로딩중</>;
+  return (
+    <>
+      <UDContainer>
+        <img src="../../images/loading.gif" style={{ width: '6rem' }} />
+      </UDContainer>
+    </>
+  );
 };
 
-export default Callback;
+export default KakaoCallback;
