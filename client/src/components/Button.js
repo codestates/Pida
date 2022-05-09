@@ -23,6 +23,7 @@ export const CheckButton = styled.button`
 export const SelectButton = styled.button`
   width: 10rem;
   height: 3.5rem;
+  margin-top: 1rem;
   border-radius: 4rem;
   border: solid 0.4rem rgb(163, 163, 163);
   color: black;
@@ -82,6 +83,9 @@ export const MypageButton = styled.button`
   :focus {
     color: black;
   }
+  :hover {
+    color: black;
+  }
 
   font-size: 1rem;
   padding-top: 1rem;
@@ -97,6 +101,10 @@ export const MypageButton2 = styled(MypageButton)`
     font-size: 0.8rem;
     padding: 2.5rem 3rem 0 3rem;
   }
+`;
+
+export const ManagerButton = styled(MypageButton)`
+  padding-top: 0;
 `;
 
 export const DetailButton = styled(MypageButton)`

@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const MiniContainer = styled.div`
   display: flex;
   flex-direction: column; // 아이템들 세로로 정렬
   align-items: center; // 좌우 가운데로 정렬
+`;
+
+export const Container = styled(MiniContainer)`
   min-height: 90vh;
   @supports (-webkit-touch-callout: none) {
     min-height: -webkit-fill-available;
@@ -57,9 +60,9 @@ export const Item = styled.div`
 export const TransContainer = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
   @media screen and (max-width: 760px) {
     display: flex;
+    align-items: center;
     text-align: center;
     flex-direction: column;
     margin: 2rem;

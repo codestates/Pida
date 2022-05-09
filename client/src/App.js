@@ -12,6 +12,8 @@ import Select from './pages/Search/Select';
 import All from './pages/All';
 import Main from './pages/Main';
 import Callback from './components/Callback';
+import AddPlant from './pages/Plant/Management/AddPlant';
+import ModifyPlant from './pages/Plant/Management/ModifyPlant';
 
 function App() {
   return (
@@ -19,62 +21,31 @@ function App() {
       <div>
         <Nav />
         <Switch>
-          <Route exact path="/">
-            <Main />
-          </Route>
-        </Switch>
-        <Switch>
-          <Route exact path="/all">
-            <All />
-          </Route>
-        </Switch>
-        <Switch>
-          <Route exact path="/select">
-            <Select />
-          </Route>
-        </Switch>
-        <Switch>
-          <Route exact path="/search">
-            <SearchResult />
-          </Route>
-        </Switch>
-        <Switch>
-          <Route exact path="/plantDetail">
-            <PlantDetail />
-          </Route>
-        </Switch>
-        <Switch>
-          <Route exact path="/interiorDetail">
-            <InteriorDetail />
-          </Route>
-        </Switch>
-        <Switch>
-          <Route exact path="/interiorWrite">
-            <InteriorWrite />
-          </Route>
-        </Switch>
-        <Switch>
-          <Route exact path="/interiorModify">
-            <InteriorModify />
-          </Route>
-        </Switch>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/select" component={Select} />
+          <Route exact path="/search" component={SearchResult} />
+          <Route exact path="/search/all" component={All} />
 
-        <Switch>
-          <Route exact path="/chat">
-            <Chat />
-          </Route>
-        </Switch>
+          {/* 소셜 로그인 */}
+          <Route exact path="/callback" component={Callback} />
 
-        <Switch>
-          <Route exact path="/users">
-            <Mypage />
-          </Route>
-        </Switch>
+          {/* 마이페이지 */}
+          <Route exact path="/users" component={Mypage} />
 
-        <Switch>
-          <Route exact path="/callback">
-            <Callback />
-          </Route>
+          {/* 식물 관리자 */}
+          <Route exact path="/plants" component={AddPlant} />
+          <Route exact path="/plants/:id/modify" component={ModifyPlant} />
+
+          {/* 식물 상세 */}
+          <Route exact path="/plants/:id" component={PlantDetail} />
+
+          {/* 인테리어 */}
+          {/* <Route exact path="/interiors/:id" component={InteriorDetail} /> */}
+          <Route exact path="/plants/:id/interiors" component={InteriorWrite} />
+          <Route exact path="/interiors/:id" component={InteriorModify} />
+
+          {/* 채팅 */}
+          <Route exact path="/chat" component={Chat} />
         </Switch>
       </div>
     </BrowserRouter>

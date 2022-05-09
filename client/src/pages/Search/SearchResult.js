@@ -45,7 +45,7 @@ function SearchResult() {
   useEffect(() => {
     if (isNavigate) {
       history.push({
-        pathname: '/plantDetail',
+        pathname: '/plants/:id',
         state: { plantId: plantId },
       });
       setIsNavigate(false);
