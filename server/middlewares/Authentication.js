@@ -30,7 +30,7 @@ module.exports = async (req, res, next) => {
       console.log(req.id, '아이디');
       if (
         req.id !== parseInt(process.env.DB_ADMIN_ID) &&
-        req.originalUrl.includes('/plants') &&
+        req.originalUrl === '/plants' &&
         req.route.stack[0].method !== 'get'
       ) {
         console.log('관리자 권한 아니야');
