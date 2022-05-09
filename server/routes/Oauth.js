@@ -4,6 +4,6 @@ const router = express.Router();
 const oauthController = require('../controllers/OauthController');
 
 router.post('/github', oauthController.githubLogin);
-// router.post('/naver', oauthController.naverLogin);
+router.post('/kakao', oauthController.kakaoLogin);
 
 module.exports = router;
