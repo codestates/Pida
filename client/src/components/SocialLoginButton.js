@@ -9,10 +9,12 @@ const ButtonDiv = styled.div`
   align-items: center;
 `;
 
-export const GithubLogin = props => {
+export const GithubLogin = () => {
+  const clientId = process.env.REACT_APP_GITHUB_CLIENT_ID;
+
   const handleGithubLogin = () => {
     window.location.assign(
-      `https://github.com/login/oauth/authorize?client_id=2aeb9caabb8cf90ca89c`,
+      `https://github.com/login/oauth/authorize?client_id=${clientId}`,
     );
   };
 
@@ -31,17 +33,24 @@ export const GithubLogin = props => {
   );
 };
 
-export const NaverLogin = props => {
-  const handleNaverLogin = () => {};
+export const KakaoLogin = () => {
+  const restApiKey = process.env.REACT_APP_KAKAO_REST_API_KEY;
+  const redirectUrl = process.env.REACT_APP_KAKAO_REDIRECT_URI;
+
+  const handleKakaoLogin = () => {
+    window.location.assign(
+      `https://kauth.kakao.com/oauth/authorize?client_id=${restApiKey}&redirect_uri=${redirectUrl}&response_type=code`,
+    );
+  };
 
   return (
     <SignButton
-      onClick={handleNaverLogin}
-      style={{ backgroundColor: '#03C75A' }}
+      onClick={handleKakaoLogin}
+      style={{ backgroundColor: '#F9E000' }}
     >
       <ButtonDiv>
-        <SocialImage src="../images/naver.png" alt="naver" />
-        <span>네이버 로그인</span>
+        <SocialImage src="../images/kakao.png" alt="kakao" />
+        <span>카카오 로그인</span>
       </ButtonDiv>
     </SignButton>
   );

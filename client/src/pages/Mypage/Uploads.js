@@ -8,7 +8,7 @@ import InteriorDetail from '../Plant/InteriorDetail';
 function Uploads(props) {
   /* 인테리어 사진 클릭 시, 인테리어 상세 모달 띄우기 */
   const [interiorId, setInteriorId] = useState(0);
-  const [isNavigate, setIsNavigate] = useState('');
+  const [isNavigate, setIsNavigate] = useState(false);
 
   const [isInteriorModalOpen, setIsInteriorModalOpen] = useState(false);
   const handleInteriorModal = () => {
@@ -56,12 +56,12 @@ function Uploads(props) {
           <TButton onClick={() => handleInteriorDetail(0)}>
             <ImageR src="../../images/logo.png" alt="" />
           </TButton>
-        </Item>{' '}
+        </Item>
         <Item>
           <TButton onClick={() => handleInteriorDetail(0)}>
             <ImageR src="../../images/logo.png" alt="" />
           </TButton>
-        </Item>{' '}
+        </Item>
         <Item>
           <TButton onClick={() => handleInteriorDetail(0)}>
             <ImageR src="../../images/logo.png" alt="" />

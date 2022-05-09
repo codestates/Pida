@@ -11,7 +11,8 @@ import SearchResult from './pages/Search/SearchResult';
 import Select from './pages/Search/Select';
 import All from './pages/All';
 import Main from './pages/Main';
-import Callback from './components/Callback';
+import GithubCallback from './components/GithubCallback';
+import KakaoCallback from './components/KakaoCallback';
 import AddPlant from './pages/Plant/Management/AddPlant';
 import ModifyPlant from './pages/Plant/Management/ModifyPlant';
 
@@ -27,7 +28,8 @@ function App() {
           <Route exact path="/search/all" component={All} />
 
           {/* 소셜 로그인 */}
-          <Route exact path="/callback" component={Callback} />
+          <Route exact path="/githubcallback" component={GithubCallback} />
+          <Route exact path="/kakaocallback" component={KakaoCallback} />
 
           {/* 마이페이지 */}
           <Route exact path="/users" component={Mypage} />

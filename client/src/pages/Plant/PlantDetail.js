@@ -25,6 +25,8 @@ const Interiors = styled.div`
 `;
 
 function PlantDetail() {
+  const managerId = process.env.REACT_APP_MANAGER_ID;
+
   const history = useHistory();
   const location = useLocation();
 
@@ -145,7 +147,7 @@ function PlantDetail() {
       <UDContainer>
         <Form>
           {/* 관리자라면 수정삭제버튼 보이기 */}
-          {localStorage.getItem('loginUserId') === '1' ? (
+          {localStorage.getItem('loginUserId') === managerId ? (
             <span
               style={{
                 display: 'inline-block',

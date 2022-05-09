@@ -40,11 +40,10 @@ const CommentBox = styled.div`
 
 function InteriorDetail(props) {
   const history = useHistory();
-  const location = useLocation();
 
   const [interior, setInterior] = useState({
-    id: '',
-    isLiked: '',
+    id: 0,
+    isLiked: false,
     isEditable: false,
     nickname: '',
     totalLikes: 0,
@@ -139,16 +138,18 @@ function InteriorDetail(props) {
     setComment(e.target.value);
   };
   const handleWriteComment = () => {
-    axios
-      .post(
-        `${process.env.REACT_APP_API_URL}/interiors/${interior.id}/comments`,
-        { comment: comment },
-        { withCredentials: true },
-      )
-      .then(res => {
-        setComment('');
-        getInterior(); // 인테리어 모달 업데이트
-      });
+    if (comment !== '') {
+      axios
+        .post(
+          `${process.env.REACT_APP_API_URL}/interiors/${interior.id}/comments`,
+          { comment: comment },
+          { withCredentials: true },
+        )
+        .then(res => {
+          setComment('');
+          getInterior(); // 인테리어 모달 업데이트
+        });
+    }
   };
 
   return (
