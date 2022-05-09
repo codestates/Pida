@@ -14,7 +14,7 @@ import styled from 'styled-components';
 
 function Comment(props) {
   const [modifyComment, setModifyComment] = useState({
-    id: '',
+    id: 0,
     nickname: '',
     comment: '',
   });

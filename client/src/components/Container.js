@@ -50,8 +50,8 @@ export const Item = styled.div`
   padding: 0 1.5rem 5rem 1.5rem;
 
   @media screen and (max-width: 760px) {
-    width: 6rem;
-    height: 6rem;
+    width: 9rem;
+    height: 9rem;
     padding: 0rem 3rem 7rem 3rem;
   }
 `;

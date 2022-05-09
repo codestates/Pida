@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { SelectButton } from '../../../components/Button';
@@ -41,27 +41,33 @@ function AddPlant() {
     setImage(e.target.files[0]);
   };
 
+  useEffect(() => {
+    console.log('size', size);
+    console.log('space', space);
+    console.log('species', species);
+  }, [size, space, species]);
+
   const handleSize = e => {
     if (e.target.checked) {
-      setSize([...size, e.target.value]);
+      setSize([...size, parseInt(e.target.value)]);
     } else {
-      setSize(size.filter(el => el !== e.target.value));
+      setSize(size.filter(el => el !== parseInt(e.target.value)));
     }
   };
 
   const handleSpace = e => {
     if (e.target.checked) {
-      setSpace([...space, e.target.value]);
+      setSpace([...space, parseInt(e.target.value)]);
     } else {
-      setSpace(space.filter(el => el !== e.target.value));
+      setSpace(space.filter(el => el !== parseInt(e.target.value)));
     }
   };
 
   const handleSpecies = e => {
     if (e.target.checked) {
-      setSpecies([...species, e.target.value]);
+      setSpecies([...species, parseInt(e.target.value)]);
     } else {
-      setSpecies(species.filter(el => el !== e.target.value));
+      setSpecies(species.filter(el => el !== parseInt(e.target.value)));
     }
   };
 
@@ -73,9 +79,9 @@ function AddPlant() {
     formData.append('name', name);
     formData.append('image', image);
     formData.append('description', description);
-    formData.append('size', JSON.stringify(size));
-    formData.append('space', JSON.stringify(space));
-    formData.append('species', JSON.stringify(species));
+    formData.append('size', JSON.stringify(size.sort((a, b) => a - b)));
+    formData.append('space', JSON.stringify(space.sort((a, b) => a - b)));
+    formData.append('species', JSON.stringify(species.sort((a, b) => a - b)));
 
     if (
       name === null ||
@@ -122,8 +128,8 @@ function AddPlant() {
 
         <span style={{ marginLeft: '3rem' }}>
           <h4 style={{ margin: '0 0 0.5rem 0' }}>크기</h4>
-          <input type="checkbox" value="1" onClick={handleSize} /> 큼
-          <input type="checkbox" value="2" onClick={handleSize} /> 작음
+          <input type="checkbox" value="1" onClick={handleSize} /> 큰
+          <input type="checkbox" value="2" onClick={handleSize} /> 작은
           <h4 style={{ margin: '0.5rem 0' }}>공간</h4>
           <input type="checkbox" value="1" onClick={handleSpace} /> 가구
           <input type="checkbox" value="2" onClick={handleSpace} /> 바닥

@@ -21,11 +21,11 @@ export const ImageD = styled(Image)`
 `;
 
 export const ImageR = styled(Image)`
-  width: 13rem;
-  height: 13rem;
+  width: 12rem;
+  height: 12rem;
   @media screen and (max-width: 760px) {
-    width: 7rem;
-    height: 7rem;
+    width: 8rem;
+    height: 8rem;
   }
 `;
 

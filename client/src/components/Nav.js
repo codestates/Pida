@@ -9,74 +9,9 @@ import Signup from '../pages/Signup';
 import Login from '../pages/Login';
 import { IoIosMenu } from 'react-icons/io';
 
-const Menunav = styled.nav`
-  //전부 묶어주는 nav
-  display: flex;
-  justify-content: space-between;
-  align-items: center; // 수직축 가운데로 정렬
-  padding: 0.5rem 1.5rem;
-  min-width: 100%-1.5rem;
-  height: 4rem; // 나머지에서 빼줄까???
-  // border-bottom: 0.1rem solid black; //가로 밑줄
-`;
-
-const Menuul = styled.ul`
-  display: flex;
-  list-style: none;
-  padding: 1rem 0 0 0rem;
-`;
-
-const NavLink = styled(Link)`
-  text-decoration: none;
-`;
-
-const Logo = styled.li`
-  padding: 0 0.5rem;
-  font-weight: 600;
-  color: rgb(163, 163, 163);
-  :hover {
-    color: black;
-  }
-`;
-
-const Menuli = styled(Logo)`
-  @media screen and (max-width: 760px) {
-    top: 3rem;
-    margin-bottom: 0.5rem;
-  }
-`;
-
-const MenubarDiv = styled.div`
-  display: flex;
-  position: absolute;
-  right: 1rem;
-  flex-direction: column;
-  align-items: flex-end;
-`;
-
-const Menubar = styled.a`
-  display: none;
-
-  @media screen and (max-width: 760px) {
-    display: block;
-    font-size: 3rem;
-    color: #bcbcbc;
-  }
-`;
-
-const MenuColumn = styled.div`
-  display: flex;
-  @media screen and (max-width: 760px) {
-    display: ${({ menu }) => {
-      return menu === false ? 'none' : 'flex';
-    }};
-    font-size: 1.6rem;
-    flex-direction: column;
-    background-color: white;
-  }
-`;
-
 function Nav() {
+  const managerId = process.env.REACT_APP_MANAGER_ID;
+
   const history = useHistory();
 
   /* 회원가입 모달 */
@@ -149,7 +84,7 @@ function Nav() {
             {localStorage.getItem('loginUserId') ? (
               <>
                 {/* 로그인 상태 */}
-                {localStorage.getItem('loginUserId') === '1' ? (
+                {localStorage.getItem('loginUserId') === managerId ? (
                   <>
                     {/* 관리자 */}
                     <NavLink to="/plants">
@@ -207,3 +142,70 @@ function Nav() {
   );
 }
 export default Nav;
+
+const Menunav = styled.nav`
+  //전부 묶어주는 nav
+  display: flex;
+  justify-content: space-between;
+  align-items: center; // 수직축 가운데로 정렬
+  padding: 0.5rem 1.5rem;
+  min-width: 100%-1.5rem;
+  height: 4rem; // 나머지에서 빼줄까???
+  // border-bottom: 0.1rem solid black; //가로 밑줄
+`;
+
+const Menuul = styled.ul`
+  display: flex;
+  list-style: none;
+  padding: 1rem 0 0 0rem;
+`;
+
+const NavLink = styled(Link)`
+  text-decoration: none;
+`;
+
+const Logo = styled.li`
+  padding: 0 0.5rem;
+  font-weight: 600;
+  color: rgb(163, 163, 163);
+  :hover {
+    color: black;
+  }
+`;
+
+const Menuli = styled(Logo)`
+  @media screen and (max-width: 760px) {
+    top: 3rem;
+    margin-bottom: 0.5rem;
+  }
+`;
+
+const MenubarDiv = styled.div`
+  display: flex;
+  position: absolute;
+  right: 1rem;
+  flex-direction: column;
+  align-items: flex-end;
+`;
+
+const Menubar = styled.a`
+  display: none;
+
+  @media screen and (max-width: 760px) {
+    display: block;
+    font-size: 3rem;
+    color: #bcbcbc;
+  }
+`;
+
+const MenuColumn = styled.div`
+  display: flex;
+  @media screen and (max-width: 760px) {
+    display: ${({ menu }) => {
+      return menu === false ? 'none' : 'flex';
+    }};
+    font-size: 1.6rem;
+    flex-direction: column;
+    background-color: white;
+  }
+`;

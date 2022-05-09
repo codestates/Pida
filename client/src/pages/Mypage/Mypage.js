@@ -26,10 +26,10 @@ const ModiInfo = styled.input`
 
 function Mypage() {
   const [userInfo, setUserInfo] = useState({
-    id: '',
+    id: 0,
     email: '',
     nickname: '',
-    platformType: '', // 0이면 일반로그인회원, 1이면 소셜로그인회원
+    platformType: 0, // 0이면 일반로그인회원, 1이면 소셜로그인회원
   });
   const [uploadsArray, setUploadsArray] = useState([]);
   const [likesArray, setLikesArray] = useState([]);
