@@ -56,6 +56,9 @@ function Main() {
   const handleAll = () => {
     history.replace('/search/all');
   };
+  const handleSerchFlower = () => {
+    history.replace('/map');
+  };
 
   return (
     <>
@@ -81,6 +84,14 @@ function Main() {
                     style={{ margin: '1rem 0 0 0' }}
                   >
                     "피다" 식물 보기 →
+                  </MainButton>
+                </div>
+                <div>
+                  <MainButton
+                    onClick={handleSerchFlower}
+                    style={{ margin: '1rem 0 0 0' }}
+                  >
+                    주변 꽃집 찾기 →
                   </MainButton>
                 </div>
               </RightContainer>
