@@ -15,6 +15,7 @@ import GithubCallback from './components/GithubCallback';
 import KakaoCallback from './components/KakaoCallback';
 import AddPlant from './pages/Plant/Management/AddPlant';
 import ModifyPlant from './pages/Plant/Management/ModifyPlant';
+import KakaoMap from './pages/Mypage/KakaoMap';
 
 function App() {
   return (
@@ -33,6 +34,8 @@ function App() {
 
           {/* 마이페이지 */}
           <Route exact path="/users" component={Mypage} />
+
+          <Route exact path="/map" component={KakaoMap} />
 
           {/* 식물 관리자 */}
           <Route exact path="/plants" component={AddPlant} />
