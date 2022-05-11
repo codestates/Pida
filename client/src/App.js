@@ -34,7 +34,7 @@ const InnerContainer = styled.div`
   // margin-bottom: 200px;
   margin-top: 2rem;
   @media screen and (max-width: 760px) {
-    margin-top: 7rem;
+    margin-top: 6.2rem;
   }
 `;
 

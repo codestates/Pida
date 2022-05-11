@@ -100,7 +100,7 @@ function AddPlant() {
         })
         .then(res => {
           alert('식물등록완료');
-          history.replace('/search/all');
+          history.replace('/search');
         })
         .catch(err => {
           console.log('catch', err);

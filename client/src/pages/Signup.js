@@ -6,7 +6,6 @@ import { Error, Message } from '../components/Div';
 import { SignupInput, SignupInput2 } from '../components/Input';
 import { Modal } from '../components/Modal';
 import {
-  emailValidator,
   pwValidator,
   pwMatchValidator,
   nicknameValidator,
@@ -37,10 +36,12 @@ function Signup(props) {
   const [errorMessage2, setErrorMessage2] = useState('');
   const [errorMessage3, setErrorMessage3] = useState('');
   const [errorMessage4, setErrorMessage4] = useState('');
+  const [errorMessage5, setErrorMessage5] = useState('');
 
   /* 회원가입 정보 */
   const [signupInfo, setSignupInfo] = useState({
     email: '',
+    emailAuthCode: '',
     password: '',
     rePassword: '',
     nickname: '',
@@ -49,10 +50,12 @@ function Signup(props) {
     setSignupInfo({ ...signupInfo, [key]: e.target.value });
   };
 
-  /* 이메일, 닉네임 중복체크 */
+  /* 이메일, 닉네임 체크 */
   const [emailCheck, setEmailCheck] = useState(false);
   const [nicknameCheck, setNicknameCheck] = useState(false);
-  const handleEmailCheck = () => {
+
+  // 이메일 인증 코드 요청
+  const handleEmailAuth = () => {
     axios
       .post(
         `${process.env.REACT_APP_API_URL}/users/signup/email`,
@@ -62,13 +65,33 @@ function Signup(props) {
         { withCredentials: true },
       )
       .then(res => {
-        setEmailCheck(true);
-        setErrorMessage1('사용 가능한 이메일입니다');
+        setErrorMessage1('인증 코드가 발송되었습니다');
       })
       .catch(err => {
-        setErrorMessage1('사용 불가능한 이메일입니다');
+        setErrorMessage1('이미 가입된 이메일입니다');
       });
   };
+
+  // 인증 코드로 인증
+  const handleEmailAuthCheck = () => {
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}/users/signup/emailauth`,
+        {
+          emailAuthCode: signupInfo.emailAuthCode,
+        },
+        { withCredentials: true },
+      )
+      .then(res => {
+        setEmailCheck(true);
+        setErrorMessage2('인증되었습니다');
+      })
+      .catch(err => {
+        setErrorMessage2('인증 코드를 다시 확인해 주세요');
+      });
+  };
+
+  // 닉네임 중복 체크
   const handleNicknameCheck = () => {
     axios
       .post(
@@ -80,10 +103,10 @@ function Signup(props) {
       )
       .then(res => {
         setNicknameCheck(true);
-        setErrorMessage2('사용 가능한 닉네임입니다');
+        setErrorMessage3('사용 가능한 닉네임입니다');
       })
       .catch(err => {
-        setErrorMessage2('사용 불가능한 닉네임입니다');
+        setErrorMessage3('사용 불가능한 닉네임입니다');
       });
   };
 
@@ -93,37 +116,34 @@ function Signup(props) {
     setErrorMessage2('');
     setErrorMessage3('');
     setErrorMessage4('');
+    setErrorMessage5('');
     if (
       emailCheck === false ||
       nicknameCheck === false ||
-      emailValidator(signupInfo.email) === false ||
       nicknameValidator(signupInfo.nickname) === false ||
       pwValidator(signupInfo.password) === false ||
       pwMatchValidator(signupInfo.password, signupInfo.rePassword) === false
     ) {
       if (emailCheck === false) {
-        setErrorMessage1('이메일 중복체크를 해주세요');
+        setErrorMessage2('이메일 인증을 진행해 주세요');
       }
       if (nicknameCheck === false) {
-        setErrorMessage2('닉네임 중복체크를 해주세요');
-      }
-      if (emailValidator(signupInfo.email) === false) {
-        setErrorMessage1('이메일 형식을 다시 확인해 주세요');
+        setErrorMessage3('닉네임 중복체크를 해주세요');
       }
       if (nicknameValidator(signupInfo.nickname) === false) {
-        setErrorMessage2(
+        setErrorMessage3(
           '닉네임은 공백 없이 1자 이상 8자 이하로 작성해 주세요',
         );
       }
       if (pwValidator(signupInfo.password) === false) {
-        setErrorMessage3(
-          '비밀번호는 공백 없이 영어, 숫자 포함 8자 이상 16자 이하로 작성해 주세요',
+        setErrorMessage4(
+          '비밀번호는 영어, 숫자 포함 8자 이상 16자 이하로 작성해 주세요',
         );
       }
       if (
         pwMatchValidator(signupInfo.password, signupInfo.rePassword) === false
       ) {
-        setErrorMessage4('비밀번호가 일치하지 않습니다');
+        setErrorMessage5('비밀번호가 일치하지 않습니다');
       }
     } else {
       axios
@@ -150,12 +170,12 @@ function Signup(props) {
       <div>
         <Div>
           <ContainerRow>
-            <SignupInput
+            <SignupInput2
               type="email"
               placeholder="email"
               onChange={handleInputValue('email')}
             />
-            <CheckButton onClick={handleEmailCheck}>중복 체크</CheckButton>
+            <CheckButton onClick={handleEmailAuth}>인증 코드 받기</CheckButton>
           </ContainerRow>
         </Div>
         {emailCheck ? (
@@ -167,15 +187,15 @@ function Signup(props) {
       <div>
         <Div>
           <ContainerRow>
-            <SignupInput
+            <SignupInput2
               type="text"
-              placeholder="nickname"
-              onChange={handleInputValue('nickname')}
+              placeholder="auth code"
+              onChange={handleInputValue('emailAuthCode')}
             />
-            <CheckButton onClick={handleNicknameCheck}>중복 체크</CheckButton>
+            <CheckButton onClick={handleEmailAuthCheck}>인증</CheckButton>
           </ContainerRow>
         </Div>
-        {nicknameCheck ? (
+        {emailCheck ? (
           <Message>{errorMessage2}</Message>
         ) : (
           <Error>{errorMessage2}</Error>
@@ -185,32 +205,49 @@ function Signup(props) {
         <Div>
           <ContainerRow>
             <SignupInput2
+              type="text"
+              placeholder="nickname"
+              onChange={handleInputValue('nickname')}
+            />
+            <CheckButton onClick={handleNicknameCheck}>중복 체크</CheckButton>
+          </ContainerRow>
+        </Div>
+        {nicknameCheck ? (
+          <Message>{errorMessage3}</Message>
+        ) : (
+          <Error>{errorMessage3}</Error>
+        )}
+      </div>
+      <div>
+        <Div>
+          <ContainerRow>
+            <SignupInput
               type="password"
               placeholder="password"
               onChange={handleInputValue('password')}
             />
           </ContainerRow>
         </Div>
-        <Error>{errorMessage3}</Error>
+        <Error>{errorMessage4}</Error>
       </div>
       <div>
         <Div>
           <ContainerRow>
-            <SignupInput2
+            <SignupInput
               type="password"
               placeholder="retype"
               onChange={handleInputValue('rePassword')}
             />
           </ContainerRow>
         </Div>
-        <Error>{errorMessage4}</Error>
+        <Error>{errorMessage5}</Error>
       </div>
       <div>
         <SignButton onClick={handleSignup}>회원가입</SignButton>
       </div>
       {isOpen ? (
         <Modal handleModal={handleModal}>
-          <h3>회원가입에 성공했습니다</h3>
+          회원가입에 성공했습니다
           <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
         </Modal>
       ) : null}

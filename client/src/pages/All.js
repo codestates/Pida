@@ -23,7 +23,7 @@ function All() {
         withCredentials: true,
       })
       .then(res => {
-        setPlantsArray(res.data.data);
+        setPlantsArray(res.data.data.plantsArray);
       });
   }, []);
 

@@ -41,6 +41,7 @@ const ModalView = styled.div.attrs(props => ({ role: 'dialog' }))`
   width: 20rem;
   min-height: 5rem;
 
+  font-size: 1.3rem;
   /* Contents 가운데 정렬 */
   display: flex;
   align-items: center;
@@ -55,7 +56,7 @@ const ModalView2 = styled.div.attrs(props => ({ role: 'dialog' }))`
   border-radius: 10px;
   width: 36rem;
   height: 38rem;
-  min-height: 5rem;
+  //min-height: 5rem;
 
   /* Contents 가운데 정렬 */
   display: flex;
@@ -63,8 +64,8 @@ const ModalView2 = styled.div.attrs(props => ({ role: 'dialog' }))`
   justify-content: center;
 
   @media screen and (max-width: 760px) {
-    width: 13rem;
-    height: 25rem;
+    width: 26rem;
+    height: 35rem;
   }
 `;
 
