@@ -5,30 +5,56 @@ const dotenv = require('dotenv');
 dotenv.config();
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
+/*
+  email 인증 관련
+*/
+const nodemailer = require('nodemailer');
+const ejs = require('ejs');
+const { nanoid } = require('nanoid');
+const Op = require('sequelize');
+
 module.exports = {
-  //이메일 중복 체크
-  checkEmail: async (req, res) => {
+  // 인증 코드
+  verifyEmailCode: async (req, res) => {
     try {
-      const { email } = req.body;
-      if (!email) {
-        res.status(400).json({ message: '이메일 값이 없습니다' });
-      }
-      //이메일을 받아서, DB 에서 사용자가 존재하는지 확인한다,
-      const userInfoByEmail = await User.findOne({ where: { email } });
-      if (userInfoByEmail) {
+      // eac 받아옴
+      const { emailAuthCode } = req.body;
+
+      // 있긴 함? 없으면 400 컷
+      if (!emailAuthCode) {
         return res
-          .status(409)
-          .json({ message: '이미 사용중인 이메일이 존재합니다' });
+          .status(400)
+          .json({ message: '인증 코드가 없습니다' });
       }
-      return res
-        .status(200)
-        .json({ message: '이메일 중복체크를 통과했습니다.' });
+
+      // 해당 인증 코드를 가진 가가입 유저를 먼저 찾아옴
+      const tempUser = await User.findOne({
+        where: { emailAuthCode },
+      });
+
+      // 그 친구의 이메일 <- 리턴해줄 수 있도록
+      const tempUserEmail = await User.findOne({
+        attributes: ['email'],
+        where: { emailAuthCode },
+      });
+
+      if (tempUser) {
+        return res.status(200).json({
+          data: { email: tempUserEmail.email },
+          message: '이메일이 인증 되었습니다',
+        });
+      } else {
+        console.log('유저 없어 돌아가 ----------------> ');
+        res
+          .status(401)
+          .json({ message: '이메일 인증코드가 유효하지 않습니다' });
+      }
     } catch (e) {
       //서버 에러
       console.error(e);
       return res
         .status(500)
-        .json({ message: '서버가 이메일 중복체크 처리에 실패했습니다' });
+        .json({ message: '서버가 이메일 인증 처리에 실패했습니다' });
     }
   },
   //닉네임 중복 체크
