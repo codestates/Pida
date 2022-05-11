@@ -23,6 +23,35 @@ const Image = styled.img`
   }
 `;
 
+const TextDiv = styled.div`
+  font-size: 2rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+`;
+
+const TextBox = styled.div`
+  position: absolute;
+  margin: 0 1rem 0 0rem;
+
+  width: 12rem;
+  height: 16rem;
+  top: 0%;
+  left: 7%;
+  opacity: 0;
+  transition: 0.5s ease;
+  background-color: black;
+  :hover {
+    opacity: 0.5;
+  }
+  @media screen and (max-width: 760px) {
+    margin: 1rem 1rem 0 1rem;
+  }
+`;
+
 function Select() {
   const history = useHistory();
 
@@ -41,7 +70,8 @@ function Select() {
   });
   const [isNavigate, setIsNavigate] = useState('');
   const handleSelect = key => e => {
-    setSelect({ ...select, [key]: e.target.name }); // 검색 조건 설정하고
+    console.log(e.target.id);
+    setSelect({ ...select, [key]: e.target.id }); // 검색 조건 설정하고
     if (key === 'size') setIsQ1(false);
     if (key === 'space') setIsQ2(false);
     if (key === 'species') {
@@ -74,16 +104,20 @@ function Select() {
                 Q1. 어떤 크기의 반려 식물을 찾고 있나요?
               </QuestionDiv>
               <span>
-                <Image
-                  src="../images/select/큰.png"
-                  onClick={handleSelect('size')}
-                  name="1"
-                />
-                <Image
-                  src="../images/select/작은.png"
-                  onClick={handleSelect('size')}
-                  name="2"
-                />
+                <ContainerRow>
+                  <div style={{ position: 'relative' }}>
+                    <Image src="../images/select/큰.png" />
+                    <TextBox onClick={handleSelect('size')} id="1">
+                      <TextDiv>큰</TextDiv>
+                    </TextBox>
+                  </div>
+                  <div style={{ position: 'relative' }}>
+                    <Image src="../images/select/작은.png" />
+                    <TextBox onClick={handleSelect('size')} id="2">
+                      <TextDiv>작은</TextDiv>
+                    </TextBox>
+                  </div>
+                </ContainerRow>
               </span>
             </UDContainer>
           ) : (
@@ -96,28 +130,32 @@ function Select() {
                     </QuestionDiv>
                     <span>
                       <ContainerRow style={{ margin: '1rem' }}>
-                        <Image
-                          src="../images/select/가구.png"
-                          onClick={handleSelect('space')}
-                          name="1"
-                        />
-                        <Image
-                          src="../images/select/바닥.png"
-                          onClick={handleSelect('space')}
-                          name="2"
-                        />
+                        <div style={{ position: 'relative' }}>
+                          <Image src="../images/select/가구.png" />
+                          <TextBox onClick={handleSelect('space')} id="1">
+                            <TextDiv>가구</TextDiv>
+                          </TextBox>
+                        </div>
+                        <div style={{ position: 'relative' }}>
+                          <Image src="../images/select/바닥.png" />
+                          <TextBox onClick={handleSelect('space')} id="2">
+                            <TextDiv>바닥</TextDiv>
+                          </TextBox>
+                        </div>
                       </ContainerRow>
                       <ContainerRow style={{ margin: '1rem' }}>
-                        <Image
-                          src="../images/select/벽.png"
-                          onClick={handleSelect('space')}
-                          name="3"
-                        />
-                        <Image
-                          src="../images/select/천장.png"
-                          onClick={handleSelect('space')}
-                          name="4"
-                        />
+                        <div style={{ position: 'relative' }}>
+                          <Image src="../images/select/벽.png" />
+                          <TextBox onClick={handleSelect('space')} id="3">
+                            <TextDiv>벽</TextDiv>
+                          </TextBox>
+                        </div>
+                        <div style={{ position: 'relative' }}>
+                          <Image src="../images/select/천장.png" />
+                          <TextBox onClick={handleSelect('space')} id="4">
+                            <TextDiv>천장</TextDiv>
+                          </TextBox>
+                        </div>
                       </ContainerRow>
                     </span>
                   </UDContainer>
@@ -132,28 +170,32 @@ function Select() {
                         </QuestionDiv>
                         <span>
                           <ContainerRow style={{ margin: '1rem' }}>
-                            <Image
-                              src="../images/select/꽃.png"
-                              onClick={handleSelect('species')}
-                              name="1"
-                            />
-                            <Image
-                              src="../images/select/비꽃.png"
-                              onClick={handleSelect('species')}
-                              name="2"
-                            />
+                            <div style={{ position: 'relative' }}>
+                              <Image src="../images/select/꽃.png" />
+                              <TextBox onClick={handleSelect('species')} id="1">
+                                <TextDiv>꽃이 피는</TextDiv>
+                              </TextBox>
+                            </div>
+                            <div style={{ position: 'relative' }}>
+                              <Image src="../images/select/비꽃.png" />
+                              <TextBox onClick={handleSelect('species')} id="2">
+                                <TextDiv>잎이 많은</TextDiv>
+                              </TextBox>
+                            </div>
                           </ContainerRow>
                           <ContainerRow style={{ margin: '1rem' }}>
-                            <Image
-                              src="../images/select/선인장.png"
-                              onClick={handleSelect('species')}
-                              name="3"
-                            />
-                            <Image
-                              src="../images/select/다육.png"
-                              onClick={handleSelect('species')}
-                              name="4"
-                            />
+                            <div style={{ position: 'relative' }}>
+                              <Image src="../images/select/선인장.png" />
+                              <TextBox onClick={handleSelect('species')} id="3">
+                                <TextDiv>선인장</TextDiv>
+                              </TextBox>
+                            </div>
+                            <div style={{ position: 'relative' }}>
+                              <Image src="../images/select/다육.png" />
+                              <TextBox onClick={handleSelect('species')} id="4">
+                                <TextDiv>다육이</TextDiv>
+                              </TextBox>
+                            </div>
                           </ContainerRow>
                         </span>
                       </UDContainer>
