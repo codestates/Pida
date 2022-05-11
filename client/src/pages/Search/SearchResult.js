@@ -3,17 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { TButton } from '../../components/Button';
 import {
-  Container,
-  UDContainer,
-  ContainerRow2,
+  Container1,
+  Container2,
+  Container3,
   Item,
 } from '../../components/Container';
-import {
-  AnswerDiv,
-  SearchCountDiv,
-  SearchResultForm,
-  ItemLeft,
-} from '../../components/Div';
+import { AnswerDiv, SearchCountDiv, ItemLeft } from '../../components/Div';
 import { ImageR } from '../../components/Image';
 
 function SearchResult() {
@@ -54,60 +49,57 @@ function SearchResult() {
 
   return (
     <>
-      <UDContainer>
-        <SearchResultForm>
-          <Container>
-            <ItemLeft>
-              <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다</AnswerDiv>
-              <SearchCountDiv>검색결과 총 {plantsTotal}건</SearchCountDiv>
-            </ItemLeft>
-            <div style={{ margin: '1rem' }}>
-              <ContainerRow2>
-                {plantsArray.map(plant => {
-                  return (
-                    <Item>
-                      <TButton onClick={() => handlePlantDetail(plant.id)}>
-                        <ImageR src={plant.image} alt="" />
-                        <h3>{plant.name}</h3>
-                      </TButton>
-                    </Item>
-                  );
-                })}
+      <Container1>
+        <Container2>
+          <ItemLeft>
+            <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다</AnswerDiv>
+            <SearchCountDiv>검색결과 총 {plantsTotal}건</SearchCountDiv>
+          </ItemLeft>
+
+          <Container3>
+            {plantsArray.map(plant => {
+              return (
                 <Item>
-                  <TButton onClick={() => handlePlantDetail(1)}>
-                    <ImageR src="../images/logo.png" alt="" />
-                    <h3>아무꽃</h3>
+                  <TButton onClick={() => handlePlantDetail(plant.id)}>
+                    <ImageR src={plant.image} alt="" />
+                    <h3>{plant.name}</h3>
                   </TButton>
                 </Item>
-                <Item>
-                  <TButton onClick={() => handlePlantDetail(1)}>
-                    <ImageR src="../images/logo.png" alt="" />
-                    <h3>아무꽃</h3>
-                  </TButton>
-                </Item>
-                <Item>
-                  <TButton onClick={() => handlePlantDetail(1)}>
-                    <ImageR src="../images/logo.png" alt="" />
-                    <h3>아무꽃</h3>
-                  </TButton>
-                </Item>
-                <Item>
-                  <TButton onClick={() => handlePlantDetail(1)}>
-                    <ImageR src="../images/logo.png" alt="" />
-                    <h3>아무꽃</h3>
-                  </TButton>
-                </Item>
-                <Item>
-                  <TButton onClick={() => handlePlantDetail(1)}>
-                    <ImageR src="../images/logo.png" alt="" />
-                    <h3>아무꽃</h3>
-                  </TButton>
-                </Item>
-              </ContainerRow2>
-            </div>
-          </Container>
-        </SearchResultForm>
-      </UDContainer>
+              );
+            })}
+            <Item>
+              <TButton onClick={() => handlePlantDetail(1)}>
+                <ImageR src="../images/logo.png" alt="" />
+                <h3>아무꽃</h3>
+              </TButton>
+            </Item>
+            <Item>
+              <TButton onClick={() => handlePlantDetail(1)}>
+                <ImageR src="../images/logo.png" alt="" />
+                <h3>아무꽃</h3>
+              </TButton>
+            </Item>
+            <Item>
+              <TButton onClick={() => handlePlantDetail(1)}>
+                <ImageR src="../images/logo.png" alt="" />
+                <h3>아무꽃</h3>
+              </TButton>
+            </Item>
+            <Item>
+              <TButton onClick={() => handlePlantDetail(1)}>
+                <ImageR src="../images/logo.png" alt="" />
+                <h3>아무꽃</h3>
+              </TButton>
+            </Item>
+            <Item>
+              <TButton onClick={() => handlePlantDetail(1)}>
+                <ImageR src="../images/logo.png" alt="" />
+                <h3>아무꽃</h3>
+              </TButton>
+            </Item>
+          </Container3>
+        </Container2>
+      </Container1>
     </>
   );
 }

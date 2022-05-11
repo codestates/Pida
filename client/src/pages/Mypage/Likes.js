@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { TButton } from '../../components/Button';
-import { ContainerRow2, Item } from '../../components/Container';
+import { Container3, Item } from '../../components/Container';
 import { ImageR } from '../../components/Image';
 import { Modal3 } from '../../components/Modal';
 import InteriorDetail from '../Plant/InteriorDetail';
@@ -27,7 +27,7 @@ function Likes(props) {
 
   return (
     <>
-      <ContainerRow2>
+      <Container3>
         {props.likesArray.map(like => {
           return (
             <Item>
@@ -47,7 +47,7 @@ function Likes(props) {
             />
           </Modal3>
         ) : null}
-      </ContainerRow2>
+      </Container3>
     </>
   );
 }

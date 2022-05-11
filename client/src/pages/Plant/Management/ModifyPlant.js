@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { SelectButton } from '../../../components/Button';
 import {
   UDContainer,
   ContainerRow,
-  MiniContainer,
+  Container,
 } from '../../../components/Container';
 import { Error, Label } from '../../../components/Div';
 import { ImageR } from '../../../components/Image';
@@ -154,7 +154,7 @@ function ModifyPlant(props) {
   return (
     <UDContainer>
       <ContainerRow style={{ justifyContent: 'center' }}>
-        <MiniContainer>
+        <Container>
           <ImageR style={{ marginBottom: '0.8rem' }} src={preview} />
           <div>
             <Label htmlFor="inputlabel">사진선택</Label>
@@ -167,7 +167,7 @@ function ModifyPlant(props) {
               onChange={handleImage}
             />
           </div>
-        </MiniContainer>
+        </Container>
 
         <span style={{ marginLeft: '3rem' }}>
           <h4 style={{ margin: '0 0 0.5rem 0' }}>크기</h4>

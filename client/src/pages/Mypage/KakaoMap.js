@@ -1,6 +1,6 @@
 /*global kakao*/
 import React, { useEffect, useState } from 'react';
-import { Map, MapMarker } from 'react-kakao-maps-sdk';
+import { Map, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
 import { TransContainer, UDContainer } from '../../components/Container';
 
@@ -111,10 +111,16 @@ function KakaoMap() {
   }, [map]);
 
   //마커 이미지
-  const src = '../../images/namu.png', // 마커이미지의 주소입니다
-    size = { width: 25, height: 25 }, // 마커이미지의 크기입니다
-    options = { offset: new kakao.maps.Point(27, 69) }; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-  const markerImage = { src, size, options };
+  const currentMarkerImage = {
+    src: '../../images/current.png',
+    size: { width: 30, height: 33 },
+    //options: { offset: new kakao.maps.Point(13, 13) },
+  };
+  const StoreMarkerImage = {
+    src: '../../images/namu.png',
+    size: { width: 25, height: 25 },
+    options: { offset: new kakao.maps.Point(13, 13) },
+  };
 
   return (
     <>
@@ -122,46 +128,48 @@ function KakaoMap() {
         <TransContainer>
           <div>
             <h2>내 주변 꽃집 찾기</h2>
-            <Map // 지도를 표시할 Container
+            {/* 지도 Container */}
+            <Map
               center={state.center}
               style={{
-                // 지도의 크기
                 width: '30rem',
                 height: '30rem',
                 border: '1rem red',
               }}
-              level={3} // 지도의 확대 레벨
+              level={3}
               onCreate={setMap}
             >
               {/* 현재 위치 마커 */}
               {!state.isLoading && (
-                <MapMarker position={state.center}>
-                  {/* <div style={{ padding: '0.3rem', color: '#000' }}>
-                    {state.errMsg ? state.errMsg : '여기에 계신가요?!'}
-                  </div> */}
-                </MapMarker>
+                <MapMarker position={state.center} image={currentMarkerImage} />
               )}
-
+              {/* 꽃집 위치 */}
               {markers.map(marker => (
-                <MapMarker
-                  key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
-                  position={marker.position}
-                  onMouseOver={() => setInfo(marker)}
-                  onMouseOut={() => setInfo()}
-                  image={markerImage}
-                >
-                  {info && info.content === marker.content && (
-                    <>
-                      <div id="marker" style={{ color: '#000' }}>
-                        {marker.content}
-                      </div>
-                    </>
-                  )}
-                </MapMarker>
+                <>
+                  {/* 말풍선 */}
+                  <CustomOverlayMap
+                    position={marker.position}
+                    content={marker.content}
+                  >
+                    {/* 마커 */}
+                    <MapMarker
+                      key={`marker-${marker.content}-${marker.position.lat},${marker.position.lng}`}
+                      position={marker.position}
+                      onMouseOver={() => setInfo(marker)}
+                      onMouseOut={() => setInfo()}
+                      image={StoreMarkerImage}
+                    ></MapMarker>
+                    {info && info.content === marker.content && (
+                      <MarkerBubble>{marker.content}</MarkerBubble>
+                    )}
+                  </CustomOverlayMap>
+                </>
               ))}
             </Map>
           </div>
+
           <div>
+            {/* 검색결과 리스트 */}
             <div
               style={{
                 margin: '4.4rem 2rem 0rem 2rem',
@@ -171,14 +179,12 @@ function KakaoMap() {
                 overflow: 'auto',
               }}
             >
-              {/*검색결과와 페이지네이션 적용*/}
-              <ul className="searchResults" style={{ padding: '0 1rem' }}>
+              <ul style={{ padding: '0 1rem' }}>
                 {dataList.map(item => {
                   return (
                     <Storeli
                       key={item.id}
                       onMouseOver={() => {
-                        // console.log('마우스오버');
                         setInfo({
                           position: {
                             lat: item.data.y,
@@ -188,11 +194,9 @@ function KakaoMap() {
                         });
                       }}
                       onMouseOut={() => {
-                        // console.log('마우스아웃');
                         setInfo();
                       }}
                     >
-                      {/* <div>{item.idx}</div> */}
                       <h4 style={{ marginBottom: '0rem ' }}>
                         {item.data.place_name}
                       </h4>
@@ -206,7 +210,8 @@ function KakaoMap() {
                 })}
               </ul>
             </div>
-            <Pageul className="pages">
+            {/* 페이지 번호 */}
+            <Pageul>
               {pages.map((page, idx) => {
                 return idx + 1 === pageInfo.current ? (
                   <a key={idx}>
@@ -233,23 +238,33 @@ function KakaoMap() {
 
 export default KakaoMap;
 
+const MarkerBubble = styled.div`
+  position: absolute;
+  z-index: 999;
+  top: -2rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 0.15rem;
+  font-weight: 600;
+  color: white;
+  background-color: #3ba914;
+`;
+
 const Storeli = styled.li`
   list-style: none;
   :hover {
     background-color: #bcbcbc;
   }
 `;
-
-const Pageli = styled.li`
+const Pageul = styled.ul`
+  padding-left: 0;
+  text-align: center;
   list-style: none;
-  color: #bcbcbc;
-  //float: left;
+`;
+const Pageli = styled.li`
   display: inline-block;
   padding: 0 1rem;
-`;
-
-const Pageul = styled.ul`
   list-style: none;
-  text-align: center;
-  padding-left: 0;
+  color: #bcbcbc;
+  cursor: pointer;
 `;

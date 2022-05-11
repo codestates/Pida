@@ -8,12 +8,10 @@ import {
   MypageButton,
   ManagerButton,
 } from '../../components/Button';
-import { UDContainer, Form, TransContainer } from '../../components/Container';
+import { UDContainer, TransContainer } from '../../components/Container';
 import { ImageP, ImageI } from '../../components/Image';
 import { Modal, Modal3 } from '../../components/Modal';
 import InteriorDetail from './InteriorDetail';
-
-import ModifyPlant from './Management/ModifyPlant';
 import DeletePlant from './Management/DeletePlant';
 
 // 가로 스크롤 생기는 특정 부분
@@ -76,13 +74,6 @@ function PlantDetail() {
         },
       )
       .then(res => {
-        // setPlant({
-        //   ...plant,
-        //   id: res.data.data.id,
-        //   plantName: res.data.data.plantName,
-        //   plantImage: res.data.data.plantImage,
-        //   plantDescription: res.data.data.plantDescription,
-        // });
         setInteriorsArray(res.data.data.interiorsArray);
       });
   };
@@ -145,7 +136,7 @@ function PlantDetail() {
   return (
     <>
       <UDContainer>
-        <Form>
+        <div style={{ width: '95%' }}>
           {/* 관리자라면 수정삭제버튼 보이기 */}
           {localStorage.getItem('loginUserId') === managerId ? (
             <span
@@ -221,7 +212,7 @@ function PlantDetail() {
               </Modal3>
             ) : null}
           </Interiors>
-        </Form>
+        </div>
       </UDContainer>
     </>
   );

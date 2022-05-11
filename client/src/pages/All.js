@@ -3,13 +3,14 @@ import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { TButton } from '../components/Button';
 import {
-  Container,
-  UDContainer,
-  ContainerRow2,
+  Container1,
+  Container2,
+  Container3,
   Item,
 } from '../components/Container';
-import { AnswerDiv, SearchResultForm, ItemLeft } from '../components/Div';
+import { AnswerDiv, ItemLeft } from '../components/Div';
 import { ImageR } from '../components/Image';
+import styled from 'styled-components';
 
 function All() {
   const history = useHistory();
@@ -18,7 +19,7 @@ function All() {
   const [plantsArray, setPlantsArray] = useState([]);
   useEffect(() => {
     axios
-      .get(`${process.env.REACT_APP_API_URL}/search/all`, {
+      .get(`${process.env.REACT_APP_API_URL}/search`, {
         withCredentials: true,
       })
       .then(res => {
@@ -45,36 +46,66 @@ function All() {
 
   return (
     <>
-      <UDContainer>
-        <SearchResultForm>
-          <Container>
-            <ItemLeft>
-              <AnswerDiv style={{ paddingBottom: '5rem' }}>
-                당신의 공간에 어울리는 식물을 찾아보세요 🙂
-              </AnswerDiv>
-            </ItemLeft>
+      <Container1>
+        <Container2>
+          <ItemLeft>
+            <AnswerDiv style={{ paddingBottom: '5rem' }}>
+              당신의 공간에 어울리는 식물을 찾아보세요 🙂
+            </AnswerDiv>
+          </ItemLeft>
 
-            <ContainerRow2>
-              {plantsArray.map(plant => {
-                return (
+          <Container3>
+            {plantsArray.map(plant => {
+              return (
+                <>
                   <Item>
                     <TButton onClick={() => handlePlantDetail(plant.id)}>
                       <ImageR src={plant.image} alt="" />
                       <h2>{plant.name}</h2>
                     </TButton>
                   </Item>
-                );
-              })}
-              <Item>
-                <TButton onClick={() => handlePlantDetail(0)}>
-                  <ImageR src="../../images/logo.png" alt="" />
-                  <h2>로고</h2>
-                </TButton>
-              </Item>
-            </ContainerRow2>
-          </Container>
-        </SearchResultForm>
-      </UDContainer>
+                </>
+              );
+            })}
+            <Item>
+              <TButton>
+                <ImageR src="../../images/logo.png" alt="" />
+                <h2>.</h2>
+              </TButton>
+            </Item>{' '}
+            <Item>
+              <TButton>
+                <ImageR src="../../images/logo.png" alt="" />
+                <h2>.</h2>
+              </TButton>
+            </Item>{' '}
+            <Item>
+              <TButton>
+                <ImageR src="../../images/logo.png" alt="" />
+                <h2>.</h2>
+              </TButton>
+            </Item>
+            <Item>
+              <TButton>
+                <ImageR src="../../images/logo.png" alt="" />
+                <h2>.</h2>
+              </TButton>
+            </Item>
+            <Item>
+              <TButton>
+                <ImageR src="../../images/logo.png" alt="" />
+                <h2>.</h2>
+              </TButton>
+            </Item>
+            <Item>
+              <TButton>
+                <ImageR src="../../images/logo.png" alt="" />
+                <h2>.</h2>
+              </TButton>
+            </Item>
+          </Container3>
+        </Container2>
+      </Container1>
     </>
   );
 }
