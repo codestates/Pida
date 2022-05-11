@@ -20,66 +20,66 @@ import styled from 'styled-components';
 const Container = styled.div`
   position: relative;
   width: 100vw;
-  min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
 `;
 
 const InnerContainer = styled.div`
-  position: relative;
+  //position: relative; // 왜지?
   display: flex;
   justify-content: center;
+  min-height: max-content;
+  //min-height: calc(var(--vh, 1vh) * 80);
 
-  height: max-content;
-  //min-height: 800px;
-
-  // margin-bottom: 200px;
-  margin-top: 2rem;
-  @media screen and (max-width: 760px) {
-    margin-top: 6.2rem;
-  }
+  margin-top: 3rem;
+  // margin-bottom: 200px; // footer 공간
 `;
 
 function App() {
+  const setScreenSize = () => {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  };
+  setScreenSize();
+
   return (
     <BrowserRouter>
       <Container>
-        <div>
-          <Nav />
-          <InnerContainer>
-            <Switch>
-              <Route exact path="/" component={Main} />
-              <Route exact path="/select" component={Select} />
-              <Route exact path="/search?" component={SearchResult} />
-              <Route exact path="/search" component={All} />
+        <Nav />
+        <InnerContainer>
+          <Switch>
+            <Route exact path="/" component={Main} />
+            <Route exact path="/select" component={Select} />
+            <Route exact path="/search?" component={SearchResult} />
+            <Route exact path="/search" component={All} />
 
-              {/* 소셜 로그인 */}
-              <Route exact path="/githubcallback" component={GithubCallback} />
-              <Route exact path="/kakaocallback" component={KakaoCallback} />
+            {/* 소셜 로그인 */}
+            <Route exact path="/githubcallback" component={GithubCallback} />
+            <Route exact path="/kakaocallback" component={KakaoCallback} />
 
-              {/* 마이페이지 */}
-              <Route exact path="/users" component={Mypage} />
+            {/* 마이페이지 */}
+            <Route exact path="/users" component={Mypage} />
 
-              <Route exact path="/map" component={KakaoMap} />
+            <Route exact path="/map" component={KakaoMap} />
 
-              {/* 식물 관리자 */}
-              <Route exact path="/plants" component={AddPlant} />
-              <Route exact path="/plants/:id/modify" component={ModifyPlant} />
+            {/* 식물 관리자 */}
+            <Route exact path="/plants" component={AddPlant} />
+            <Route exact path="/plants/:id/modify" component={ModifyPlant} />
 
-              {/* 식물 상세 */}
-              <Route exact path="/plants/:id" component={PlantDetail} />
+            {/* 식물 상세 */}
+            <Route exact path="/plants/:id" component={PlantDetail} />
 
-              {/* 인테리어 */}
-              <Route
-                exact
-                path="/plants/:id/interiors"
-                component={InteriorWrite}
-              />
-              <Route exact path="/interiors/:id" component={InteriorModify} />
+            {/* 인테리어 */}
+            <Route
+              exact
+              path="/plants/:id/interiors"
+              component={InteriorWrite}
+            />
+            <Route exact path="/interiors/:id" component={InteriorModify} />
 
-              {/* 채팅 */}
-              <Route exact path="/chat" component={Chat} />
-            </Switch>
-          </InnerContainer>
-        </div>
+            {/* 채팅 */}
+            <Route exact path="/chat" component={Chat} />
+          </Switch>
+        </InnerContainer>
       </Container>
     </BrowserRouter>
   );
