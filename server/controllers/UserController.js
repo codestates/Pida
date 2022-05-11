@@ -10,6 +10,14 @@ const dotenv = require('dotenv');
 dotenv.config();
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
+/*
+  email 인증 관련
+*/
+const nodemailer = require('nodemailer');
+const ejs = require('ejs');
+const { nanoid } = require('nanoid');
+const Op = require('sequelize');
+
 module.exports = {
   //이메일 인증 코드 받기
   getEmailCode: async (req, res) => {
@@ -115,31 +123,18 @@ module.exports = {
         .json({ message: '서버가 이메일 인증 처리에 실패했습니다' });
     }
   },
-  //이메일 코드 인증
+
+  // 인증 코드
   verifyEmailCode: async (req, res) => {
     try {
-      /*
-        1. User.emailAuthCode 받아오기
-        2. 400: 그런 거 없음 || not Num
-        3. 유효 시간은 5분
-          3.1. currentTime = new Date().getTime()
-          3.2. validTime = new Date( ~~ +5) <- 5분 추가할 수 있도록
-          3.3. validTime() < getTime()
-          3.4. 401: 인증코드가 유효하지 않습니다(유효기간 경과 또는 불일치)
-          3.5. User.destroy
-        4. 인증 코드 불일치
-          4.1. 401: 인증코드가 유효하지 않습니다(유효기간 경과 또는 불일치)
-          4.2. userInfo.emailAuth !== emailAuth ..?
-          4.3. User.destroy
-        5. '3', '4' 합칠 수 없나?
-      */
-
       // eac 받아옴
-      const { emailAuthCode } = req.body; // ?? 오히려 헷갈릴 거라 생각했는데 잘못생각했나봐요
+      const { emailAuthCode } = req.body;
 
       // 있긴 함? 없으면 400 컷
       if (!emailAuthCode) {
-        return res.status(400).json({ message: '인증 코드가 없습니다' });
+        return res
+          .status(400)
+          .json({ message: '인증 코드가 없습니다' });
       }
 
       // 해당 인증 코드를 가진 가가입 유저를 먼저 찾아옴
@@ -148,22 +143,23 @@ module.exports = {
       });
 
       // 그 친구의 이메일 <- 리턴해줄 수 있도록
-      const { email } = await User.findOne({
+      const tempUserEmail = await User.findOne({
         attributes: ['email'],
         where: { emailAuthCode },
       });
 
       if (tempUser) {
         return res.status(200).json({
-          data: { email },
+          data: { email: tempUserEmail.email },
           message: '이메일이 인증 되었습니다',
         });
       } else {
-        console.log('유저 없어요');
+        console.log('유저 없어 돌아가 ----------------> ');
         res
           .status(401)
           .json({ message: '이메일 인증코드가 유효하지 않습니다' });
       }
+
     } catch (e) {
       //서버 에러
       console.error(e);
