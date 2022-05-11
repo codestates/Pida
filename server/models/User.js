@@ -32,6 +32,10 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: 0,
         allowNull: false,
       },
+      emailAuthCode: {
+        type: DataTypes.STRING(6),
+        allowNull: true,
+      },
     },
     {
       sequelize,
