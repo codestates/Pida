@@ -5,7 +5,7 @@ export const Container = styled.div`
   flex-direction: column; // 아이템들 세로로 정렬
   align-items: center; // 좌우 가운데로 정렬
   width: 100vw;
-  min-height: 80vh;
+  min-height: calc(var(--vh, 1vh) * 80);
 `;
 
 export const UDContainer = styled(Container)`
@@ -37,7 +37,7 @@ export const TransContainer = styled.div`
     align-items: center;
     text-align: center;
     flex-direction: column;
-    margin: 2rem;
+    //margin: 2rem;
   }
 `;
 
@@ -50,7 +50,7 @@ export const Container1 = styled.section`
   height: max-content;
 `;
 export const Container2 = styled.div`
-  position: relative;
+  //position: relative;
   grid-column: 2 / 12; // 양 끝 칸 빼고 컨텐츠를 채운다
   height: max-content;
 `;
