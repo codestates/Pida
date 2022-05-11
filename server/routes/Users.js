@@ -3,7 +3,7 @@ const router = express.Router();
 
 const signupRouter = require('./Signup');
 const userController = require('../controllers/User/Index');
-const authController = require('../controllers/AuthController');
+const authController = require('../controllers/Auth/Index');
 const isAuth = require('../middlewares/Authentication');
 
 //유저 CRUD
