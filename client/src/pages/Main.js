@@ -54,7 +54,7 @@ function Main() {
     history.replace('/select');
   };
   const handleAll = () => {
-    history.replace('/search/all');
+    history.replace('/search');
   };
   const handleSerchFlower = () => {
     history.replace('/map');

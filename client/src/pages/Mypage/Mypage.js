@@ -2,7 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { MypageButton, MypageButton2, TButton } from '../../components/Button';
-import { ContainerRow, Container, Form } from '../../components/Container';
+import {
+  Container1,
+  Container2,
+  ContainerRow,
+} from '../../components/Container';
 import { Error } from '../../components/Div';
 import { Modal, Modal2 } from '../../components/Modal';
 import Bye from './Bye';
@@ -145,8 +149,8 @@ function Mypage() {
   };
 
   return (
-    <Container>
-      <Form>
+    <Container1>
+      <Container2>
         <div style={{ paddingTop: '2rem' }}>
           <span style={{ display: 'inline-block' }}>
             {isModifyNickname ? (
@@ -164,7 +168,10 @@ function Mypage() {
                   <img
                     src="../../images/modify.png"
                     alt=""
-                    style={{ width: '0.8rem', padding: '0.5rem 0 0 0.2rem' }}
+                    style={{
+                      width: '0.8rem',
+                      padding: '0.5rem 0 0 0.2rem',
+                    }}
                   />
                 </TButton>
               </ContainerRow>
@@ -179,7 +186,11 @@ function Mypage() {
           </span>
 
           <span
-            style={{ display: 'inline-block', display: 'flex', float: 'right' }}
+            style={{
+              display: 'inline-block',
+              display: 'flex',
+              float: 'right',
+            }}
           >
             {userInfo.platformType === 0 ? (
               <MypageButton onClick={handleModifyPassword}>
@@ -215,8 +226,8 @@ function Mypage() {
             <Likes likesArray={likesArray} getMypage={getMypage} />
           )}
         </div>
-      </Form>
-    </Container>
+      </Container2>
+    </Container1>
   );
 }
 export default Mypage;

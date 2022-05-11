@@ -35,12 +35,12 @@ const TextDiv = styled.div`
 
 const TextBox = styled.div`
   position: absolute;
-  margin: 0 1rem 0 0rem;
+  margin: 0 1rem 0 1rem;
 
   width: 12rem;
   height: 16rem;
-  top: 0%;
-  left: 7%;
+  top: 0;
+
   opacity: 0;
   transition: 0.5s ease;
   background-color: black;
@@ -82,7 +82,7 @@ function Select() {
   useEffect(() => {
     if (isNavigate) {
       history.push({
-        pathname: '/search',
+        pathname: '/search?',
         state: select,
       });
       setIsNavigate(false);

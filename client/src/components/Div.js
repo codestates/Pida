@@ -5,7 +5,7 @@ export const Message = styled.div`
   color: #3ba914;
 
   @media screen and (max-width: 760px) {
-    //font-size: 0.8rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -24,7 +24,7 @@ export const AnswerDiv = styled.div`
   font-size: 2.5rem;
   font-weight: 600;
   @media screen and (max-width: 760px) {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 500;
   }
 `;
@@ -35,12 +35,7 @@ export const SearchCountDiv = styled.div`
     font-size: 0.8rem;
   }
 `;
-export const SearchResultForm = styled.div`
-  margin: 3rem 2rem 2rem 2rem;
-  /* @media screen and (max-width: 760px) {
-    margin: 1rem;
-  } */
-`;
+
 export const ItemLeft = styled.div`
   width: 100%;
   padding: 1rem;
