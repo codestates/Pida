@@ -150,7 +150,7 @@ const Menunav = styled.nav`
   align-items: center; // 수직축 가운데로 정렬
   padding: 0.5rem 1.5rem;
   min-width: 100%-1.5rem;
-  height: 7vh; // 나머지에서 빼줄까???
+  height: 5vh;
   // border-bottom: 0.1rem solid black; //가로 밑줄
 `;
 
@@ -205,7 +205,7 @@ const MenuColumn = styled.div`
     display: ${({ menu }) => {
       return menu === false ? 'none' : 'flex';
     }};
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     flex-direction: column;
     background-color: white;
   }

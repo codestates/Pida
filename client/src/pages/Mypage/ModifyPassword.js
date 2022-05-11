@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { ConfirmButton, SignButton } from '../../components/Button';
-import { UDContainer } from '../../components/Container';
 import { Error } from '../../components/Div';
 import { SignInput } from '../../components/Input';
 import { Modal } from '../../components/Modal';
@@ -75,7 +74,7 @@ function ModifyPassword({ handleModifyPasswordModal }) {
   };
 
   return (
-    <UDContainer>
+    <>
       <div>
         <SignInput
           type="password"
@@ -105,11 +104,11 @@ function ModifyPassword({ handleModifyPasswordModal }) {
       </div>
       {isOpen ? (
         <Modal handleModal={handleModal}>
-          <h3>비밀번호가 변경되었습니다</h3>
+          비밀번호가 변경되었습니다
           <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
         </Modal>
       ) : null}
-    </UDContainer>
+    </>
   );
 }
 export default ModifyPassword;

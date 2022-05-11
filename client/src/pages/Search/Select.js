@@ -19,7 +19,7 @@ const Image = styled.img`
   width: 12rem;
   height: 16rem;
   @media screen and (max-width: 760px) {
-    padding: 1rem 1rem 0 2rem;
+    padding: 1rem 1rem 0 1rem;
   }
 `;
 

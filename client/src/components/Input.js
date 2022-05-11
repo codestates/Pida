@@ -4,7 +4,7 @@ export const SignInput = styled.input`
   margin: 0.8rem 0 0.8rem 0;
   padding-left: 1rem; // 글자위치
 
-  width: 30rem;
+  width: 31.7rem;
   height: 3.7rem;
   border: solid 0.1rem black;
   border-radius: 1.6rem;
@@ -21,9 +21,9 @@ export const SignInput = styled.input`
 
   @media screen and (max-width: 760px) {
     font-size: 0.9rem;
-    width: 12.5rem;
-    height: 2.2rem;
-    margin: 0.28rem 0 0.28rem 0;
+    width: 21.5rem;
+    height: 3.3rem;
+    margin: 0.3rem 0 0.3rem 0;
 
     ::placeholder {
       font-size: 0.9rem;
@@ -33,18 +33,13 @@ export const SignInput = styled.input`
 
 export const SignupInput = styled(SignInput)`
   margin: 0;
-  width: 26.7rem;
   border: none;
-  @media screen and (max-width: 760px) {
-    width: 10rem;
-    height: 2rem;
-  }
 `;
-
 export const SignupInput2 = styled(SignupInput)`
-  margin-right: 3.74rem;
+  width: 26.7rem;
+
   @media screen and (max-width: 760px) {
-    margin-right: 3rem;
+    width: 16.5rem;
   }
 `;
 

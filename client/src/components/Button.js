@@ -7,6 +7,8 @@ export const TButton = styled.button`
 `;
 
 export const CheckButton = styled.button`
+  width: 5rem;
+  font-size: 0.7rem;
   border: none;
   background-color: transparent;
   padding: 0 0.6rem 0 0;
@@ -15,7 +17,8 @@ export const CheckButton = styled.button`
   }
 
   @media screen and (max-width: 760px) {
-    font-size: 0.5rem;
+    //width: 6.1rem;
+    //font-size: 0.2rem;
   }
 `;
 
@@ -44,8 +47,8 @@ export const SelectButton = styled.button`
 
 // 긴 버튼
 export const SignButton = styled.button`
-  margin: 1rem;
-  width: 31.5rem;
+  margin: 0.8rem;
+  width: 33rem;
   height: 4rem;
   border-radius: 1.6rem;
   border: none;
@@ -58,14 +61,15 @@ export const SignButton = styled.button`
   font-weight: 800;
 
   @media screen and (max-width: 760px) {
-    width: 14rem;
-    height: 2.5rem;
+    width: 22.7rem;
+    height: 3.5rem;
     font-size: 1rem;
     margin: 0.3rem;
   }
 `;
 
 export const ConfirmButton = styled.button`
+  margin-top: 1rem;
   background-color: white;
   border: none;
   font-weight: 500;
