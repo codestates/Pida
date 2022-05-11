@@ -8,7 +8,6 @@ const QuestionDiv = styled.div`
   padding: 0rem 0 3rem 0;
   font-size: 2.3rem;
   font-weight: 600;
-
   @media screen and (max-width: 760px) {
     font-size: 1.5rem;
   }
@@ -123,90 +122,92 @@ function Select() {
           ) : (
             <>
               {isQ2 ? (
-                <div style={{ margin: '1rem' }}>
-                  <UDContainer>
-                    <QuestionDiv>
-                      Q2. 어떤 공간을 꾸밀 반려 식물을 찾고 있나요?
-                    </QuestionDiv>
-                    <span>
-                      <ContainerRow style={{ margin: '1rem' }}>
-                        <div style={{ position: 'relative' }}>
-                          <Image src="../images/select/가구.png" />
-                          <TextBox onClick={handleSelect('space')} id="1">
-                            <TextDiv>가구</TextDiv>
-                          </TextBox>
-                        </div>
-                        <div style={{ position: 'relative' }}>
-                          <Image src="../images/select/바닥.png" />
-                          <TextBox onClick={handleSelect('space')} id="2">
-                            <TextDiv>바닥</TextDiv>
-                          </TextBox>
-                        </div>
-                      </ContainerRow>
-                      <ContainerRow style={{ margin: '1rem' }}>
-                        <div style={{ position: 'relative' }}>
-                          <Image src="../images/select/벽.png" />
-                          <TextBox onClick={handleSelect('space')} id="3">
-                            <TextDiv>벽</TextDiv>
-                          </TextBox>
-                        </div>
-                        <div style={{ position: 'relative' }}>
-                          <Image src="../images/select/천장.png" />
-                          <TextBox onClick={handleSelect('space')} id="4">
-                            <TextDiv>천장</TextDiv>
-                          </TextBox>
-                        </div>
-                      </ContainerRow>
-                    </span>
-                  </UDContainer>
-                </div>
+                <UDContainer>
+                  <QuestionDiv>
+                    Q2. 어떤 공간을 꾸밀 반려 식물을 찾고 있나요?
+                  </QuestionDiv>
+                  <span>
+                    <ContainerRow style={{ margin: '1rem' }}>
+                      <div style={{ position: 'relative' }}>
+                        <Image src="../images/select/가구.png" />
+                        <TextBox onClick={handleSelect('space')} id="1">
+                          <TextDiv>가구</TextDiv>
+                        </TextBox>
+                      </div>
+                      <div style={{ position: 'relative' }}>
+                        <Image src="../images/select/바닥.png" />
+                        <TextBox onClick={handleSelect('space')} id="2">
+                          <TextDiv>바닥</TextDiv>
+                        </TextBox>
+                      </div>
+                    </ContainerRow>
+                    <ContainerRow style={{ margin: '1rem' }}>
+                      <div style={{ position: 'relative' }}>
+                        <Image src="../images/select/벽.png" />
+                        <TextBox onClick={handleSelect('space')} id="3">
+                          <TextDiv>벽</TextDiv>
+                        </TextBox>
+                      </div>
+                      <div style={{ position: 'relative' }}>
+                        <Image src="../images/select/천장.png" />
+                        <TextBox onClick={handleSelect('space')} id="4">
+                          <TextDiv>천장</TextDiv>
+                        </TextBox>
+                      </div>
+                    </ContainerRow>
+                  </span>
+                </UDContainer>
               ) : (
                 <>
                   {isQ3 ? (
-                    <div style={{ margin: '1rem' }}>
-                      <UDContainer>
-                        <QuestionDiv>
-                          Q3. 어떤 종류의 반려 식물을 찾고 있나요?
-                        </QuestionDiv>
-                        <span>
-                          <ContainerRow style={{ margin: '1rem' }}>
-                            <div style={{ position: 'relative' }}>
-                              <Image src="../images/select/꽃.png" />
-                              <TextBox onClick={handleSelect('species')} id="1">
-                                <TextDiv>꽃이 피는</TextDiv>
-                              </TextBox>
-                            </div>
-                            <div style={{ position: 'relative' }}>
-                              <Image src="../images/select/비꽃.png" />
-                              <TextBox onClick={handleSelect('species')} id="2">
-                                <TextDiv>잎이 많은</TextDiv>
-                              </TextBox>
-                            </div>
-                          </ContainerRow>
-                          <ContainerRow style={{ margin: '1rem' }}>
-                            <div style={{ position: 'relative' }}>
-                              <Image src="../images/select/선인장.png" />
-                              <TextBox onClick={handleSelect('species')} id="3">
-                                <TextDiv>선인장</TextDiv>
-                              </TextBox>
-                            </div>
-                            <div style={{ position: 'relative' }}>
-                              <Image src="../images/select/다육.png" />
-                              <TextBox onClick={handleSelect('species')} id="4">
-                                <TextDiv>다육이</TextDiv>
-                              </TextBox>
-                            </div>
-                          </ContainerRow>
-                        </span>
-                      </UDContainer>
-                    </div>
+                    <UDContainer>
+                      <QuestionDiv>
+                        Q3. 어떤 종류의 반려 식물을 찾고 있나요?
+                      </QuestionDiv>
+                      <span>
+                        <ContainerRow style={{ margin: '1rem' }}>
+                          <div style={{ position: 'relative' }}>
+                            <Image src="../images/select/꽃.png" />
+                            <TextBox onClick={handleSelect('species')} id="1">
+                              <TextDiv>
+                                꽃이
+                                <br />
+                                피는
+                              </TextDiv>
+                            </TextBox>
+                          </div>
+                          <div style={{ position: 'relative' }}>
+                            <Image src="../images/select/비꽃.png" />
+                            <TextBox onClick={handleSelect('species')} id="2">
+                              <TextDiv>
+                                잎이
+                                <br />
+                                많은
+                              </TextDiv>
+                            </TextBox>
+                          </div>
+                        </ContainerRow>
+                        <ContainerRow style={{ margin: '1rem' }}>
+                          <div style={{ position: 'relative' }}>
+                            <Image src="../images/select/선인장.png" />
+                            <TextBox onClick={handleSelect('species')} id="3">
+                              <TextDiv>선인장</TextDiv>
+                            </TextBox>
+                          </div>
+                          <div style={{ position: 'relative' }}>
+                            <Image src="../images/select/다육.png" />
+                            <TextBox onClick={handleSelect('species')} id="4">
+                              <TextDiv>다육이</TextDiv>
+                            </TextBox>
+                          </div>
+                        </ContainerRow>
+                      </span>
+                    </UDContainer>
                   ) : null}
                 </>
               )}
-              :
             </>
           )}
-          :
         </>
       )}
     </>
