@@ -9,5 +9,4 @@ router.post('/email', userController.getEmailCode);
 router.post('/emailauth', userController.verifyEmailCode);
 router.post('/nickname', userController.checkNickname);
 
-
 module.exports = router;

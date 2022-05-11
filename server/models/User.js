@@ -34,8 +34,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       emailAuthCode: {
         type: DataTypes.STRING(6),
-        allowNull: true
-      }
+        allowNull: true,
+      },
     },
     {
       sequelize,
