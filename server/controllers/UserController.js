@@ -10,14 +10,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
-/*
-  email 인증 관련
-*/
-const nodemailer = require('nodemailer');
-const ejs = require('ejs');
-const { nanoid } = require('nanoid');
-const Op = require('sequelize');
-
 module.exports = {
   //이메일 인증 코드 받기
   getEmailCode: async (req, res) => {
@@ -132,9 +124,7 @@ module.exports = {
 
       // 있긴 함? 없으면 400 컷
       if (!emailAuthCode) {
-        return res
-          .status(400)
-          .json({ message: '인증 코드가 없습니다' });
+        return res.status(400).json({ message: '인증 코드가 없습니다' });
       }
 
       // 해당 인증 코드를 가진 가가입 유저를 먼저 찾아옴
@@ -159,7 +149,6 @@ module.exports = {
           .status(401)
           .json({ message: '이메일 인증코드가 유효하지 않습니다' });
       }
-
     } catch (e) {
       //서버 에러
       console.error(e);
