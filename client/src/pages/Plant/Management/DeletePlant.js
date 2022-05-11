@@ -22,7 +22,7 @@ function DeletePlant(props) {
       .then(res => {
         // setIsOpen(true);
         alert('식물 삭제 완료');
-        history.replace('/search/all');
+        history.replace('/search');
       });
   };
 

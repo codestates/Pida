@@ -35,7 +35,7 @@ function Bye({ handleByeModal }) {
         <ConfirmButton onClick={handleBye}>탈퇴</ConfirmButton>
         {isOpen ? (
           <Modal handleModal={handleModal}>
-            <h3>탈퇴되었습니다</h3>
+            탈퇴되었습니다
             <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
           </Modal>
         ) : null}

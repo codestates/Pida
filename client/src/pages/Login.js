@@ -76,7 +76,7 @@ function Login(props) {
       <SignButton onClick={handleLogin}>로그인</SignButton>
       {isOpen ? (
         <Modal handleModal={handleModal}>
-          <h3>로그인에 성공했습니다</h3>
+          로그인에 성공했습니다
           <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
         </Modal>
       ) : null}
