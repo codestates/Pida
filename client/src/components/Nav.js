@@ -150,7 +150,7 @@ const Menunav = styled.nav`
   align-items: center; // 수직축 가운데로 정렬
   padding: 0.5rem 1.5rem;
   min-width: 100%-1.5rem;
-  height: 4rem; // 나머지에서 빼줄까???
+  height: 7vh; // 나머지에서 빼줄까???
   // border-bottom: 0.1rem solid black; //가로 밑줄
 `;
 
@@ -174,6 +174,7 @@ const Logo = styled.li`
 `;
 
 const Menuli = styled(Logo)`
+  cursor: pointer;
   @media screen and (max-width: 760px) {
     top: 3rem;
     margin-bottom: 0.5rem;

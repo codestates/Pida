@@ -23,10 +23,10 @@ export const ImageD = styled(Image)`
 export const ImageR = styled(Image)`
   width: 12rem;
   height: 12rem;
-  @media screen and (max-width: 760px) {
+  /* @media screen and (max-width: 760px) {
     width: 8rem;
     height: 8rem;
-  }
+  } */
 `;
 
 // 소셜 로그인 아이콘
