@@ -95,7 +95,7 @@ module.exports = {
         .json({ message: '로그인 및 회원가입에 실패했습니다' });
     }
   },
-  //네이버 로그인 및 회원가입
+  //카카오 로그인 및 회원가입
   kakaoLogin: async (req, res) => {
     try {
       // 카카오 로그인 사용을 위한 설정
