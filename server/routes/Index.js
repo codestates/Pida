@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const usersRouter = require('./Users');
-const oauthRouter = require('./Oauth');
+const oauthRouter = require('./OAuth');
 const plantsRouter = require('./Plants');
 const interiorsRouter = require('./Interiors');
 const commentsRouter = require('./Comments');
