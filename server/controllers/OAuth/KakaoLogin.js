@@ -2,6 +2,8 @@ require('dotenv').config();
 const axios = require('axios');
 const KAKAO_CLIENT_ID = process.env.KAKAO_CLIENT_ID;
 const KAKAO_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET;
+const emojiRegex = require('emoji-regex');
+
 const {
   generateAccessToken,
   sendAccessToken,
@@ -43,10 +45,11 @@ module.exports = async (req, res) => {
 
     const { email } = userInfo.data.kakao_account;
     const { nickname } = userInfo.data.properties;
+    let plainNickname = nickname.replace(emojiRegex(), '');
     const user = await User.findOne({ where: { email } });
     console.log(email, nickname, '사용자 이메일 닉네임');
     if (!user) {
-      const sameNickUser = await User.findOne({ where: { nickname } });
+      const sameNickUser = await User.findOne({ where: { nickname: plainNickname } });
       console.log(sameNickUser, '기존 가입자 중 같은 닉넴 가진 사용자가 있니?');
 
       const newUser = await User.create({

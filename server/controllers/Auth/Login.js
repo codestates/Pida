@@ -24,7 +24,9 @@ module.exports = async (req, res) => {
 
     // 404: 로그인 시도 유저의 정보가 없는 경우에 대한 처리
     if (!userInfo) {
-      return res.status(404).json({ message: '해당 유저가 없습니다' });
+      return res
+        .status(404)
+        .json({ message: '해당 유저가 없습니다' });
     }
 
     // db 상의 비밀번호와 입력값의 매칭 여부 확인
@@ -42,7 +44,9 @@ module.exports = async (req, res) => {
 
     //소셜 로그인 계정인데 로그인 창에 회원정보 입력한건 아닌지 확인.
     if (userInfo.dataValues.platformType !== 0) {
-      return res.status(403).json({ message: '소셜 계정입니다' });
+      return res
+        .status(403)
+        .json({ message: '소셜 계정입니다' });
     }
 
     // 상기 모든 조건을 통과한 경우,
