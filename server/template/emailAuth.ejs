@@ -1,14 +1,26 @@
 <html>
   <body>
     <div>
-      <p style="color: black">안녕하세요 <%= email %> 님,</p>
-      <p style="color: black">
-        아래 메일 인증 코드를 입력해 회원가입을 완료해 주세요.
+      <p style="color: black; font-size: 1rem">안녕하세요 <%= email %> 님,</p>
+      <p style="color: black; font-size: 1rem">
+        아래 메일 인증 코드를 입력해 Pida회원가입을 완료해 주세요.
       </p>
-      <h2><%= emailAuthCode %></h2>
-      <p>위 코드는 5분 후에 만료됩니다.</p>
-      <p>감사합니다.</p>
-      <p>Pida</p>
+
+      <p style="font-size: 2rem; font-weight: bold; margin: 1rem 1rem 1rem 0">
+        인증 코드 : <%= emailAuthCode %>
+      </p>
+
+      <p style="font-size: 1rem">위 코드는 5분 후에 만료됩니다.</p>
+      <p style="font-size: 1rem">감사합니다.</p>
+      <p
+        style="
+          font-size: 1rem;
+          font-weight: bold;
+          margin: 0.5rem 0.5rem 0.5rem 0;
+        "
+      >
+        Pida
+      </p>
     </div>
   </body>
 </html>
