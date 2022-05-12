@@ -14,9 +14,8 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: '회원가입에 실패하였습니다.' });
     }
 
-    console.log('가입가능');
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    console.log(hashedPassword, '암호화된비번');
+
     await User.update(
       {
         password: hashedPassword,
@@ -25,10 +24,11 @@ module.exports = async (req, res) => {
       },
       { where: { email } },
     );
-    const newUser = await User.findOne({ where: { email } });
-    delete newUser.dataValues.password;
-    delete newUser.dataValues.emailAuthCode;
-    console.log(newUser, '누구니?');
+
+    const { dataValues: newUser } = await User.findOne({ where: { email } });
+    delete newUser.password;
+    delete newUser.emailAuthCode;
+
     return res
       .status(201)
       .json({ data: newUser, message: '회원가입에 성공했습니다' });

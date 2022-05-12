@@ -1,5 +1,4 @@
-const { User, Interior} = require('../../models/Index');
-// const Sequelize = require('sequelize');
+const { User, Interior } = require('../../models/Index');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -24,24 +23,23 @@ module.exports = async (req, res, next) => {
         { where: { id: postId } },
       );
 
-      const user = await User.findByPk(req.id);
-      const updatedPost = await Interior.findByPk(postId);
-      console.log(updatedPost, '수정된 글');
-      const { id, userId, image, content, createdAt } =
-        updatedPost.dataValues;
-      const data = {
-        nickname: user.nickname,
-        isliked: false,
-        id,
-        userId,
-        createdAt,
-        image,
-        content,
-      };
+      const { id, userId, nickname, image, content, createdAt } =
+        await Interior.findByPk(postId, {
+          include: [{ model: User, attributes: ['nickname'] }],
+        });
 
-      return res
-        .status(200)
-        .json({ data, message: '인테리어 게시글 수정에 성공했습니다' });
+      return res.status(200).json({
+        data: {
+          id,
+          userId,
+          nickname,
+          image,
+          content,
+          createdAt,
+          isliked: false,
+        },
+        message: '인테리어 게시글 수정에 성공했습니다',
+      });
     }
 
     //완전 새 이미지로 교체하는 경우 처리.
@@ -62,19 +60,21 @@ module.exports = async (req, res, next) => {
       { where: { id: postId } },
     );
 
-    const user = await User.findByPk(req.id);
-    const updatedPost = await Interior.findByPk(postId);
-    console.log(updatedPost, '수정된 글');
-    const { id, userId, image, content, createdAt } = updatedPost.dataValues;
+    const { id, userId, nickname, image, content, createdAt } =
+      await Interior.findByPk(postId, {
+        include: [{ model: User, attributes: ['nickname'] }],
+      });
+
     const data = {
-      nickname: user.nickname,
-      isliked: false,
       id,
       userId,
-      createdAt,
+      nickname,
       image,
       content,
+      createdAt,
+      isliked: false,
     };
+
     console.log(data, '응답으로 돌려줄 데이터');
     req.data = data;
     next();
@@ -85,4 +85,4 @@ module.exports = async (req, res, next) => {
       .status(500)
       .json({ message: '서버가 인테리어 게시글 수정에 실패했습니다' });
   }
-}
+};

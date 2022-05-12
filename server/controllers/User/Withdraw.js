@@ -10,7 +10,14 @@ module.exports = async (req, res) => {
       },
     });
     return res
-      .cookie('accessToken', null, { maxAge: 0 })
+      .cookie('accessToken', null, {
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true,
+        domain: '.server.pida.link',
+        path: '/',
+        maxAge: 0,
+      })
       .status(204)
       .json({ message: '회원탈퇴에 성공했습니다' });
   } catch (e) {

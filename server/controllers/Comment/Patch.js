@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
     //어떤 댓글을 수정할지, 어떻게 수정할건지 내용을 받는다
     const { id: commentId } = req.params;
     const { comment } = req.body;
-    if (!commentId || !comment || content.trim() === '') {
+    if (!commentId || !comment || comment.trim() === '') {
       return res.status(400).json({ message: '댓글 수정에 실패했습니다' });
     }
 
@@ -22,32 +22,34 @@ module.exports = async (req, res) => {
     //수정
     await Comment.update({ comment }, { where: { id: commentId } });
 
-    const { dataValues: modifiedComment } = await Comment.findOne({
+    const {
+      userId,
+      comment: newComment,
+      User: { nickname },
+    } = await Comment.findOne({
       where: { id: commentId },
       attributes: ['userId', 'comment'],
-      include: {
-        model: User,
-        attributes: ['nickname'],
-        required: true,
-      },
+      include: [
+        {
+          model: User,
+          attributes: ['nickname'],
+          required: true,
+        },
+      ],
     });
-
-    console.log(modifiedComment, '수정된 댓글의 내용');
 
     return res.status(200).json({
       data: {
         commentId,
-        userId: modifiedComment.userId,
-        nickname: modifiedComment.User.dataValues.nickname,
-        comment: modifiedComment.comment,
+        userId,
+        nickname,
+        comment: newComment,
       },
       message: '댓글 수정에 성공했습니다',
     });
   } catch (e) {
     //서버 에러
     console.error(e);
-    return res
-      .status(500)
-      .json({ message: '서버가 댓글 수정에 실패했습니다' });
+    return res.status(500).json({ message: '서버가 댓글 수정에 실패했습니다' });
   }
-}
+};

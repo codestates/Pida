@@ -27,7 +27,12 @@ module.exports = async (req, res) => {
       return res.status(409).json({ message: '이미 등록한 식물입니다' });
     }
     //식물 테이블에 등록
-    const newPlant = await Plant.create({
+    const {
+      id,
+      name: newName,
+      image: newImage,
+      description: newDescription,
+    } = await Plant.create({
       name,
       description,
       image: req.file.location,
@@ -40,17 +45,16 @@ module.exports = async (req, res) => {
     species = JSON.parse(species);
 
     for (let i of size) {
-      console.log('size:', i, '새 식물의id:', newPlant.id); //[1,2]
       //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
       const newPlantSize = Plant_size.create({
-        plantId: newPlant.id,
+        plantId: id,
         sizeId: i,
       });
       categoryPromises.push(newPlantSize);
     }
     for (let j of space) {
       const newPlantSpace = Plant_space.create({
-        plantId: newPlant.id,
+        plantId: id,
         spaceId: j,
       });
       categoryPromises.push(newPlantSpace);
@@ -58,7 +62,7 @@ module.exports = async (req, res) => {
     for (let k of species) {
       //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
       const newPlantSpecies = Plant_specie.create({
-        plantId: newPlant.id,
+        plantId: id,
         speciesId: k,
       });
       categoryPromises.push(newPlantSpecies);
@@ -71,10 +75,10 @@ module.exports = async (req, res) => {
         //식물 정보 반환
         return res.status(201).json({
           data: {
-            id: newPlant.id,
-            name: newPlant.name,
-            image: newPlant.image,
-            description: newPlant.description,
+            id,
+            name: newName,
+            image: newImage,
+            description: newDescription,
             size,
             space,
             species,

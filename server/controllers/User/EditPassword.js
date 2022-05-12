@@ -15,11 +15,8 @@ module.exports = async (req, res) => {
     }
     //두 값 모두 주어졌다.
     //기존의 비밀번호가 DB 상의 비번이랑 일치하지 않는다: 비번 다시 입력하라고 응답
-    const userInfo = await User.findOne({ where: { id: req.id } });
-    const match = await bcrypt.compare(
-      oldPassword,
-      userInfo.dataValues.password,
-    );
+    const user = await User.findOne({ where: { id: req.id } });
+    const match = await bcrypt.compare(oldPassword, user.password);
 
     if (!match) {
       return res
@@ -47,7 +44,6 @@ module.exports = async (req, res) => {
       },
     )
       .then(result => {
-        console.log('응답 메세지 찍히나??');
         return res
           .status(204)
           .json({ message: '비밀번호 변경에 성공했습니다' });
