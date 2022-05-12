@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Nav from './components/Nav';
+import Footer from './components/Footer';
 import Mypage from './pages/Mypage/Mypage';
 import Chat from './pages/Plant/Chat';
 import InteriorModify from './pages/Plant/InteriorModify';
@@ -31,7 +32,7 @@ const InnerContainer = styled.div`
   //min-height: calc(var(--vh, 1vh) * 80);
 
   margin-top: 3rem;
-  // margin-bottom: 200px; // footer 공간
+  margin-bottom: 15rem; // footer 공간
 `;
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
             <Route exact path="/chat" component={Chat} />
           </Switch>
         </InnerContainer>
+        <Footer />
       </Container>
     </BrowserRouter>
   );
