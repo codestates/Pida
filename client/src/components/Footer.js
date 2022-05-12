@@ -230,7 +230,7 @@ function Footer() {
             </a>
             <a
               title="해당 팀원의 Tistory로 이동합니다."
-              href="https://begin-to-end-project.tistory.com/"
+              href="https://jangyuri.tistory.com/"
             >
               <TistoryIcon />
             </a>
