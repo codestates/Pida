@@ -56,6 +56,7 @@ module.exports = async (req, res) => {
         nickname: sameNickUser ? `${login}2` : login,
         password: null,
         platformType: 1, //깃허브
+        emailVerified: 1,
       });
       console.log(newUser, '등록된 사용자 정보');
       //회원정보 등록 완료했으니 바로 토큰 발급해주자.

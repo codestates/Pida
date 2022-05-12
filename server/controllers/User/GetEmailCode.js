@@ -86,24 +86,24 @@ module.exports = async (req, res) => {
       },
     });
 
-    let mailOptions = await transporter.sendMail({
+    let mailOptions = {
       from: `Pida`,
       to: email,
       subject: 'Pida 회원가입을 위한 인증 메일입니다',
       html: emailTemplate,
-    });
+    };
 
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      }
-      console.log('Finish sending email : ' + info.response);
-      res.status(201).json({
-        data: { email },
-        message: '이메일 인증코드를 발송했습니다',
-      });
-      transporter.close();
-    });
+    await transporter
+      .sendMail(mailOptions)
+      .then(info => {
+        console.log('Finish sending email : ' + info.response);
+        res.status(201).json({
+          data: { email },
+          message: '이메일 인증코드를 발송했습니다',
+        });
+        return transporter.close();
+      })
+      .catch(console.log);
   } catch (e) {
     //서버 에러
     console.error(e);
