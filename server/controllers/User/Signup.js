@@ -6,14 +6,21 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 module.exports = async (req, res) => {
   try {
-    //사용자 이메일, 닉네임, 패스워드 가지고 온다
+    //사용자 이메일, 닉네임, 패스워드
     const { email, nickname, password } = req.body;
-    //이메일, 닉네임, 패스워드 하나라도 빠진 경우(유효한 양식이 아닌경우),
-    //회원 가입에 실패했다고 응답을 보낸다.
+
+    //이메일, 닉네임, 패스워드 하나라도 빠진 경우 회원 가입에 실패했다고 응답
     if (!email || !nickname || !password) {
       return res.status(400).json({ message: '회원가입에 실패하였습니다.' });
     }
 
+    //이메일 미인증시 가입 불가
+    const user = await User.findOne({ where: { email } });
+    if (user.emailVerified === 0) {
+      return res.status(400).json({ message: '이메일이 인증되지 않았습니다' });
+    }
+
+    //모든 조건 다 통과 시 가입 시행
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     await User.update(

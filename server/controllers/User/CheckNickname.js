@@ -8,13 +8,13 @@ module.exports = async (req, res) => {
     }
 
     //닉네임 형식 유효성 검사
-    const regexp = /^[^!@#$%\^&*(\)\-_+={\}[\]\\|:;"'<>?/]{1,8}$/;
-    if (!regexp.test(nickname)) {
-      return res.status(400).json({
-        message:
-          '형식에 맞지 않습니다. 1자 이상 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다',
-      });
-    }
+    // const regexp = /^[^!@#$%\^&*(\)\-_+={\}[\]\\|:;"'<>?/]{1,8}$/;
+    // if (!regexp.test(nickname)) {
+    //   return res.status(400).json({
+    //     message:
+    //       '형식에 맞지 않습니다. 1자 이상 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다',
+    //   });
+    // }
 
     //닉네임을 받아서, DB 에서 사용자가 존재하는지 확인한다,
     const user = await User.findOne({ where: { nickname } });

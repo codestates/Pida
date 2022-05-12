@@ -24,15 +24,15 @@ module.exports = async (req, res) => {
         .json({ message: '기존 비밀번호가 일치하지 않습니다' });
     }
 
-    //기존 비번 올바르게 입력했음.
     //새로운 비번도 형식에 맞는지 확인한다
     //형식에 맞지 않으면 맞게 입력해달라고 할 것
-    const pattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
-    if (!pattern.test(newPassword)) {
-      return res
-        .status(400)
-        .json({ message: '비밀번호를 형식에 맞게 입력해주세요' });
-    }
+    // const pattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,16}$/;
+    // if (!pattern.test(newPassword)) {
+    //   return res
+    //     .status(400)
+    //     .json({ message: '비밀번호를 형식에 맞게 입력해주세요' });
+    // }
+
     //형식에 맞으면 업데이트하고 성공 응답 보낼것
     const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
     await User.update(

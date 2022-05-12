@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
     // eac 받아옴
     const { emailAuthCode } = req.body;
 
-    // 있긴 함? 없으면 400 컷
+    //있긴 함? 없으면 400 컷
     if (!emailAuthCode) {
       return res.status(400).json({ message: '인증 코드가 없습니다' });
     }
@@ -23,6 +23,15 @@ module.exports = async (req, res) => {
 
     //인증했다고 기록 남길것
     await User.update({ emailVerified: 1 }, { where: { email } });
+
+    //인증 받아놓고도 아무것도 안하면 20분 이후 삭제
+    setTimeout(async () => {
+      await User.findOne({ where: { emailAuthCode } }).then(async data => {
+        if (data) {
+          await User.destroy({ where: { emailAuthCode } });
+        }
+      });
+    }, 20 * 60 * 1000);
 
     if (tempUser) {
       return res.status(200).json({

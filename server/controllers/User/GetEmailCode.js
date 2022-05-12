@@ -12,20 +12,22 @@ module.exports = async (req, res) => {
   try {
     //사용자로부터 이메일 값을 받는다.
     const { email } = req.body;
-    //값이 없으면 없다고 에러 응답
+
+    //값이 없을 경우
     if (!email) {
-      res.status(400).json({ message: '이메일 값이 없습니다' });
+      return res.status(400).json({ message: '이메일 값이 없습니다' });
     }
+
     //이메일이 이미 존재하고, 가입된 사용자라면
     const joinedUser = await User.findOne({
       where: { email, emailAuthCode: null },
     });
+
     if (joinedUser) {
       return res.status(409).json({ message: '이미 가입된 이메일입니다' });
     }
 
-    //이메일이 이미 존재하고, 인증코드가 null이 아니면 DB에 인증코드 새로 만들어서 등록하고 이메일로 보내준다.
-    //인증코드 만들기
+    //이메일이 이미 존재하고, 인증코드가 null이 아니면 인증코드 새로 만들어서 등록하고 이메일로 보내준다.
     const emailAuthCode = Math.random().toString().slice(2, 8);
     const tempNickname = nanoid().slice(0, 8);
 

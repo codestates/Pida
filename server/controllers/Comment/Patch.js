@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: '댓글 수정에 실패했습니다' });
     }
 
-    // //수정 권한 확인: 클라단에서 화면에 버튼 안보이게 하자
+    //수정 권한 확인
     // const userId = await Comment.findByPk(commentId, {
     //   attributes: ['userId'],
     // });
