@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
 
     // 특수문자 제거
     const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
-    plainNickname = plainNickname.replace(reg, "");
+    plainNickname = plainNickname.replace(reg, '');
     console.log('특수문자도 잘림? -----------------> ', plainNickname);
 
     // 유저 존재 유무 확인
@@ -60,7 +60,9 @@ module.exports = async (req, res) => {
     console.log(email, nickname, '사용자 이메일 닉네임');
 
     if (!user) {
-      const sameNickUser = await User.findOne({ where: { nickname: plainNickname } });
+      const sameNickUser = await User.findOne({
+        where: { nickname: plainNickname },
+      });
       console.log(sameNickUser, '기존 가입자 중 같은 닉넴 가진 사용자가 있니?');
 
       const newUser = await User.create({
@@ -68,6 +70,7 @@ module.exports = async (req, res) => {
         nickname: sameNickUser ? `${plainNickname}2` : plainNickname,
         password: null,
         platformType: 2,
+        emailVerified: 1,
       });
 
       // note: 카카오 닉네임 이모티콘 등 다른 언어 설정이 필요할 수도 있어 (enb 84?)
