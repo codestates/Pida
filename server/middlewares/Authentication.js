@@ -16,6 +16,7 @@ module.exports = async (req, res, next) => {
         req.id = 'notLoggedin';
         return next();
       }
+
       return res.status(401).json({ message: '권한이 없습니다' });
     }
     const decoded = verify(accessToken, process.env.ACCESS_SECRET);
