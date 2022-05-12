@@ -27,7 +27,7 @@ module.exports = async (req, res) => {
     //이메일이 이미 존재하고, 인증코드가 null이 아니면 DB에 인증코드 새로 만들어서 등록하고 이메일로 보내준다.
     //인증코드 만들기
     const emailAuthCode = Math.random().toString().slice(2, 8);
-    const tempnick = nanoid().slice(0, 8);
+    const tempNickname = nanoid().slice(0, 8);
 
     const tempUser = await User.findOne({
       where: { email, emailAuthCode: { [Op.not]: null } },
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
       await User.update(
         {
           emailAuthCode,
-          nickname: tempnick,
+          nickname: tempNickname,
         },
         { where: { email } },
       );
@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
       //완전 처음 가입
       await User.create({
         emailAuthCode,
-        nickname: tempnick,
+        nickname: tempNickname,
         email,
         platformType: 0,
       });

@@ -80,12 +80,13 @@ module.exports = async (req, res, next) => {
           //테이블에 정상적 분류 완료
           //식물 정보 반환
           console.log('식물정보 수정완료');
+          const { id, name, image, description } = newPlant;
           return res.status(201).json({
             data: {
-              id: newPlant.id,
-              name: newPlant.name,
-              image: newPlant.image,
-              description: newPlant.description,
+              id,
+              name,
+              image,
+              description,
               size: newSize,
               space: newSpace,
               species: newSpecies,
@@ -124,8 +125,6 @@ module.exports = async (req, res, next) => {
       newSpecies = JSON.parse(newSpecies);
 
       for (let i of newSize) {
-        console.log(typeof i, '타입'); //[1,2]
-        //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
         const newPlantSize = Plant_size.create({
           plantId,
           sizeId: i,
@@ -140,7 +139,6 @@ module.exports = async (req, res, next) => {
         promises.push(newPlantSpace);
       }
       for (let k of newSpecies) {
-        //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
         const newPlantSpecies = Plant_specie.create({
           plantId,
           speciesId: k,
@@ -149,15 +147,18 @@ module.exports = async (req, res, next) => {
       }
 
       Promise.all(promises)
-        .then(value => {
+        .then(([value]) => {
           //테이블에 정상적 분류 완료
           //식물 정보 반환
-          console.log(value[0], '프롬이스 처리 후값');
+          console.log(value, '프롬이스 처리 후값');
+          const {
+            dataValues: { id, name, image, description },
+          } = value;
           const data = {
-            id: value[0].id,
-            name: value[0].name,
-            image: value[0].image,
-            description: value[0].description,
+            id,
+            name,
+            image,
+            description,
             size: newSize,
             space: newSpace,
             species: newSpecies,

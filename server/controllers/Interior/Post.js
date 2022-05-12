@@ -1,5 +1,5 @@
-const { User, Interior} = require('../../models/Index');
-// const Sequelize = require('sequelize');
+const { User, Interior } = require('../../models/Index');
+
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -31,21 +31,18 @@ module.exports = async (req, res) => {
       image: req.file.location,
     });
     //사용자 닉네임
-    const nickname = User.findByPk(req.id, { attributes: ['nickname'] });
+    const { nickname } = User.findByPk(req.id, { attributes: ['nickname'] });
     Promise.all([newPost, nickname])
-      .then(value => {
-        const [newPost, nickname] = value;
-        console.log(newPost, nickname, '결과');
-        const { id, userId, content, image, createdAt } = newPost.dataValues;
+      .then(([{ id, userId, image, content, createdAt }, nickname]) => {
         return res.status(201).json({
           data: {
             id,
-            isliked: false, //처음 생성한 게시물이니 좋아요는 초기상태로.
             userId,
-            nickname: nickname.nickname,
             image,
             content,
             createdAt,
+            nickname,
+            isliked: false, //처음 생성한 게시물이니 좋아요는 초기상태로.
           },
           message: '인테리어 게시글 업로드에 성공했습니다',
         });
@@ -56,6 +53,6 @@ module.exports = async (req, res) => {
     console.error(e);
     return res
       .status(500)
-      .json({ message: '서버가 인테리어 게시글과 댓글 조회에 실패했습니다' });
+      .json({ message: '서버가 인테리어 게시글 업로드에 실패했습니다' });
   }
-}
+};
