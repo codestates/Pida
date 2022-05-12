@@ -46,6 +46,7 @@ module.exports = async (req, res) => {
     const { email } = userInfo.data.kakao_account;
     const { nickname } = userInfo.data.properties;
     let plainNickname = nickname.replace(emojiRegex(), '');
+    console.log('이모지 잘림? ----------------> ', plainNickname);
     const user = await User.findOne({ where: { email } });
     console.log(email, nickname, '사용자 이메일 닉네임');
     if (!user) {
@@ -54,7 +55,7 @@ module.exports = async (req, res) => {
 
       const newUser = await User.create({
         email: email,
-        nickname: sameNickUser ? `${nickname}2` : nickname,
+        nickname: sameNickUser ? `${plainNickname}2` : plainNickname,
         password: null,
         platformType: 2,
       });
