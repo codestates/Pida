@@ -44,7 +44,8 @@ module.exports = async (req, res) => {
       where: { id: postId },
     });
 
-    const { nickname } = User.findByPk(userId, {
+    //닉네임
+    const user = User.findByPk(userId, {
       attributes: ['nickname'],
     });
 
@@ -58,7 +59,7 @@ module.exports = async (req, res) => {
       where: { userId: req.id, interiorId: postId },
     });
 
-    //댓글 목록 전체: 현재 댓글에 존재하는 userId가 req.id와 다른 경우, 수정 삭제 권한 없다고 알려주자.: api 수정 필요
+    //댓글 목록 전체: 현재 댓글에 존재하는 userId가 req.id와 다른 경우, 수정 삭제 권한 없다
     let comments = Comment.findAll({
       attributes: ['id', 'userId', 'comment'],
       include: [
@@ -76,19 +77,8 @@ module.exports = async (req, res) => {
       ],
     });
 
-    Promise.all([nickname, interior, isLiked, comments]).then(
-      ([nickname, interior, isLiked, comments]) => {
-        console.log(
-          '별명:',
-          nickname,
-          '게시글:',
-          interior,
-          '좋아요:',
-          isLiked,
-          '댓글:',
-          comments,
-        );
-
+    Promise.all([user, interior, isLiked, comments]).then(
+      ([{ nickname }, interior, isLiked, comments]) => {
         comments = comments.map(el => {
           const { id, userId, comment, User } = el;
           return {
