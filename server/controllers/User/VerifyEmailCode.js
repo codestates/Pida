@@ -21,6 +21,9 @@ module.exports = async (req, res) => {
       where: { emailAuthCode },
     });
 
+    //인증했다고 기록 남길것
+    await User.update({ emailVerified: 1 }, { where: { email } });
+
     if (tempUser) {
       return res.status(200).json({
         data: { email },

@@ -49,6 +49,7 @@ module.exports = async (req, res) => {
         nickname: tempNickname,
         email,
         platformType: 0,
+        emailVerified: 0,
       });
     }
 
