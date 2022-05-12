@@ -61,7 +61,7 @@ function Nav() {
           {/* 로고 */}
           <NavLink to="/">
             <Logo>
-              <img src="../images/logo.png" alt="" width="80rem" />
+              <img src="../images/logo.png" alt="" width="110rem" />
             </Logo>
           </NavLink>
 
