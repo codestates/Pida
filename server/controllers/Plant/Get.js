@@ -49,7 +49,9 @@ module.exports = async (req, res) => {
 
     Promise.all([plantInfo, interiors, size, space, species])
       .then(([plantInfo, interiors, size, space, species]) => {
-        const { id, name, description, image } = plantInfo.dataValues;
+        const {
+          dataValues: { id, name, description, image },
+        } = plantInfo;
         return res.status(200).json({
           data: {
             id,

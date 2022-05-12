@@ -27,7 +27,6 @@ module.exports = async (req, res) => {
         message: '이메일이 인증 되었습니다',
       });
     } else {
-      console.log('유저 없어 돌아가 ----------------> ');
       res.status(401).json({ message: '이메일 인증코드가 유효하지 않습니다' });
     }
   } catch (e) {
