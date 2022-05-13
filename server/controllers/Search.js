@@ -9,7 +9,7 @@ module.exports = {
   get: async (req, res) => {
     try {
       const { size, space, species } = req.query;
-      //검색조건이 모두 없는 경우, 전체 식물 검색으로 인지하고 이에 맞는 응답을 보낸다.
+      // 검색 조건이 없다면 전체 식물 검색으로 인지, 이에 맞는 응답을 보낸다
       if (!size && !space && !species) {
         const allPlants = await Plant.findAll({
           attributes: ['id', 'image', 'name'],
@@ -30,7 +30,7 @@ module.exports = {
         }
       }
 
-      //식물 취향 찾기: 만약에 검색 조건 3가지 중 하나라도 빠졌다면, 실패
+      // 식물 취향 찾기: 세 조건 모두 필수
       if (!size || !space || !species) {
         return res
           .status(400)
@@ -73,12 +73,12 @@ module.exports = {
           space = space.map(el => el.dataValues.Plant.dataValues);
           species = species.map(el => el.dataValues.Plant.dataValues);
 
-          //아이디가 같은 것을 기준으로 교집합 구한다.
-          //size && space
+          // 동일 id 기준 교집합
+          // size && space
           let res1 = size.filter(el1 => {
             return space.map(el2 => el2.id).includes(el1.id);
           });
-          //size && species
+          // size && species
           let res2 = size.filter(el1 => {
             return species.map(el2 => el2.id).includes(el1.id);
           });

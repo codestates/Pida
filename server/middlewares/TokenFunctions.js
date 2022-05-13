@@ -2,14 +2,14 @@ const { sign } = require('jsonwebtoken');
 require('dotenv').config();
 
 module.exports = {
-  //토큰을 생성하는 함수
+  // 토큰 생성
   generateAccessToken: userId => {
     const accessToken = sign({ id: userId }, process.env.ACCESS_SECRET, {
       expiresIn: '3d',
     });
     return accessToken;
   },
-  //토큰을 쿠키로 보내주는 함수
+  // 토큰 전달
   sendAccessToken: (res, accessToken) => {
     const options_dev = {
       path: '/',
