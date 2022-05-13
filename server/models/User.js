@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       nickname: {
-        type: DataTypes.STRING(8),
+        type: DataTypes.STRING(12),
         allowNull: false,
       },
       platformType: {

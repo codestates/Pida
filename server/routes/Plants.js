@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const plantController = require('../controllers/Plant/Index');
-const interiorController = require('../controllers/Interior/Index');
+const plantController = require('../controllers/plant/Index');
+const interiorController = require('../controllers/interior/Index');
 const isAuth = require('../middlewares/Authentication');
 const plantImageHandler = require('../middlewares/PlantImageHandler.js');
 const { plantPost } = require('../middlewares/PlantImageHandler.js');

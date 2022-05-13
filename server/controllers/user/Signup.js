@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
 
     //이메일 미인증시 가입 불가
     const user = await User.findOne({ where: { email } });
-    if (user.emailVerified === 0) {
+
+    if (!user || user.emailVerified === 0) {
       return res.status(400).json({ message: '이메일이 인증되지 않았습니다' });
     }
 

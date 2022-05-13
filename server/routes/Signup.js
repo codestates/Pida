@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const userController = require('../controllers/User/Index');
+const userController = require('../controllers/user/Index');
 
 //회원가입
 router.post('/', userController.signup);

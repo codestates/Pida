@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const commentController = require('../controllers/Comment/Index');
+const commentController = require('../controllers/comment/Index');
 const isAuth = require('../middlewares/Authentication');
 
 //댓글 수정 삭제

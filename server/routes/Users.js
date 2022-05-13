@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 const signupRouter = require('./Signup');
-const userController = require('../controllers/User/Index');
-const authController = require('../controllers/Auth/Index');
+const userController = require('../controllers/user/Index');
+const authController = require('../controllers/auth/Index');
 const isAuth = require('../middlewares/Authentication');
 
 //사용자 회원가입, 정보 조회, 수정, 탈퇴
