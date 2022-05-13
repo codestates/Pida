@@ -3,25 +3,21 @@ import { GoMarkGithub, GoMail } from 'react-icons/go';
 import { BsHammer } from 'react-icons/bs';
 
 const Container = styled.div`
-  position: relative;
-
+  position: absolute;
+  bottom: 0;
   display: grid;
   place-items: center;
-
   width: 100%;
-
-  box-sizing: border-box;
   padding: 3rem 0;
-
+  box-sizing: border-box;
   background-color: #bcbcbc;
 `;
+
 const Title = styled.div`
-  //font-size: 5rem;
   display: flex;
   a {
     position: relative;
     top: 0.1rem;
-
     margin-right: 0.5rem;
     color: black;
   }
@@ -29,7 +25,6 @@ const Title = styled.div`
     margin: 0 0.5rem;
     margin-bottom: 2rem;
   }
-
   @media screen and (max-width: 760px) {
     .head {
       margin-bottom: 0.5rem;
@@ -46,26 +41,21 @@ const InnerContainer = styled.div`
     place-items: center;
     margin-right: 3rem;
     margin-bottom: 2rem;
-
     &:last-child {
       margin-right: 0;
     }
-
     .link_wrapper {
       display: flex;
       align-items: center;
-
       margin-top: 0.1rem;
-
       column-gap: 0.5rem;
     }
-
     a {
-      color: black; //메일 아이콘
+      color: black;
       margin-top: 0.5rem;
     }
     a:visited {
-      color: black; //깃허브 아이콘
+      color: black;
     }
   }
 
@@ -73,10 +63,12 @@ const InnerContainer = styled.div`
     font-size: 0.8rem;
     margin-bottom: 1rem;
   }
+
   .position {
     font-weight: 500;
     font-size: 0.8rem;
   }
+
   .mail {
     font-size: smaller;
   }
@@ -89,16 +81,13 @@ const InnerContainer = styled.div`
       align-items: center;
       justify-content: center;
       column-gap: 1.5rem;
-
       margin: 0;
-
       .position,
       .name,
       .link_wrapper {
         margin: 0;
         display: flex;
       }
-
       .link_wrapper {
         position: relative;
         top: -0.2rem;
@@ -110,8 +99,8 @@ const InnerContainer = styled.div`
 const Copyright = styled.div`
   display: flex;
   margin-top: 0.5rem;
-  font-weight: lighter;
   font-size: 0.8rem;
+  font-weight: lighter;
 `;
 
 const curruntYear = () => {

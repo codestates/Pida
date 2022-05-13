@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
+import Login from '../../components/Sign/Login';
 import {
   SelectButton,
   TButton,
@@ -10,10 +11,8 @@ import {
 } from '../../components/Button';
 import { UDContainer, TransContainer } from '../../components/Container';
 import { ImageP, ImageI } from '../../components/Image';
-import { Modal, Modal2, Modal3 } from '../../components/Modal';
-import InteriorDetail from './InteriorDetail';
-import DeletePlant from './Management/DeletePlant';
-import Login from '../Login';
+import { CCModal, Modal3 } from '../../components/Modal';
+import InteriorDetail from '../Interior/InteriorDetail';
 
 // 가로 스크롤 생기는 특정 부분
 const Interiors = styled.div`
@@ -21,11 +20,11 @@ const Interiors = styled.div`
   height: 11.5rem;
   white-space: nowrap;
   overflow-x: auto;
+  overflow-y: hidden;
 `;
 
 function PlantDetail() {
   const managerId = process.env.REACT_APP_MANAGER_ID;
-
   const history = useHistory();
   const location = useLocation();
 
@@ -41,7 +40,6 @@ function PlantDetail() {
   useEffect(() => {
     handleRecent(); // 처음엔 최신순
   }, []);
-
   // 최신순
   const handleRecent = () => {
     axios
@@ -79,21 +77,22 @@ function PlantDetail() {
       });
   };
 
-  /* 로그인 모달 */
+  /* 나도 뽐내기 버튼 클릭 시, 글쓰기 페이지로 이동 */
+  const [plantId, setPlantId] = useState(0);
+  const [isNavigate, setIsNavigate] = useState('');
+
+  // 로그인 모달
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const handleLoginModal = () => {
     setIsLoginModalOpen(!isLoginModalOpen);
   };
 
-  /* 나도 뽐내기 버튼 클릭 시, 글쓰기 페이지로 이동 */
-  const [plantId, setPlantId] = useState(0);
-  const [isNavigate, setIsNavigate] = useState('');
   const handleInteriorWrite = id => {
     if (!localStorage.getItem('loginUserId')) {
-      setIsLoginModalOpen(true);
+      setIsLoginModalOpen(true); // 로그인 하지 않았다면 로그인 모달 띄움
     } else {
-      setPlantId(id); // 식물 id 설정해주고
-      setIsNavigate(true); // useEffect 실행해 해당 id 식물 상세 페이지로 이동
+      setPlantId(id);
+      setIsNavigate(true);
     }
   };
   useEffect(() => {
@@ -116,8 +115,8 @@ function PlantDetail() {
   };
 
   const handleInteriorDetail = id => {
-    setInteriorId(id); // 인테리어 id 설정해주고
-    setIsNavigate2(true); // useEffect 실행해 해당 id 인테리어 상세 모달 띄우기
+    setInteriorId(id);
+    setIsNavigate2(true);
   };
   useEffect(() => {
     if (isNavigate2) {
@@ -128,7 +127,6 @@ function PlantDetail() {
 
   /* 식물 수정 (식물 관리자용) */
   const handleModifyPlant = () => {
-    // 식물 정보 들고 이동
     history.push({
       pathname: `/plants/${plant.id}/modify`,
       state: { plant: plant },
@@ -140,15 +138,23 @@ function PlantDetail() {
   const handleDeletePlantModal = () => {
     setIsDeletePlantModalOpen(!isDeletePlantModalOpen);
   };
+
   const handleDeletePlant = () => {
-    setIsDeletePlantModalOpen(true); // 삭제 모달 띄움
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/plants/${plant.id}`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        alert('식물 삭제 완료');
+        history.replace('/search');
+      });
   };
 
   return (
     <>
       <UDContainer>
         <div style={{ width: '95%' }}>
-          {/* 관리자라면 수정삭제버튼 보이기 */}
+          {/* 관리자라면 수정 삭제 버튼 보이기 */}
           {localStorage.getItem('loginUserId') === managerId ? (
             <span
               style={{
@@ -158,14 +164,16 @@ function PlantDetail() {
               }}
             >
               <ManagerButton onClick={handleModifyPlant}>수정</ManagerButton>
-              <ManagerButton onClick={handleDeletePlant}>삭제</ManagerButton>
+              <ManagerButton onClick={handleDeletePlantModal}>
+                삭제
+              </ManagerButton>
               {isDeletePlantModalOpen ? (
-                <Modal handleModal={handleDeletePlantModal}>
-                  <DeletePlant
-                    handleDeletePlantModal={handleDeletePlantModal}
-                    id={plant.id}
-                  />
-                </Modal>
+                <CCModal
+                  handleModal={handleDeletePlantModal}
+                  handleAction={handleDeletePlant}
+                >
+                  정말로 삭제하시겠습니까?
+                </CCModal>
               ) : null}
             </span>
           ) : null}
@@ -174,13 +182,12 @@ function PlantDetail() {
             <ImageP src={plant.plantImage} alt="" />
             <div>
               <h1>{plant.plantName}</h1>
-
               <span style={{ wordBreak: 'keep-all' }}>
                 {plant.plantDescription}
               </span>
             </div>
           </TransContainer>
-          <hr />
+          <hr style={{ marginTop: '2rem' }} />
           <MypageButton onClick={handleRecent} style={{ paddingLeft: '1rem' }}>
             최신순
           </MypageButton>
@@ -198,11 +205,6 @@ function PlantDetail() {
             >
               나도 뽐내기
             </SelectButton>
-            {isLoginModalOpen ? (
-              <Modal2 handleModal={handleLoginModal}>
-                <Login setIsLoginModalOpen={setIsLoginModalOpen} />
-              </Modal2>
-            ) : null}
           </span>
           <Interiors>
             {interiorsArray.map(interior => {
@@ -214,28 +216,6 @@ function PlantDetail() {
                 </>
               );
             })}
-
-            <TButton onClick={() => handleInteriorDetail(1)}>
-              <ImageI src="../images/logo.png" alt="" />
-            </TButton>
-            <TButton onClick={() => handleInteriorDetail(1)}>
-              <ImageI src="../images/logo.png" alt="" />
-            </TButton>
-            <TButton onClick={() => handleInteriorDetail(1)}>
-              <ImageI src="../images/logo.png" alt="" />
-            </TButton>
-            <TButton onClick={() => handleInteriorDetail(1)}>
-              <ImageI src="../images/logo.png" alt="" />
-            </TButton>
-            <TButton onClick={() => handleInteriorDetail(1)}>
-              <ImageI src="../images/logo.png" alt="" />
-            </TButton>
-            <TButton onClick={() => handleInteriorDetail(1)}>
-              <ImageI src="../images/logo.png" alt="" />
-            </TButton>
-            <TButton onClick={() => handleInteriorDetail(1)}>
-              <ImageI src="../images/logo.png" alt="" />
-            </TButton>
             {/* 인테리어 상세 모달 */}
             {isInteriorModalOpen ? (
               <Modal3 handleModal={handleInteriorModal}>
@@ -248,6 +228,14 @@ function PlantDetail() {
           </Interiors>
         </div>
       </UDContainer>
+
+      {/* 글 작성은 로그인 필요 */}
+      {isLoginModalOpen ? (
+        <Login
+          handleModal={handleLoginModal}
+          setIsLoginModalOpen={setIsLoginModalOpen}
+        />
+      ) : null}
     </>
   );
 }

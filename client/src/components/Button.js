@@ -8,17 +8,12 @@ export const TButton = styled.button`
 
 export const CheckButton = styled.button`
   width: 5rem;
+  padding: 0 0.6rem 0 0;
   font-size: 0.7rem;
   border: none;
   background-color: transparent;
-  padding: 0 0.6rem 0 0;
   :hover {
     color: grey;
-  }
-
-  @media screen and (max-width: 760px) {
-    //width: 6.1rem;
-    //font-size: 0.2rem;
   }
 `;
 
@@ -47,9 +42,9 @@ export const SelectButton = styled.button`
 
 // 긴 버튼
 export const SignButton = styled.button`
-  margin: 0.8rem;
   width: 33rem;
   height: 4rem;
+  margin: 0.8rem;
   border-radius: 1.6rem;
   border: none;
   color: white;
@@ -59,7 +54,6 @@ export const SignButton = styled.button`
   }
   font-size: 1.5rem;
   font-weight: 800;
-
   @media screen and (max-width: 760px) {
     width: 22.7rem;
     height: 3.5rem;
@@ -79,31 +73,27 @@ export const ConfirmButton = styled.button`
 `;
 
 export const MypageButton = styled.button`
+  padding: 1rem 0 0 2rem;
   background-color: white;
   border: none;
   border-color: transparent;
   color: rgb(163, 163, 163);
-  font-weight: 600;
   :focus {
     color: black;
   }
   :hover {
     color: black;
   }
-
   font-size: 1rem;
-  padding-top: 1rem;
-  padding-left: 2rem;
+  font-weight: 600;
 `;
 
 export const MypageButton2 = styled(MypageButton)`
-  font-size: 1.2rem;
-
   padding: 2.5rem 7rem 0 7rem;
-
+  font-size: 1.2rem;
   @media screen and (max-width: 760px) {
-    font-size: 0.8rem;
     padding: 2.5rem 3rem 0 3rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -112,28 +102,26 @@ export const ManagerButton = styled(MypageButton)`
 `;
 
 export const DetailButton = styled(MypageButton)`
+  padding: 0 0 0 0.5rem;
   color: #bcbcbc;
   :hover {
     color: black;
   }
-
   font-size: 0.9rem;
-  padding-top: 0rem;
-  padding-left: 0.5rem;
 `;
 
 //댓글 작성 버튼
 export const CommentButton = styled.button`
   width: 4rem;
   height: 3.7rem;
+  margin: 1rem 0 0rem 1rem;
   border: none;
   border-radius: 1rem;
-  margin: 1rem 0 0rem 1rem;
   color: white;
-  font-size: 1rem;
-  font-weight: 500;
   background-color: #bcbcbc;
   :hover {
     background-color: rgb(163, 163, 163);
   }
+  font-size: 1rem;
+  font-weight: 500;
 `;

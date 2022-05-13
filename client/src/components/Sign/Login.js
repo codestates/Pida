@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import { SignButton, ConfirmButton } from '../components/Button';
-import { Error } from '../components/Div';
-import { SignInput } from '../components/Input';
-import { Modal } from '../components/Modal';
-import { GithubLogin, KakaoLogin } from '../components/SocialLoginButton';
+import { GithubLogin, KakaoLogin } from './SocialLoginButton';
+import { SignButton } from '../Button';
+import { Error } from '../Div';
+import { SignInput } from '../Input';
+import { Modal, Modal2 } from '../Modal';
 
 axios.defaults.withCredentials = true;
 
@@ -16,17 +15,19 @@ function Login(props) {
     props.setIsLoginModalOpen(false); // 로그인 모달 닫기 (완료 모달도 닫힘)
   };
 
-  /* 로그인 */
+  /* 메세지 */
+  const [errorMessage, setErrorMessage] = useState('');
+
+  /* 로그인 정보 */
   const [loginInfo, setLoginInfo] = useState({
     email: '',
     password: '',
   });
-  const [errorMessage, setErrorMessage] = useState('');
-
   const handleLoginInputValue = key => e => {
     setLoginInfo({ ...loginInfo, [key]: e.target.value });
   };
 
+  /* 로그인 요청 */
   const handleLogin = () => {
     if (loginInfo.email === '' || loginInfo.password === '') {
       setErrorMessage('이메일과 비밀번호를 입력하세요');
@@ -39,7 +40,7 @@ function Login(props) {
         )
         .then(res => {
           window.localStorage.setItem('loginUserId', res.data.data.userId); // 아이디 localStorage에 저장
-          setIsOpen(true); // 성공 모달
+          setIsOpen(true); // 완료 모달 열기
         })
         .catch(() => {
           setErrorMessage('이메일과 비밀번호를 다시 확인해주세요');
@@ -53,36 +54,35 @@ function Login(props) {
 
   return (
     <>
-      <div>
+      <Modal2 handleModal={props.handleModal}>
         <div>
-          <SignInput
-            type="email"
-            placeholder="email"
-            value={loginInfo.email}
-            onChange={handleLoginInputValue('email')}
-          />
+          <div>
+            <SignInput
+              type="email"
+              placeholder="email"
+              value={loginInfo.email}
+              onChange={handleLoginInputValue('email')}
+            />
+          </div>
+          <div>
+            <SignInput
+              type="password"
+              placeholder="password"
+              value={loginInfo.password}
+              onChange={handleLoginInputValue('password')}
+            />
+          </div>
+          <Error>{errorMessage}</Error>
         </div>
-        <div>
-          <SignInput
-            type="password"
-            placeholder="password"
-            value={loginInfo.password}
-            onChange={handleLoginInputValue('password')}
-          />
-        </div>
-        <Error>{errorMessage}</Error>
-      </div>
 
-      <SignButton onClick={handleLogin}>로그인</SignButton>
-      {isOpen ? (
-        <Modal handleModal={handleModal}>
-          로그인에 성공했습니다
-          <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
-        </Modal>
-      ) : null}
+        <SignButton onClick={handleLogin}>로그인</SignButton>
+        {isOpen ? (
+          <Modal handleModal={handleModal}>로그인에 성공했습니다</Modal>
+        ) : null}
 
-      <KakaoLogin />
-      <GithubLogin />
+        <KakaoLogin />
+        <GithubLogin />
+      </Modal2>
     </>
   );
 }

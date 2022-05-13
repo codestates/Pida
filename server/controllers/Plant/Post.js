@@ -22,13 +22,15 @@ module.exports = async (req, res) => {
         .json({ message: '식물 상세정보 등록에 실패했습니다' });
     }
 
-    //중복 등록 방지
+    // 중복 등록 방지
     const plant = await Plant.findOne({ where: { name } });
     if (plant) {
-      return res.status(409).json({ message: '이미 등록한 식물입니다' });
+      return res
+        .status(409)
+        .json({ message: '이미 등록한 식물입니다' });
     }
 
-    //식물 테이블에 등록
+    // 식물 테이블에 등록
     const {
       id,
       name: newName,
@@ -40,14 +42,14 @@ module.exports = async (req, res) => {
       image: req.file.location,
     });
 
-    //카테고리 등록
+    // 카테고리 등록
     const categoryPromises = [];
     size = JSON.parse(size);
     space = JSON.parse(space);
     species = JSON.parse(species);
 
+    // 각 테이블에 해당 정보 등록
     for (let i of size) {
-      //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
       const newPlantSize = Plant_size.create({
         plantId: id,
         sizeId: i,
@@ -62,7 +64,6 @@ module.exports = async (req, res) => {
       categoryPromises.push(newPlantSpace);
     }
     for (let k of species) {
-      //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
       const newPlantSpecies = Plant_specie.create({
         plantId: id,
         speciesId: k,
@@ -72,8 +73,8 @@ module.exports = async (req, res) => {
 
     Promise.all(categoryPromises)
       .then(value => {
-        //테이블에 정상적 분류 완료
-        //식물 정보 반환
+        // 테이블에 정상적 분류 완료
+        // 식물 정보 반환
         return res.status(201).json({
           data: {
             id,

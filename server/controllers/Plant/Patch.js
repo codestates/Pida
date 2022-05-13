@@ -28,22 +28,22 @@ module.exports = async (req, res, next) => {
         .status(400)
         .json({ message: '식물 상세정보 수정에 실패했습니다' });
     }
-    //기존에 존재하는 식물 카테고리 정보는 모두 제거
+    // 이전에 입력된 식물 카테고리 정보는 모두 제거
     await Plant_size.destroy({ where: { plantId } });
     await Plant_space.destroy({ where: { plantId } });
     await Plant_specie.destroy({ where: { plantId } });
 
-    //이미지만 그대로인 경우
+    // 이미지만 그대로인 경우
     if (req.body.image && req.file === undefined) {
       const promises = [];
-      //식물 테이블 업데이트
+      // 식물 테이블 업데이트
       const newPlant = Plant.update(
         { name: newName, description: newDescription },
         { where: { id: plantId } },
       );
       promises.push(newPlant);
 
-      //새로운 정보로 채운다.
+      // 새로운 정보로 채운다.
       newSize = JSON.parse(newSize);
       newSpace = JSON.parse(newSpace);
       newSpecies = JSON.parse(newSpecies);
@@ -72,8 +72,8 @@ module.exports = async (req, res, next) => {
 
       Promise.all(promises)
         .then(value => {
-          //테이블에 정상적 분류 완료
-          //식물 정보 반환
+          // 테이블에 정상적 분류 완료
+          // 식물 정보 반환
           console.log('식물정보 수정완료');
           const { id, name, image, description } = newPlant;
           return res.status(201).json({
@@ -91,14 +91,14 @@ module.exports = async (req, res, next) => {
         })
         .catch(console.log);
     } else {
-      //이미지도 교체하는 경우
+      // 이미지도 교체하는 경우
       const imageUrl = await Plant.findByPk(plantId, {
         attributes: ['image'],
       });
-      //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
+      // 이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
       req.fileName = imageUrl.image.split('.com/')[1];
 
-      //식물 테이블 업데이트
+      // 식물 테이블 업데이트
       await Plant.update(
         {
           name: newName,
@@ -113,7 +113,7 @@ module.exports = async (req, res, next) => {
         attributes: ['id', 'name', 'image', 'description'],
       });
       promises.push(newPlant);
-      //새로운 정보로 채운다.
+      // 새로운 정보로 채운다.
       newSize = JSON.parse(newSize);
       newSpace = JSON.parse(newSpace);
       newSpecies = JSON.parse(newSpecies);
@@ -142,9 +142,9 @@ module.exports = async (req, res, next) => {
 
       Promise.all(promises)
         .then(([value]) => {
-          //테이블에 정상적 분류 완료
-          //식물 정보 반환
-          console.log(value, '프롬이스 처리 후값');
+          // 테이블에 정상적 분류 완료
+          // 식물 정보 반환
+          console.log(value, '프롬이스 처리 후 값');
           const {
             dataValues: { id, name, image, description },
           } = value;

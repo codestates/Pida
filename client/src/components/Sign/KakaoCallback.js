@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
-import { UDContainer } from './Container';
+import { UDContainer } from '../Container';
 
 const KakaoCallback = () => {
   const history = useHistory();
@@ -10,7 +9,6 @@ const KakaoCallback = () => {
   useEffect(() => {
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get('code');
-    console.log(authorizationCode);
     if (authorizationCode) {
       axios
         .post(
@@ -24,8 +22,7 @@ const KakaoCallback = () => {
           window.location.reload();
         })
         .catch(err => {
-          console.log(err);
-          console.log('소셜로그인 실패!!');
+          console.log('catch', err);
         });
     }
   }, []);

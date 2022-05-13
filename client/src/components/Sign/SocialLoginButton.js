@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { SignButton } from './Button';
-import { SocialImage } from './Image';
+import { SignButton } from '../Button';
+import { SocialImage } from '../Image';
 
 const ButtonDiv = styled.div`
   display: flex;

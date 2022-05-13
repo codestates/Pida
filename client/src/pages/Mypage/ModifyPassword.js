@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { ConfirmButton, SignButton } from '../../components/Button';
+import { SignButton } from '../../components/Button';
 import { Error } from '../../components/Div';
 import { SignInput } from '../../components/Input';
 import { Modal } from '../../components/Modal';
@@ -103,10 +103,7 @@ function ModifyPassword({ handleModifyPasswordModal }) {
         <SignButton onClick={handleModifyPassword}>비밀번호 변경</SignButton>
       </div>
       {isOpen ? (
-        <Modal handleModal={handleModal}>
-          비밀번호가 변경되었습니다
-          <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
-        </Modal>
+        <Modal handleModal={handleModal}>비밀번호가 변경되었습니다</Modal>
       ) : null}
     </>
   );

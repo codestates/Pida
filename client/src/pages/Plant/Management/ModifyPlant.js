@@ -5,14 +5,13 @@ import { SelectButton } from '../../../components/Button';
 import {
   UDContainer,
   ContainerRow,
-  Container,
   MiniContainer,
 } from '../../../components/Container';
 import { Error, Label } from '../../../components/Div';
 import { ImageR } from '../../../components/Image';
 import { UploadInput, ContentTextArea } from '../../../components/Input';
 
-function ModifyPlant(props) {
+function ModifyPlant() {
   const history = useHistory();
   const location = useLocation();
 
@@ -143,11 +142,10 @@ function ModifyPlant(props) {
         )
         .then(res => {
           alert('식물수정완료');
-          //history.replace('/');
           history.goBack(); // 식물상세보기 페이지로 돌아가기
         })
         .catch(err => {
-          console.log('catch', err);
+          console.log(err);
         });
     }
   };
