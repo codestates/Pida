@@ -2,27 +2,35 @@ const { User } = require('../../models/Index');
 
 module.exports = async (req, res) => {
   try {
-    // eac 받아옴
     const { emailAuthCode } = req.body;
 
-    // 있긴 함? 없으면 400 컷
+    //인증코드가 없는 경우
     if (!emailAuthCode) {
       return res.status(400).json({ message: '인증 코드가 없습니다' });
     }
 
-    // 해당 인증 코드를 가진 가가입 유저를 먼저 찾아옴
+    // 해당 인증 코드를 가진 유저를 먼저 찾아옴
     const tempUser = await User.findOne({
       where: { emailAuthCode },
     });
 
-    // 그 친구의 이메일 <- 리턴해줄 수 있도록
+    //위 유저의 이메일 찾기
     const { email } = await User.findOne({
       attributes: ['email'],
       where: { emailAuthCode },
     });
 
-    //인증했다고 기록 남길것
+    //이메일 인증 기록하기
     await User.update({ emailVerified: 1 }, { where: { email } });
+
+    //인증 받고도 아무것도 안하면 20분 이후 삭제
+    setTimeout(async () => {
+      await User.findOne({ where: { emailAuthCode } }).then(async data => {
+        if (data) {
+          await User.destroy({ where: { emailAuthCode } });
+        }
+      });
+    }, 20 * 60 * 1000);
 
     if (tempUser) {
       return res.status(200).json({

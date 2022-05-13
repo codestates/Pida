@@ -2,8 +2,6 @@ const { User } = require('../../models/Index');
 
 module.exports = async (req, res) => {
   try {
-    //이전의 미들웨어에서 토큰으로 사용자 인증에 성공을 했다.
-    //req.id로 사용자 pk 받아서 이거로 해당 사용자 정보를 삭제한다.
     await User.destroy({
       where: {
         id: req.id,

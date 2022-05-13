@@ -2,7 +2,6 @@ const { User, Comment } = require('../../models/Index');
 
 module.exports = async (req, res) => {
   try {
-    //어떤 게시글에 댓글을 다는지 알아내기
     const { id: interiorId } = req.params;
     const { comment: newComment } = req.body;
     if (!interiorId || !newComment || newComment.trim() === '') {

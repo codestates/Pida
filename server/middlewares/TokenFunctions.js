@@ -13,18 +13,18 @@ module.exports = {
   sendAccessToken: (res, accessToken) => {
     const options_dev = {
       path: '/',
-      // 1 week
       maxAge: 1000 * 60 * 60 * 24 * 7,
     };
+
     const options_prod = {
       httpOnly: true,
       sameSite: 'none',
       secure: true,
       domain: '.server.pida.link',
       path: '/',
-      // 1 week
       maxAge: 1000 * 60 * 60 * 24 * 7,
     };
+
     return res.cookie(
       'accessToken',
       accessToken,

@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: '댓글 삭제에 실패했습니다' });
     }
 
-    // //삭제 권한 확인: 클라단에서 화면에 버튼 안보이게 하자
+    //삭제 권한 확인
     // const userId = await Comment.findByPk(commentId, {
     //   attributes: ['userId'],
     // });
@@ -24,8 +24,6 @@ module.exports = async (req, res) => {
   } catch (e) {
     //서버 에러 처리
     console.error(e);
-    return res
-      .status(500)
-      .json({ message: '서버가 댓글 삭제에 실패했습니다' });
+    return res.status(500).json({ message: '서버가 댓글 삭제에 실패했습니다' });
   }
-}
+};

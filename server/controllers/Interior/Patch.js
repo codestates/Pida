@@ -5,7 +5,6 @@ dotenv.config();
 module.exports = async (req, res, next) => {
   try {
     const { id: postId } = req.params;
-    //만약에 게시글 아이디가 없을 시 수정거부
     if (!postId) {
       return res
         .status(400)
@@ -13,7 +12,7 @@ module.exports = async (req, res, next) => {
     }
     const { content: newContent } = req.body;
 
-    //만약에 기존 이미지는 , 안 바꾸고 글만 수정요청을 보냈다면 글만 업데이트 하고 돌려보낸다.
+    //만약에 기존 이미지는 안 바꾸고 글만 수정요청을 보냈다면 글만 업데이트 하고 돌려보낸다.
     if (req.body.image && req.file === undefined) {
       console.log('이미지 안 바꾸고 글만 바꿔서 보냄');
       await Interior.update(
@@ -47,6 +46,7 @@ module.exports = async (req, res, next) => {
     const imageUrl = await Interior.findByPk(postId, {
       attributes: ['image'],
     });
+
     //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
     console.log(imageUrl, '파일주소');
     req.fileName = imageUrl.image.split('.com/')[1];
@@ -75,7 +75,6 @@ module.exports = async (req, res, next) => {
       isliked: false,
     };
 
-    console.log(data, '응답으로 돌려줄 데이터');
     req.data = data;
     next();
   } catch (e) {

@@ -9,27 +9,21 @@ module.exports = async (req, res) => {
     //문제점: 클라에서 이거 안해줄 경우엔 실패해도 s3에 이미지 올라감..
     const { id: plantId } = req.params;
     const { content } = req.body;
-    console.log(
-      '식물:',
-      plantId,
-      '이미지주소',
-      req.file.location,
-      '내용',
-      content,
-    );
+
     if (!plantId || !req.file.location || !content) {
       return res
         .status(400)
         .json({ message: '인테리어 게시글 업로드에 실패했습니다' });
     }
-    //다 있을 경우 201	인테리어 게시글 업로드에 성공했습니다.
-    //게시글 아이디 및 생성시각
+
+    //게시글 생성
     const newPost = Interior.create({
       userId: req.id,
       plantId,
       content,
       image: req.file.location,
     });
+
     //사용자 닉네임
     const { nickname } = User.findByPk(req.id, { attributes: ['nickname'] });
     Promise.all([newPost, nickname])

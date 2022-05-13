@@ -8,7 +8,7 @@ const {
 module.exports = async (req, res) => {
   try {
     let { name, description, size, space, species } = req.body;
-    //인자 누락 처리
+
     if (
       !req.file.location ||
       !name ||
@@ -21,11 +21,13 @@ module.exports = async (req, res) => {
         .status(400)
         .json({ message: '식물 상세정보 등록에 실패했습니다' });
     }
+
     //중복 등록 방지
     const plant = await Plant.findOne({ where: { name } });
     if (plant) {
       return res.status(409).json({ message: '이미 등록한 식물입니다' });
     }
+
     //식물 테이블에 등록
     const {
       id,
@@ -70,7 +72,6 @@ module.exports = async (req, res) => {
 
     Promise.all(categoryPromises)
       .then(value => {
-        console.log('식물 카테고리 정상 처리 완료');
         //테이블에 정상적 분류 완료
         //식물 정보 반환
         return res.status(201).json({
@@ -86,7 +87,7 @@ module.exports = async (req, res) => {
           message: '식물 상세정보 등록에 성공했습니다',
         });
       })
-      .catch(e => console.log('카테고리 등록 실패', e));
+      .catch(console.log);
   } catch (e) {
     //서버 에러
     console.error(e);
