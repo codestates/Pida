@@ -1,15 +1,20 @@
 const { Interior } = require('../../models/Index');
-const dotenv = require('dotenv');
-dotenv.config();
 
 module.exports = async (req, res, next) => {
   try {
-    //id가 없으면 삭제 거부
     const { id: postId } = req.params;
+
     if (!postId) {
       return res
         .status(400)
         .json({ message: '인테리어 게시글 삭제에 실패했습니다' });
+    }
+
+    //작성자와 현재 게시글 보고 있는 사람의 id값이 다르면 삭제 거부
+    const author = await Interior.findByPk(postId, { attributes: ['userId'] });
+
+    if (author.userId !== req.id) {
+      return res.status(401).json({ message: '권한이 없습니다' });
     }
 
     //id가 주어졌다면 DB 테이블에서 삭제 진행한다.
@@ -22,6 +27,7 @@ module.exports = async (req, res, next) => {
     req.fileName = imageUrl.image.split('.com/')[1];
     //테이블 상에서 삭제
     await Interior.destroy({ where: { id: postId } });
+
     next();
   } catch (e) {
     //서버 에러 처리

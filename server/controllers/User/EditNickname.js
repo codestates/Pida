@@ -4,10 +4,9 @@ module.exports = async (req, res) => {
   try {
     const { newNickname } = req.body;
 
-    if (!regexp.test(newNickname)) {
+    if (!newNickname) {
       return res.status(400).json({
-        message:
-          '닉네임 변경에 실패했습니다. 1자 이상 8자 이하의 닉네임인지 다시 확인해주세요. 특수문자가 포함되면 안 됩니다',
+        message: '닉네임 변경에 실패했습니다',
       });
     }
 
