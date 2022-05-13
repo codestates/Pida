@@ -26,7 +26,7 @@ module.exports = {
         } else {
           return res
             .status(404)
-            .json({ message: '전체 식물 사진 가져오기에 실패했습니다' });
+            .json({ message: '검색 결과 페이지를 찾을 수 없습니다' });
         }
       }
 
