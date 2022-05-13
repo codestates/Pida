@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
     if (!authorizationCode) {
       return res
         .status(400)
-        .json({ message: '로그인 및 회원가입에 실패했습니다.' });
+        .json({ message: '회원가입 및 로그인에 실패했습니다' });
     }
 
     // 카카오에 인가 코드 요청
@@ -66,33 +66,36 @@ module.exports = async (req, res) => {
         emailVerified: 1,
       });
 
-      // note: 카카오 닉네임 이모티콘 등 다른 언어 설정이 필요할 수도 있어 (enb 84?)
-
       const accessToken = generateAccessToken(newUser.id);
+
       sendAccessToken(res, accessToken);
 
-      return res.status(201).json({
-        data: { userId: newUser.id },
-        message: '회원가입 및 로그인에 성공했습니다',
-      });
+      return res
+        .status(201)
+        .json({
+          data: { userId: newUser.id },
+          message: '회원가입 및 로그인에 성공했습니다',
+        });
     }
 
-    //위 정보가 테이블에 존재하고 있을 경우에는 바로 자체 토큰 발급, 로그인 처리
+    // 해당 정보가 테이블에 이미 존재할 경우, 즉시 토큰 발급 및 로그인 처리
     const accessToken = generateAccessToken(user.dataValues.id);
 
-    //쿠키 전송
+    // 쿠키 전송
     sendAccessToken(res, accessToken);
 
-    // 200: 최종적으로, 발급한 토큰과 옵션을 메시지와 함께 반환
-    return res.status(200).json({
-      data: { userId: user.dataValues.id },
-      message: '로그인에 성공했습니다',
-    });
+    // 토큰, 옵션, 메시지 반환
+    return res
+      .status(200)
+      .json({
+        data: { userId: user.dataValues.id },
+        message: '로그인에 성공했습니다',
+      });
   } catch (e) {
     // 서버 에러 처리
     console.error(e);
     return res
       .status(401)
-      .json({ message: '로그인 및 회원가입에 실패했습니다' });
+      .json({ message: '회원가입 및 로그인에 실패했습니다' });
   }
 };

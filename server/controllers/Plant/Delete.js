@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
     const imageUrl = await Plant.findByPk(plantId, {
       attributes: ['image'],
     });
-    //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
+    // 이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
     console.log(imageUrl, '파일주소');
     req.fileName = imageUrl.image.split('.com/')[1];
     await Plant.destroy({ where: { id: plantId } });
