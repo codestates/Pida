@@ -30,14 +30,47 @@
 <br/><br/><br/>
 
 ## Final App View
-추가예정입니다
-<details>
-  <summary>홈화면</summary>
-</details>
-<details>
-  <summary>식물상세페이지</summary>
-</details>
+<details><summary>회원가입</summary>
 
+![회원가입](https://user-images.githubusercontent.com/55533303/168308072-b757a96f-39ef-433d-a593-640bf94e0d7d.gif)</details>
+
+<details><summary>로그인</summary>
+
+![로그인](https://user-images.githubusercontent.com/55533303/168309108-8a708354-4999-4225-a2f3-b7124785922c.gif)</details>
+
+<details><summary>플랜테리어 취향 찾기</summary>
+
+![플랜테리어 취향 찾기](https://user-images.githubusercontent.com/55533303/168309179-df8bdecf-9682-4a1b-a624-801047bb8d0a.gif)</details>
+
+<details><summary>식물 상세페이지</summary>
+
+![식물 상세페이지](https://user-images.githubusercontent.com/55533303/168309302-d35fabf7-d328-43b0-b9ca-668329d71010.gif)</details>
+
+<details><summary>인테리어 상세페이지</summary>
+
+![인테리어 상세페이지](https://user-images.githubusercontent.com/55533303/168310753-976ac915-c650-4374-abee-d969eb268cad.gif)</details>
+
+<details><summary>인테리어 자랑하기</summary>
+
+![인테리어 자랑하기](https://user-images.githubusercontent.com/55533303/168310622-50084693-6296-4209-9bed-833f43bafedf.gif)</details>
+
+<details><summary>내 근처 꽃집 찾기</summary>
+
+![내 근처 꽃집 찾기](https://user-images.githubusercontent.com/55533303/168309409-f824bf98-305c-4d61-9b8c-cf8462f3b13c.gif)</details>
+
+<details><summary>마이페이지</summary>
+
+![마이페이지-](https://user-images.githubusercontent.com/55533303/168308549-d8dd913f-6318-4833-855b-d3f561c168e9.gif)</details>
+
+<details><summary>닉네임 변경, 비밀번호 변경, 회원 탈퇴</summary>
+
+![닉네임 변경, 비밀번호 변경, 회원 탈퇴-](https://user-images.githubusercontent.com/55533303/168308504-58893b9d-ae8d-4ac5-9668-b2b70a2fc67d.gif)</details>
+
+<details>
+  <summary>관리자 페이지: 식물 등록, 수정, 삭제</summary>
+
+![관리자 페이지](https://user-images.githubusercontent.com/55533303/168312724-c499efee-721d-4fc5-b608-db5414320b68.gif)
+</details>
 <br/><br/><br/><br/><br/><br/>
 
 ## TEAM INTRODUCTION
