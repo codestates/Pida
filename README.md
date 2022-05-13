@@ -1,7 +1,7 @@
 # Pida
 <br/>
 
-배포링크자리
+🌱[Pida 서비스 이용해 보기](https://pida.ga/)
 <br/><br/>
 
 ![image](https://user-images.githubusercontent.com/55533303/164385854-1381c56e-d7d0-44fb-95a9-735b563d1345.png)
