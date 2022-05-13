@@ -16,6 +16,7 @@ module.exports = async (req, res) => {
     const uploads = Interior.findAll({
       attributes: ['id', 'image'],
       where: { userId: req.id },
+      order: [['createdAt', 'DESC']],
     });
 
     //사용자가 좋아요한 글 모아보기

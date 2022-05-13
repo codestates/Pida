@@ -3,7 +3,7 @@ const router = express.Router();
 
 const userController = require('../controllers/User/Index');
 
-//유저 회원가입 및 이메일 닉네임 중복 체크
+//회원가입
 router.post('/', userController.signup);
 router.post('/email', userController.getEmailCode);
 router.post('/emailauth', userController.verifyEmailCode);

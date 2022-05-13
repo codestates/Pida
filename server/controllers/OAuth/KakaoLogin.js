@@ -18,7 +18,6 @@ module.exports = async (req, res) => {
 
     // authorization 확인
     const { authorizationCode } = req.body;
-    console.log('kakao login auth code -----------> ', authorizationCode);
 
     if (!authorizationCode) {
       return res
@@ -41,29 +40,23 @@ module.exports = async (req, res) => {
       },
     });
 
-    console.log('카카오 로그인 유저 --------------> ', userInfo);
-
     const { email } = userInfo.data.kakao_account;
     const { nickname } = userInfo.data.properties;
 
     // 이모지 제거
     let plainNickname = nickname.replace(emojiRegex(), '');
-    console.log('이모지 잘림? ----------------> ', plainNickname);
 
     // 특수문자 제거
     const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]/gi;
     plainNickname = plainNickname.replace(reg, '');
-    console.log('특수문자도 잘림? -----------------> ', plainNickname);
 
     // 유저 존재 유무 확인
     const user = await User.findOne({ where: { email } });
-    console.log(email, nickname, '사용자 이메일 닉네임');
 
     if (!user) {
       const sameNickUser = await User.findOne({
         where: { nickname: plainNickname },
       });
-      console.log(sameNickUser, '기존 가입자 중 같은 닉넴 가진 사용자가 있니?');
 
       const newUser = await User.create({
         email: email,
@@ -84,7 +77,6 @@ module.exports = async (req, res) => {
       });
     }
 
-    console.log('기존에 등록된 소셜계정사용자', user);
     //위 정보가 테이블에 존재하고 있을 경우에는 바로 자체 토큰 발급, 로그인 처리
     const accessToken = generateAccessToken(user.dataValues.id);
 

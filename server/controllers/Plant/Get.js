@@ -22,11 +22,11 @@ module.exports = async (req, res) => {
 
     //식물 아이디, 이름, 이미지, 설명
     const plantInfo = Plant.findByPk(plantId);
-    //식물 크기정보
-    //식물 공간정보
-    //식물 종류정보
+    //식물 크기
     const size = Plant_size.findAll({ where: { plantId } });
+    //식물 공간
     const space = Plant_space.findAll({ where: { plantId } });
+    //식물 종류
     const species = Plant_specie.findAll({ where: { plantId } });
 
     //인테리어 아이디, 이미지

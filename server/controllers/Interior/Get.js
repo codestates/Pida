@@ -17,8 +17,6 @@ module.exports = async (req, res) => {
         .status(400)
         .json({ message: '인테리어 게시글 조회에 실패했습니다' });
     }
-    console.log(req.id, '사용자 아이디');
-    console.log(postId, '게시물아이디');
 
     //게시물에서 게시물 아이디, 유저아이디, 닉네임, 이미지, 내용, 작성시각, 좋아요개수 가지고오기
     const [

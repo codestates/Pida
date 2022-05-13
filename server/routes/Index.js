@@ -8,7 +8,6 @@ const interiorsRouter = require('./Interiors');
 const commentsRouter = require('./Comments');
 const searchController = require('../controllers/Search');
 
-//페이지가 아닌 기능 기준으로 라우터 분기해 두었음.
 router.use('/users', usersRouter);
 router.use('/oauth', oauthRouter);
 router.use('/plants', plantsRouter);

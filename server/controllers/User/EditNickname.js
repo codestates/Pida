@@ -3,12 +3,6 @@ const { User } = require('../../models/Index');
 module.exports = async (req, res) => {
   try {
     const { newNickname } = req.body;
-    console.log('사용자닉네임', newNickname, '닉네임');
-
-    // newNickname 이 정규표현식을 통과하지 못 한다면,
-    // 400 을 돌려주고 정지
-    // 정규표현식 이스케이프
-    const regexp = /^[^!@#$%\^&*(\)\-_+={\}[\]\\|:;"'<>?/]{1,8}$/;
 
     if (!regexp.test(newNickname)) {
       return res.status(400).json({
