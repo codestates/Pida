@@ -10,7 +10,6 @@ dotenv.config();
 
 module.exports = async (req, res) => {
   try {
-    //사용자로부터 이메일 값을 받는다.
     const { email } = req.body;
 
     //값이 없을 경우
@@ -18,7 +17,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: '이메일 값이 없습니다' });
     }
 
-    //이메일이 이미 존재하고, 가입된 사용자라면
+    //이메일이 이미 존재하고, 가입된 사용자
     const joinedUser = await User.findOne({
       where: { email, emailAuthCode: null },
     });
@@ -41,6 +40,7 @@ module.exports = async (req, res) => {
         {
           emailAuthCode,
           nickname: tempNickname,
+          emailVerified: 0,
         },
         { where: { email } },
       );

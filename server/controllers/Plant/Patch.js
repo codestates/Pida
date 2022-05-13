@@ -28,15 +28,13 @@ module.exports = async (req, res, next) => {
         .status(400)
         .json({ message: '식물 상세정보 수정에 실패했습니다' });
     }
-    //기존에 존재하는 식물 카테고리 정보는 모두 제거한다.
+    //기존에 존재하는 식물 카테고리 정보는 모두 제거
     await Plant_size.destroy({ where: { plantId } });
     await Plant_space.destroy({ where: { plantId } });
     await Plant_specie.destroy({ where: { plantId } });
 
     //이미지만 그대로인 경우
     if (req.body.image && req.file === undefined) {
-      console.log('이미지만 안 바꿈');
-
       const promises = [];
       //식물 테이블 업데이트
       const newPlant = Plant.update(
@@ -51,8 +49,6 @@ module.exports = async (req, res, next) => {
       newSpecies = JSON.parse(newSpecies);
 
       for (let i of newSize) {
-        console.log(typeof i, '타입'); //[1,2]
-        //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
         const newPlantSize = Plant_size.create({
           plantId,
           sizeId: i,
@@ -67,7 +63,6 @@ module.exports = async (req, res, next) => {
         promises.push(newPlantSpace);
       }
       for (let k of newSpecies) {
-        //이 정보를 가지고 plant_sizes 테이블에 등록할 거야.
         const newPlantSpecies = Plant_specie.create({
           plantId,
           speciesId: k,
@@ -94,14 +89,13 @@ module.exports = async (req, res, next) => {
             message: '식물 상세정보 수정에 성공했습니다',
           });
         })
-        .catch(e => console.log('식물정보 수정 실패', e));
+        .catch(console.log);
     } else {
       //이미지도 교체하는 경우
       const imageUrl = await Plant.findByPk(plantId, {
         attributes: ['image'],
       });
       //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
-      console.log(imageUrl, '파일주소');
       req.fileName = imageUrl.image.split('.com/')[1];
 
       //식물 테이블 업데이트

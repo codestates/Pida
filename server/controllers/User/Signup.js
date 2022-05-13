@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     //사용자 이메일, 닉네임, 패스워드
     const { email, nickname, password } = req.body;
 
-    //이메일, 닉네임, 패스워드 하나라도 빠진 경우 회원 가입에 실패했다고 응답
+    //이메일, 닉네임, 패스워드 하나라도 빠진 경우 회원 가입에 실패
     if (!email || !nickname || !password) {
       return res.status(400).json({ message: '회원가입에 실패하였습니다.' });
     }
@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: '이메일이 인증되지 않았습니다' });
     }
 
-    //모든 조건 다 통과 시 가입 시행
+    //모든 조건 다 통과 시 가입
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     await User.update(

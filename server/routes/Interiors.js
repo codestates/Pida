@@ -8,9 +8,9 @@ const isAuth = require('../middlewares/Authentication');
 const interiorImageHandler = require('../middlewares/InteriorImageHandler');
 const { interiorPost } = require('../middlewares/InteriorImageHandler');
 
-//게시글 조회
+// 게시글 조회 & 수정 & 삭제
 router.get('/:id', isAuth, interiorController.get);
-//수정
+
 router.patch(
   '/:id',
   isAuth,
@@ -18,7 +18,7 @@ router.patch(
   interiorController.patch,
   interiorImageHandler.delete,
 );
-//삭제
+
 router.delete(
   '/:id',
   isAuth,
@@ -26,8 +26,9 @@ router.delete(
   interiorImageHandler.delete,
 );
 
-//좋아요
+//좋아요 & 좋아요 취소
 router.post('/:id/likes', isAuth, likeController.post);
+
 router.delete('/:id/likes', isAuth, likeController.delete);
 
 //댓글 작성
