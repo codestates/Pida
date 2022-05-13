@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
     }
 
     //작성자와 현재 게시글 보고 있는 사람의 id값이 다르면 삭제 거부
-    const author = Interior.findByPk(postId, { attributes: ['userId'] });
+    const author = await Interior.findByPk(postId, { attributes: ['userId'] });
 
     if (author.userId !== req.id) {
       return res.status(401).json({ message: '권한이 없습니다' });
