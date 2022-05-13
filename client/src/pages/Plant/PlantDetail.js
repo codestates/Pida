@@ -10,9 +10,10 @@ import {
 } from '../../components/Button';
 import { UDContainer, TransContainer } from '../../components/Container';
 import { ImageP, ImageI } from '../../components/Image';
-import { Modal, Modal3 } from '../../components/Modal';
+import { Modal, Modal2, Modal3 } from '../../components/Modal';
 import InteriorDetail from './InteriorDetail';
 import DeletePlant from './Management/DeletePlant';
+import Login from '../Login';
 
 // 가로 스크롤 생기는 특정 부분
 const Interiors = styled.div`
@@ -78,17 +79,27 @@ function PlantDetail() {
       });
   };
 
+  /* 로그인 모달 */
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const handleLoginModal = () => {
+    setIsLoginModalOpen(!isLoginModalOpen);
+  };
+
   /* 나도 뽐내기 버튼 클릭 시, 글쓰기 페이지로 이동 */
   const [plantId, setPlantId] = useState(0);
   const [isNavigate, setIsNavigate] = useState('');
   const handleInteriorWrite = id => {
-    setPlantId(id); // 식물 id 설정해주고
-    setIsNavigate(true); // useEffect 실행해 해당 id 식물 상세 페이지로 이동
+    if (!localStorage.getItem('loginUserId')) {
+      setIsLoginModalOpen(true);
+    } else {
+      setPlantId(id); // 식물 id 설정해주고
+      setIsNavigate(true); // useEffect 실행해 해당 id 식물 상세 페이지로 이동
+    }
   };
   useEffect(() => {
     if (isNavigate) {
       history.push({
-        pathname: '/plants/:id/interiors',
+        pathname: `/plants/${plantId}/interiors`,
         state: { plantId: plantId },
       });
       setIsNavigate(false);
@@ -119,7 +130,7 @@ function PlantDetail() {
   const handleModifyPlant = () => {
     // 식물 정보 들고 이동
     history.push({
-      pathname: '/plants/:id/modify',
+      pathname: `/plants/${plant.id}/modify`,
       state: { plant: plant },
     });
   };
@@ -187,6 +198,11 @@ function PlantDetail() {
             >
               나도 뽐내기
             </SelectButton>
+            {isLoginModalOpen ? (
+              <Modal2 handleModal={handleLoginModal}>
+                <Login setIsLoginModalOpen={setIsLoginModalOpen} />
+              </Modal2>
+            ) : null}
           </span>
           <Interiors>
             {interiorsArray.map(interior => {
@@ -199,6 +215,24 @@ function PlantDetail() {
               );
             })}
 
+            <TButton onClick={() => handleInteriorDetail(1)}>
+              <ImageI src="../images/logo.png" alt="" />
+            </TButton>
+            <TButton onClick={() => handleInteriorDetail(1)}>
+              <ImageI src="../images/logo.png" alt="" />
+            </TButton>
+            <TButton onClick={() => handleInteriorDetail(1)}>
+              <ImageI src="../images/logo.png" alt="" />
+            </TButton>
+            <TButton onClick={() => handleInteriorDetail(1)}>
+              <ImageI src="../images/logo.png" alt="" />
+            </TButton>
+            <TButton onClick={() => handleInteriorDetail(1)}>
+              <ImageI src="../images/logo.png" alt="" />
+            </TButton>
+            <TButton onClick={() => handleInteriorDetail(1)}>
+              <ImageI src="../images/logo.png" alt="" />
+            </TButton>
             <TButton onClick={() => handleInteriorDetail(1)}>
               <ImageI src="../images/logo.png" alt="" />
             </TButton>

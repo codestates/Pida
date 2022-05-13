@@ -43,12 +43,9 @@ const MainButton = styled.button`
     color: black;
   }
 
-  animation: loading 6s alternate;
+  animation: loading 4s alternate;
   @keyframes loading {
     0% {
-      opacity: 0;
-    }
-    25% {
       opacity: 0;
     }
     100% {

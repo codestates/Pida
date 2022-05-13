@@ -60,9 +60,9 @@ function Nav() {
         <Menuul>
           {/* 로고 */}
           <NavLink to="/">
-            <Logo>
+            <Menuli>
               <img src="../images/logo.png" alt="" width="110rem" />
-            </Logo>
+            </Menuli>
           </NavLink>
 
           <MenubarDiv>
@@ -146,12 +146,11 @@ function Nav() {
 export default Nav;
 
 const Menunav = styled.nav`
-  //전부 묶어주는 nav
   display: flex;
   justify-content: space-between;
   align-items: center; // 수직축 가운데로 정렬
   padding: 0.5rem 1.5rem;
-  min-width: 100%-1.5rem;
+  //min-width: 100%-1.5rem;
   height: 5vh;
   // border-bottom: 0.1rem solid black; //가로 밑줄
 `;
@@ -159,23 +158,20 @@ const Menunav = styled.nav`
 const Menuul = styled.ul`
   display: flex;
   list-style: none;
-  padding: 1rem 0 0 0rem;
+  padding: 1rem 0 0 0;
 `;
 
 const NavLink = styled(Link)`
   text-decoration: none;
 `;
 
-const Logo = styled.li`
-  padding: 0 0.5rem;
+const Menuli = styled.li`
+  padding-left: 1rem;
   font-weight: 600;
   color: rgb(163, 163, 163);
   :hover {
     color: black;
   }
-`;
-
-const Menuli = styled(Logo)`
   cursor: pointer;
   @media screen and (max-width: 760px) {
     top: 3rem;
@@ -186,7 +182,7 @@ const Menuli = styled(Logo)`
 const MenubarDiv = styled.div`
   display: flex;
   position: absolute;
-  right: 1rem;
+  right: 2rem;
   flex-direction: column;
   align-items: flex-end;
 `;
