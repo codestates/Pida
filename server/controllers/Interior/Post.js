@@ -1,12 +1,7 @@
 const { User, Interior } = require('../../models/Index');
 
-const dotenv = require('dotenv');
-dotenv.config();
-
 module.exports = async (req, res) => {
   try {
-    //만약에 게시글과 넘어온 파일링크가 하나라도 없으면 작성거부: 클라에서 사전에 차단.
-    //문제점: 클라에서 이거 안해줄 경우엔 실패해도 s3에 이미지 올라감..
     const { id: plantId } = req.params;
     const { content } = req.body;
 
@@ -26,6 +21,7 @@ module.exports = async (req, res) => {
 
     //사용자 닉네임
     const { nickname } = User.findByPk(req.id, { attributes: ['nickname'] });
+
     Promise.all([newPost, nickname])
       .then(([{ id, userId, image, content, createdAt }, nickname]) => {
         return res.status(201).json({
@@ -36,7 +32,7 @@ module.exports = async (req, res) => {
             content,
             createdAt,
             nickname,
-            isliked: false, //처음 생성한 게시물이니 좋아요는 초기상태로.
+            isliked: false,
           },
           message: '인테리어 게시글 업로드에 성공했습니다',
         });

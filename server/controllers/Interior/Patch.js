@@ -1,20 +1,25 @@
 const { User, Interior } = require('../../models/Index');
-const dotenv = require('dotenv');
-dotenv.config();
 
 module.exports = async (req, res, next) => {
   try {
     const { id: postId } = req.params;
-    if (!postId) {
+    const { content: newContent } = req.body;
+
+    if (!postId || !newContent) {
       return res
         .status(400)
         .json({ message: '인테리어 게시글 수정에 실패했습니다' });
     }
-    const { content: newContent } = req.body;
+
+    //작성자와 현재 게시글 보고 있는 사람의 id값이 다르면 수정 거부
+    const author = Interior.findByPk(postId, { attributes: ['userId'] });
+
+    if (author.userId !== req.id) {
+      return res.status(401).json({ message: '권한이 없습니다' });
+    }
 
     //만약에 기존 이미지는 안 바꾸고 글만 수정요청을 보냈다면 글만 업데이트 하고 돌려보낸다.
     if (req.body.image && req.file === undefined) {
-      console.log('이미지 안 바꾸고 글만 바꿔서 보냄');
       await Interior.update(
         {
           content: newContent,
@@ -41,14 +46,21 @@ module.exports = async (req, res, next) => {
       });
     }
 
-    //완전 새 이미지로 교체하는 경우 처리.
+    //이미지도 교체하는 경우
+
+    //예외처리
+    if (!req.file.location) {
+      return res
+        .status(400)
+        .json({ message: '인테리어 게시글 수정에 실패했습니다' });
+    }
+
     //기존에 존재하는 이미지 파일의 이름을 알아낸다.
     const imageUrl = await Interior.findByPk(postId, {
       attributes: ['image'],
     });
 
     //이미지 주소에서 마지막 슬래시 이후의 문자열이 파일 이름이 된다.
-    console.log(imageUrl, '파일주소');
     req.fileName = imageUrl.image.split('.com/')[1];
 
     //이제 DB테이블 업데이트 해도 된다.

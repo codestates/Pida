@@ -11,6 +11,7 @@ dotenv.config();
 module.exports = async (req, res) => {
   try {
     const { id: postId } = req.params;
+
     //만약에 아이디가 주어지지 않는다면 에러 메세지 응답
     if (!postId) {
       return res
@@ -47,17 +48,17 @@ module.exports = async (req, res) => {
       attributes: ['nickname'],
     });
 
-    //편집 가능 여부,
+    //수정 삭제 가능 여부
     const interior = Interior.findByPk(postId, {
       attributes: ['userId'],
     });
 
-    //좋아요 여부,
+    //좋아요 여부
     const isLiked = Interior_like.findOne({
       where: { userId: req.id, interiorId: postId },
     });
 
-    //댓글 목록 전체: 현재 댓글에 존재하는 userId가 req.id와 다른 경우, 수정 삭제 권한 없다
+    //댓글 목록 전체
     let comments = Comment.findAll({
       attributes: ['id', 'userId', 'comment', 'createdAt'],
       include: [

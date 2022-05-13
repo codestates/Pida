@@ -7,6 +7,7 @@ module.exports = async (req, res) => {
         id: req.id,
       },
     });
+
     return res
       .cookie('accessToken', null, {
         httpOnly: true,
