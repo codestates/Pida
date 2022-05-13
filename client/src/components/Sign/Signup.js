@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { SignButton, ConfirmButton, CheckButton } from '../components/Button';
-import { ContainerRow } from '../components/Container';
-import { Error, Message } from '../components/Div';
-import { SignupInput, SignupInput2 } from '../components/Input';
-import { Modal } from '../components/Modal';
+import { SignButton, CheckButton } from '../Button';
+import { ContainerRow } from '../Container';
+import { Error, Message } from '../Div';
+import { SignupInput, SignupInput2 } from '../Input';
+import { Modal, Modal2 } from '../Modal';
 import {
   pwValidator,
   pwMatchValidator,
   nicknameValidator,
-} from '../utils/validator';
+} from '../../utils/validator';
 import styled from 'styled-components';
 
 const Div = styled.div`
@@ -31,7 +31,7 @@ function Signup(props) {
     props.setIsSignupModalOpen(false); // 회원가입 모달 닫기 (완료 모달도 닫힘)
   };
 
-  /* 경고 메세지 */
+  /* 메세지 */
   const [errorMessage1, setErrorMessage1] = useState('');
   const [errorMessage2, setErrorMessage2] = useState('');
   const [errorMessage3, setErrorMessage3] = useState('');
@@ -84,7 +84,7 @@ function Signup(props) {
       )
       .then(res => {
         setEmailCheck(true);
-        setErrorMessage2('인증되었습니다');
+        setErrorMessage2('인증되었습니다. 20분 내로 회원가입을 완료해 주세요');
       })
       .catch(err => {
         setErrorMessage2('인증 코드를 다시 확인해 주세요');
@@ -132,7 +132,7 @@ function Signup(props) {
       }
       if (nicknameValidator(signupInfo.nickname) === false) {
         setErrorMessage3(
-          '닉네임은 공백 없이 1자 이상 8자 이하로 작성해 주세요',
+          '닉네임은 공백 없이 1자 이상 12자 이하로 작성해 주세요',
         );
       }
       if (pwValidator(signupInfo.password) === false) {
@@ -157,7 +157,7 @@ function Signup(props) {
           { withCredentials: true },
         )
         .then(res => {
-          setIsOpen(true); // 성공 모달
+          setIsOpen(true); // 완료 모달
         })
         .catch(err => {
           setErrorMessage4('catch');
@@ -167,90 +167,94 @@ function Signup(props) {
 
   return (
     <>
-      <div>
-        <Div>
-          <ContainerRow>
-            <SignupInput2
-              type="email"
-              placeholder="email"
-              onChange={handleInputValue('email')}
-            />
-            <CheckButton onClick={handleEmailAuth}>인증 코드 받기</CheckButton>
-          </ContainerRow>
-        </Div>
-        {emailCheck ? (
-          <Message>{errorMessage1}</Message>
-        ) : (
-          <Error>{errorMessage1}</Error>
-        )}
-      </div>
-      <div>
-        <Div>
-          <ContainerRow>
-            <SignupInput2
-              type="text"
-              placeholder="auth code"
-              onChange={handleInputValue('emailAuthCode')}
-            />
-            <CheckButton onClick={handleEmailAuthCheck}>인증</CheckButton>
-          </ContainerRow>
-        </Div>
-        {emailCheck ? (
-          <Message>{errorMessage2}</Message>
-        ) : (
-          <Error>{errorMessage2}</Error>
-        )}
-      </div>
-      <div>
-        <Div>
-          <ContainerRow>
-            <SignupInput2
-              type="text"
-              placeholder="nickname"
-              onChange={handleInputValue('nickname')}
-            />
-            <CheckButton onClick={handleNicknameCheck}>중복 체크</CheckButton>
-          </ContainerRow>
-        </Div>
-        {nicknameCheck ? (
-          <Message>{errorMessage3}</Message>
-        ) : (
-          <Error>{errorMessage3}</Error>
-        )}
-      </div>
-      <div>
-        <Div>
-          <ContainerRow>
-            <SignupInput
-              type="password"
-              placeholder="password"
-              onChange={handleInputValue('password')}
-            />
-          </ContainerRow>
-        </Div>
-        <Error>{errorMessage4}</Error>
-      </div>
-      <div>
-        <Div>
-          <ContainerRow>
-            <SignupInput
-              type="password"
-              placeholder="retype"
-              onChange={handleInputValue('rePassword')}
-            />
-          </ContainerRow>
-        </Div>
-        <Error>{errorMessage5}</Error>
-      </div>
-      <div>
-        <SignButton onClick={handleSignup}>회원가입</SignButton>
-      </div>
-      {isOpen ? (
-        <Modal handleModal={handleModal}>
-          회원가입에 성공했습니다
-          <ConfirmButton onClick={handleModal}>확인</ConfirmButton>
-        </Modal>
-      ) : null}
+      <Modal2 handleModal={props.handleModal}>
+        <div>
+          <Div>
+            <ContainerRow>
+              <SignupInput2
+                type="email"
+                placeholder="email"
+                onChange={handleInputValue('email')}
+              />
+              <CheckButton onClick={handleEmailAuth}>
+                인증 코드 받기
+              </CheckButton>
+            </ContainerRow>
+          </Div>
+          {emailCheck ? (
+            <Message>{errorMessage1}</Message>
+          ) : (
+            <Error>{errorMessage1}</Error>
+          )}
+        </div>
+        <div>
+          <Div>
+            <ContainerRow>
+              <SignupInput2
+                type="text"
+                placeholder="auth code"
+                onChange={handleInputValue('emailAuthCode')}
+              />
+              <CheckButton onClick={handleEmailAuthCheck}>인증</CheckButton>
+            </ContainerRow>
+          </Div>
+          {emailCheck ? (
+            <Message>{errorMessage2}</Message>
+          ) : (
+            <Error>{errorMessage2}</Error>
+          )}
+        </div>
+        <div>
+          <Div>
+            <ContainerRow>
+              <SignupInput2
+                type="text"
+                placeholder="nickname"
+                onChange={handleInputValue('nickname')}
+              />
+              <CheckButton onClick={handleNicknameCheck}>중복 체크</CheckButton>
+            </ContainerRow>
+          </Div>
+          {nicknameCheck ? (
+            <Message>{errorMessage3}</Message>
+          ) : (
+            <Error>{errorMessage3}</Error>
+          )}
+        </div>
+        <div>
+          <Div>
+            <ContainerRow>
+              <SignupInput
+                type="password"
+                placeholder="password"
+                onChange={handleInputValue('password')}
+              />
+            </ContainerRow>
+          </Div>
+          <Error>{errorMessage4}</Error>
+        </div>
+        <div>
+          <Div>
+            <ContainerRow>
+              <SignupInput
+                type="password"
+                placeholder="retype"
+                onChange={handleInputValue('rePassword')}
+              />
+            </ContainerRow>
+          </Div>
+          <Error>{errorMessage5}</Error>
+        </div>
+        <div>
+          <SignButton onClick={handleSignup}>회원가입</SignButton>
+        </div>
+        {isOpen ? (
+          <Modal handleModal={handleModal}>
+            회원가입에 성공했습니다
+            {/* <ConfirmButton onClick={handleModal}>확인</ConfirmButton> */}
+          </Modal>
+        ) : null}
+      </Modal2>
     </>
   );
 }

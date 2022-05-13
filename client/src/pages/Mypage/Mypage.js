@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
 import { MypageButton, MypageButton2, TButton } from '../../components/Button';
@@ -8,27 +9,28 @@ import {
   ContainerRow,
 } from '../../components/Container';
 import { Error } from '../../components/Div';
-import { Modal, Modal2 } from '../../components/Modal';
-import Bye from './Bye';
+import { Modal2, CCModal } from '../../components/Modal';
 import Likes from './Likes';
 import ModifyPassword from './ModifyPassword';
 import Uploads from './Uploads';
 import { nicknameValidator } from '../../utils/validator';
 
 const Info = styled.span`
+  margin-bottom: 0.5rem;
   font-size: 2rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
 `;
 const ModiInfo = styled.input`
-  font-size: 1.4rem;
-  width: 10rem;
-  height: 2rem;
   align-items: center;
   margin-bottom: 0.65rem;
+  width: 10rem;
+  height: 2rem;
+  font-size: 1.4rem;
 `;
 
 function Mypage() {
+  const history = useHistory();
+
   const [userInfo, setUserInfo] = useState({
     id: 0,
     email: '',
@@ -81,7 +83,7 @@ function Mypage() {
       userInfo.nickname === newNickname
     ) {
       if (nicknameValidator(newNickname) === false) {
-        setErrorMessage('닉네임은 공백 없이 1자 이상 8자 이하로 작성해 주세요');
+        setErrorMessage('공백 없이 1자 이상 12자 이하로 작성해 주세요');
       }
       if (userInfo.nickname === newNickname) {
         setIsModifyNickname(false); // 닉네임 변경사항이 없는 경우 그냥 모달 닫기
@@ -129,12 +131,20 @@ function Mypage() {
   };
 
   /* 회원 탈퇴 모달 */
-  const [isByeModalOpen, setIsByeModalOpen] = useState(false);
-  const handleByeModal = () => {
-    setIsByeModalOpen(!isByeModalOpen);
+  const [isWithdrawalModalOpen, setIsWithdrawalModalOpen] = useState(false);
+  const handleWithdrawalModal = () => {
+    setIsWithdrawalModalOpen(!isWithdrawalModalOpen);
   };
-  const handleBye = () => {
-    setIsByeModalOpen(!isByeModalOpen);
+  /* 회원 탈퇴 */
+  const handleWithdrawal = () => {
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}/users`, {
+        withCredentials: true,
+      })
+      .then(res => {
+        localStorage.removeItem('loginUserId');
+        history.replace('/');
+      });
   };
 
   /* 업로드한 사진 / 좋아요한 사진 각각 보여주기 */
@@ -204,11 +214,16 @@ function Mypage() {
                 />
               </Modal2>
             ) : null}
-            <MypageButton onClick={handleBye}>회원탈퇴</MypageButton>
-            {isByeModalOpen ? (
-              <Modal handleModal={handleByeModal}>
-                <Bye handleByeModal={handleByeModal} />
-              </Modal>
+            <MypageButton onClick={handleWithdrawalModal}>
+              회원탈퇴
+            </MypageButton>
+            {isWithdrawalModalOpen ? (
+              <CCModal
+                handleModal={handleWithdrawalModal}
+                handleAction={handleWithdrawal}
+              >
+                정말로 탈퇴하시겠습니까?
+              </CCModal>
             ) : null}
           </span>
         </div>

@@ -3,7 +3,7 @@ import { TButton } from '../../components/Button';
 import { Container3, Item } from '../../components/Container';
 import { ImageR } from '../../components/Image';
 import { Modal3 } from '../../components/Modal';
-import InteriorDetail from '../Plant/InteriorDetail';
+import InteriorDetail from '../Interior/InteriorDetail';
 
 function Likes(props) {
   /* 인테리어 사진 클릭 시, 인테리어 상세 모달 띄우기 */
@@ -15,8 +15,8 @@ function Likes(props) {
     setIsInteriorModalOpen(!isInteriorModalOpen);
   };
   const handleInteriorDetail = id => {
-    setInteriorId(id); // 인테리어 id 설정해주고
-    setIsNavigate(true); // useEffect 실행해 해당 id 인테리어 상세 모달 띄우기
+    setInteriorId(id);
+    setIsNavigate(true);
   };
   useEffect(() => {
     if (isNavigate) {

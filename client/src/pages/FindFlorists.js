@@ -2,9 +2,40 @@
 import React, { useEffect, useState } from 'react';
 import { Map, MapMarker, CustomOverlayMap } from 'react-kakao-maps-sdk';
 import styled from 'styled-components';
-import { TransContainer, UDContainer } from '../../components/Container';
+import { TransContainer, UDContainer } from '../components/Container';
 
-function KakaoMap() {
+const MarkerBubble = styled.div`
+  position: absolute;
+  z-index: 999;
+  top: -2rem;
+  left: 50%;
+  transform: translate(-50%, 0);
+  padding: 0.15rem;
+  font-weight: 600;
+  color: white;
+  background-color: #3ba914;
+`;
+
+const Storeli = styled.li`
+  list-style: none;
+  :hover {
+    background-color: #bcbcbc;
+  }
+`;
+const Pageul = styled.ul`
+  padding-left: 0;
+  text-align: center;
+  list-style: none;
+`;
+const Pageli = styled.li`
+  display: inline-block;
+  padding: 0 1rem;
+  list-style: none;
+  color: #bcbcbc;
+  cursor: pointer;
+`;
+
+function FindFlorists() {
   const [state, setState] = useState({
     center: {
       lat: 33.450701,
@@ -60,17 +91,15 @@ function KakaoMap() {
       navigator.geolocation.getCurrentPosition(position => {
         let x = position.coords.longitude;
         let y = position.coords.latitude;
-        console.log(x, y);
+        console.log('현재 위치', x, y);
         const ps = new kakao.maps.services.Places();
 
         ps.keywordSearch(
           '꽃집',
           (data, status, _pagination) => {
             if (status === kakao.maps.services.Status.OK) {
-              // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-              // LatLngBounds 객체에 좌표를 추가합니다
+              // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해, LatLngBounds 객체에 좌표를 추가합니다
               const bounds = new kakao.maps.LatLngBounds();
-              console.log(_pagination, '페이지 정보');
               let pageNums = [];
               for (let i = 1; i <= _pagination.last; i++) {
                 pageNums.push(i);
@@ -79,7 +108,7 @@ function KakaoMap() {
               let markers = [];
 
               for (let i = 0; i < data.length; i++) {
-                //검색 결과 목록
+                // 검색 결과 목록
                 dataList.push({
                   idx: i,
                   data: data[i],
@@ -95,13 +124,13 @@ function KakaoMap() {
                 });
                 bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
               }
+
               setPages(pageNums);
               setPageInfo(_pagination);
               setDataList(dataList);
               setMarkers(markers);
 
-              // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-              map.setBounds(bounds);
+              map.setBounds(bounds); // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
             }
           },
           { x, y, radius: 2000 },
@@ -236,35 +265,4 @@ function KakaoMap() {
   );
 }
 
-export default KakaoMap;
-
-const MarkerBubble = styled.div`
-  position: absolute;
-  z-index: 999;
-  top: -2rem;
-  left: 50%;
-  transform: translate(-50%, 0);
-  padding: 0.15rem;
-  font-weight: 600;
-  color: white;
-  background-color: #3ba914;
-`;
-
-const Storeli = styled.li`
-  list-style: none;
-  :hover {
-    background-color: #bcbcbc;
-  }
-`;
-const Pageul = styled.ul`
-  padding-left: 0;
-  text-align: center;
-  list-style: none;
-`;
-const Pageli = styled.li`
-  display: inline-block;
-  padding: 0 1rem;
-  list-style: none;
-  color: #bcbcbc;
-  cursor: pointer;
-`;
+export default FindFlorists;

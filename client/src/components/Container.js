@@ -7,13 +7,16 @@ export const Container = styled.div`
   width: 100vw;
   min-height: calc(var(--vh, 1vh) * 80);
 `;
+export const UDContainer = styled(Container)`
+  justify-content: center; // 상하 가운데로 정렬
+`;
 export const MiniContainer = styled(Container)`
   width: max-content;
   min-height: 0;
 `;
-
-export const UDContainer = styled(Container)`
-  justify-content: center; // 상하 가운데로 정렬
+export const ModalContainer = styled(Container)`
+  width: 19rem;
+  height: 90vh;
 `;
 
 export const RightContainer = styled.div`
@@ -22,14 +25,9 @@ export const RightContainer = styled.div`
   align-items: flex-end;
 `;
 
-// 아이템들 가로로 정렬
 export const ContainerRow = styled.div`
+  display: flex; // 아이템들 가로로 정렬
   width: 100%;
-  display: flex;
-`;
-
-export const ModalContainer = styled(MiniContainer)`
-  height: 90vh; // 너 뭔데
 `;
 
 // 데스크탑에서는 가로정렬, 모바일에서는 세로정렬
@@ -37,11 +35,9 @@ export const TransContainer = styled.div`
   display: flex;
   justify-content: center;
   @media screen and (max-width: 760px) {
-    display: flex;
     align-items: center;
     text-align: center;
     flex-direction: column;
-    //margin: 2rem;
   }
 `;
 
@@ -54,7 +50,6 @@ export const Container1 = styled.section`
   height: max-content;
 `;
 export const Container2 = styled.div`
-  //position: relative;
   grid-column: 2 / 12; // 양 끝 칸 빼고 컨텐츠를 채운다
   height: max-content;
 `;
@@ -66,7 +61,6 @@ export const Container3 = styled.section`
   justify-items: center;
   grid-column-gap: 20px;
   grid-row-gap: 30px;
-
   width: 100%;
   height: max-content;
 `;

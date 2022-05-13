@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
 import { Route, Switch, useLocation } from 'react-router-dom';
-import Nav from './components/Nav';
+import styled from 'styled-components';
+import GithubCallback from './components/Sign/GithubCallback';
+import KakaoCallback from './components/Sign/KakaoCallback';
 import Footer from './components/Footer';
+import Nav from './components/Nav';
+import ModifyInterior from './pages/Interior/ModifyInterior';
+import WriteInterior from './pages/Interior/WriteInterior';
 import Mypage from './pages/Mypage/Mypage';
-import Chat from './pages/Plant/Chat';
-import InteriorModify from './pages/Plant/InteriorModify';
-import InteriorWrite from './pages/Plant/InteriorWrite';
-import PlantDetail from './pages/Plant/PlantDetail';
-import SearchResult from './pages/Search/SearchResult';
-import Select from './pages/Search/Select';
-import Main from './pages/Main';
-import GithubCallback from './components/GithubCallback';
-import KakaoCallback from './components/KakaoCallback';
 import AddPlant from './pages/Plant/Management/AddPlant';
 import ModifyPlant from './pages/Plant/Management/ModifyPlant';
-import KakaoMap from './pages/Mypage/KakaoMap';
+import PlantDetail from './pages/Plant/PlantDetail';
+import SearchPlants from './pages/Search/SearchPlants';
+import Select from './pages/Search/Select';
+import FindFlorists from './pages/FindFlorists';
+import Main from './pages/Main';
 
-import styled from 'styled-components';
 const Container = styled.div`
   position: relative;
   width: 100vw;
@@ -24,14 +23,12 @@ const Container = styled.div`
 `;
 
 const InnerContainer = styled.div`
-  //position: relative; // 왜지?
   display: flex;
   justify-content: center;
   min-height: max-content;
-  //min-height: calc(var(--vh, 1vh) * 80);
 
+  padding-bottom: 24rem;
   margin-top: 3rem;
-  margin-bottom: 15rem; // footer 공간
 `;
 
 function App() {
@@ -53,8 +50,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Main} />
           <Route exact path="/select" component={Select} />
-          <Route exact path="/search" component={SearchResult} />
-          {/* <Route exact path="/search" component={All} /> */}
+          <Route exact path="/search" component={SearchPlants} />
 
           {/* 소셜 로그인 */}
           <Route exact path="/githubcallback" component={GithubCallback} />
@@ -62,8 +58,6 @@ function App() {
 
           {/* 마이페이지 */}
           <Route exact path="/users" component={Mypage} />
-
-          <Route exact path="/map" component={KakaoMap} />
 
           {/* 식물 관리자 */}
           <Route exact path="/plants" component={AddPlant} />
@@ -73,14 +67,14 @@ function App() {
           <Route exact path="/plants/:id" component={PlantDetail} />
 
           {/* 인테리어 */}
-          <Route exact path="/plants/:id/interiors" component={InteriorWrite} />
-          <Route exact path="/interiors/:id" component={InteriorModify} />
+          <Route exact path="/plants/:id/interiors" component={WriteInterior} />
+          <Route exact path="/interiors/:id" component={ModifyInterior} />
 
-          {/* 채팅 */}
-          <Route exact path="/chat" component={Chat} />
+          {/* 주변 꽃집 찾기 */}
+          <Route exact path="/florists" component={FindFlorists} />
         </Switch>
+        <Footer />
       </InnerContainer>
-      <Footer />
     </Container>
   );
 }

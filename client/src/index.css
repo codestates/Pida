@@ -10,9 +10,18 @@ body {
   overflow-x: hidden;
 }
 
-/* ::-webkit-scrollbar {
-  display: none;
-} */
+::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+/* 스크롤바 */
+::-webkit-scrollbar-thumb {
+  background: #bcbcbc;
+}
+
+img {
+  -webkit-user-drag: none; /* 이미지 잔상 없애기 */
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

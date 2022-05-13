@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
 import { TButton } from '../../components/Button';
 import {
   Container1,
@@ -8,20 +9,38 @@ import {
   Container3,
   Item,
 } from '../../components/Container';
-import { AnswerDiv, SearchCountDiv, ItemLeft } from '../../components/Div';
 import { ImageR } from '../../components/Image';
 
-function SearchResult() {
+const ItemLeft = styled.div`
+  width: 100%;
+  padding: 1rem;
+`;
+const AnswerDiv = styled.div`
+  font-size: 2.5rem;
+  font-weight: 600;
+  @media screen and (max-width: 760px) {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+`;
+const SearchCountDiv = styled.div`
+  padding: 1rem 0 4rem 0;
+  font-size: 1.3rem;
+  @media screen and (max-width: 760px) {
+    font-size: 0.8rem;
+  }
+`;
+
+function SearchPlants() {
   const history = useHistory();
   const location = useLocation();
 
-  /* 검색 결과 보여주기 */
+  /* 페이지 로드 */
   const [plantsTotal, setPlantsTotal] = useState(0);
   const [plantsArray, setPlantsArray] = useState([]);
   useEffect(() => {
-    console.log(location);
     if (!location.state) {
-      console.log('전체');
+      // 전체 식물 보기
       axios
         .get(`${process.env.REACT_APP_API_URL}/search`, {
           withCredentials: true,
@@ -31,7 +50,7 @@ function SearchResult() {
           setPlantsArray(res.data.data.plantsArray);
         });
     } else {
-      console.log('부분');
+      // 조건 맞는 식물 보기
       axios
         .get(
           `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}`,
@@ -48,8 +67,8 @@ function SearchResult() {
   const [plantId, setPlantId] = useState(0);
   const [isNavigate, setIsNavigate] = useState(false);
   const handlePlantDetail = id => {
-    setPlantId(id); // 클릭한 식물의 id 설정하고
-    setIsNavigate(true); // useEffect 실행해 해당 id 식물 상세 페이지로 이동
+    setPlantId(id);
+    setIsNavigate(true);
   };
   useEffect(() => {
     if (isNavigate) {
@@ -85,16 +104,10 @@ function SearchResult() {
                 </Item>
               );
             })}
-            <Item>
-              <TButton onClick={() => handlePlantDetail(1)}>
-                <ImageR src="../images/logo.png" alt="" />
-                <h3>더미</h3>
-              </TButton>
-            </Item>
           </Container3>
         </Container2>
       </Container1>
     </>
   );
 }
-export default SearchResult;
+export default SearchPlants;

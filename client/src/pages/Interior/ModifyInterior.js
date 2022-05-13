@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
 import { UDContainer } from '../../components/Container';
 import { SelectButton } from '../../components/Button';
 import { Error, Label } from '../../components/Div';
 import { ImageR } from '../../components/Image';
 import { UploadInput, ContentTextArea } from '../../components/Input';
 
-function InteriorModify() {
+const Div = styled.div`
+  margin: 0rem 0 0 42rem;
+  @media screen and (max-width: 760px) {
+    margin: 0rem 0 0 15rem;
+  }
+`;
+
+function ModifyInterior() {
   const history = useHistory();
   const location = useLocation();
 
@@ -93,10 +101,10 @@ function InteriorModify() {
         onChange={handleContent}
       />
 
-      <div style={{ margin: '1rem 0 0 42rem' }}>
+      <Div>
         <SelectButton onClick={handelInterior}>뽐내기</SelectButton>
-      </div>
+      </Div>
     </UDContainer>
   );
 }
-export default InteriorModify;
+export default ModifyInterior;
