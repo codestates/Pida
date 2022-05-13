@@ -2,25 +2,17 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { DetailButton } from '../../components/Button';
 import { ContainerRow } from '../../components/Container';
-import {
-  ChatMenu,
-  DropDown,
-  DropDownC,
-  WriteUser,
-  Content,
-} from '../../components/Div';
+import { WriteUser, Content } from '../../components/Div';
 import { ComentWrite } from '../../components/Input';
-import styled from 'styled-components';
 
 function Comment(props) {
+  /* 댓글 수정 */
+  const [isModifyComment, setIsModifyComment] = useState(false);
   const [modifyComment, setModifyComment] = useState({
-    id: 0,
+    id: 0, // 수정 버튼 클릭 된 댓글
     nickname: '',
     comment: '',
   });
-
-  /* 댓글 수정 */
-  const [isModifyComment, setIsModifyComment] = useState(false);
   const [newComment, setNewComment] = useState('');
 
   // 댓글 수정 시작
@@ -83,12 +75,7 @@ function Comment(props) {
                     <>
                       {/* 수정 가능 유저 클릭 후 */}
                       <ContainerRow>
-                        <DropDown>
-                          <WriteUser>{comment.nickname}</WriteUser>
-                          <DropDownC>
-                            <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
-                          </DropDownC>
-                        </DropDown>
+                        <WriteUser>{comment.nickname}</WriteUser>
                         <DetailButton
                           onClick={() => handleModifyCommentEnd(comment)}
                         >
@@ -115,12 +102,7 @@ function Comment(props) {
                     <>
                       {/* 수정 가능 유저 클릭 전 */}
                       <ContainerRow>
-                        <DropDown>
-                          <WriteUser>{comment.nickname}</WriteUser>
-                          <DropDownC>
-                            <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
-                          </DropDownC>
-                        </DropDown>
+                        <WriteUser>{comment.nickname}</WriteUser>
                         <DetailButton
                           onClick={() => handleModifyCommentStart(comment)}
                         >
@@ -140,14 +122,7 @@ function Comment(props) {
               ) : (
                 <>
                   {/* 수정 불가능 유저 */}
-                  <ContainerRow>
-                    <DropDown>
-                      <WriteUser>{comment.nickname}</WriteUser>
-                      <DropDownC>
-                        <ChatMenu href="/chat">1:1 채팅하기</ChatMenu>
-                      </DropDownC>
-                    </DropDown>
-                  </ContainerRow>
+                  <WriteUser>{comment.nickname}</WriteUser>
                   <Content>{comment.comment}</Content>
                 </>
               )}

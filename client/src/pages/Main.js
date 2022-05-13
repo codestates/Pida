@@ -21,7 +21,7 @@ const Intro = styled.div`
 `;
 
 const Pida = styled.div`
-  margin-left: 9.45rem; // 이거 조정하면 글자 움직임
+  margin-left: 9.45rem; // 조정하면 글자 움직임
   font-size: 5.3rem;
   letter-spacing: 0.5rem;
   @media screen and (max-width: 760px) {
@@ -29,19 +29,18 @@ const Pida = styled.div`
   }
 `;
 
-const MainButton = styled.button`
-  background-color: transparent;
-  border-color: transparent;
-  border: none;
+const Move = styled.button`
   margin-top: 3rem;
-
   font-size: 1.5rem;
   font-weight: 500;
   color: rgb(163, 163, 163);
-  letter-spacing: 0.5rem;
   :hover {
     color: black;
   }
+  background-color: transparent;
+  border: none;
+  border-color: transparent;
+  letter-spacing: 0.5rem;
 
   animation: loading 4s alternate;
   @keyframes loading {
@@ -53,6 +52,7 @@ const MainButton = styled.button`
     }
   }
 `;
+
 const MainImage = styled.img`
   padding-right: 4rem;
   width: 25rem;
@@ -71,7 +71,7 @@ function Main() {
     history.replace('/search');
   };
   const handleSerchFlower = () => {
-    history.replace('/map');
+    history.replace('/florists');
   };
 
   return (
@@ -89,25 +89,22 @@ function Main() {
             <div style={{ alignItems: 'center', float: 'right' }}>
               <RightContainer>
                 <div>
-                  <MainButton onClick={handleSelect}>
+                  <Move onClick={handleSelect}>
                     나의 플랜테리어 취향 찾기 →
-                  </MainButton>
+                  </Move>
                 </div>
                 <div>
-                  <MainButton
-                    onClick={handleAll}
-                    style={{ margin: '1rem 0 0 0' }}
-                  >
+                  <Move onClick={handleAll} style={{ margin: '1rem 0 0 0' }}>
                     "피다" 식물 보기 →
-                  </MainButton>
+                  </Move>
                 </div>
                 <div>
-                  <MainButton
+                  <Move
                     onClick={handleSerchFlower}
                     style={{ margin: '1rem 0 0 0' }}
                   >
                     주변 꽃집 찾기 →
-                  </MainButton>
+                  </Move>
                 </div>
               </RightContainer>
             </div>

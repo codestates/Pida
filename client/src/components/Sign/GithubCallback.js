@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { UDContainer } from './Container';
+import { UDContainer } from '../Container';
 
 const GithubCallback = () => {
   const history = useHistory();
@@ -9,7 +9,6 @@ const GithubCallback = () => {
   useEffect(() => {
     const url = new URL(window.location.href);
     const authorizationCode = url.searchParams.get('code');
-    console.log(authorizationCode);
     if (authorizationCode) {
       axios
         .post(
@@ -23,8 +22,7 @@ const GithubCallback = () => {
           window.location.reload();
         })
         .catch(err => {
-          console.log(err);
-          console.log('소셜로그인 실패!!');
+          console.log('catch', err);
         });
     }
   }, []);

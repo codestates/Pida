@@ -1,14 +1,21 @@
 import React, { useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import styled from 'styled-components';
 import { UDContainer } from '../../components/Container';
 import { SelectButton } from '../../components/Button';
 import { Error, Label } from '../../components/Div';
 import { ImageR } from '../../components/Image';
 import { UploadInput, ContentTextArea } from '../../components/Input';
-import styled from 'styled-components';
 
-function InteriorWrite() {
+const Div = styled.div`
+  margin: 0rem 0 0 42rem;
+  @media screen and (max-width: 760px) {
+    margin: 0rem 0 0 15rem;
+  }
+`;
+
+function WriteInterior() {
   const history = useHistory();
   const location = useLocation();
 
@@ -42,12 +49,6 @@ function InteriorWrite() {
     let formData = new FormData();
     formData.append('image', image);
     formData.append('content', content);
-    // for (let key of formData.keys()) {
-    //   console.log(key, '첨부한 파일 키');
-    // }
-    // for (let value of formData.values()) {
-    //   console.log(value, '첨부한 파일 내용');
-    // }
 
     if (image === null || content === null) {
       if (image === null) {
@@ -95,18 +96,10 @@ function InteriorWrite() {
         onChange={handleContent}
       />
 
-      <BBom>
+      <Div>
         <SelectButton onClick={handelInterior}>뽐내기</SelectButton>
-      </BBom>
+      </Div>
     </UDContainer>
   );
 }
-export default InteriorWrite;
-
-const BBom = styled.div`
-  margin: 0rem 0 0 42rem;
-
-  @media screen and (max-width: 760px) {
-    margin: 0rem 0 0 15rem;
-  }
-`;
+export default WriteInterior;

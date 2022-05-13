@@ -12,7 +12,6 @@ const QuestionDiv = styled.div`
     font-size: 1.5rem;
   }
 `;
-
 const Image = styled.img`
   padding: 0 1rem 0 1rem;
   width: 12rem;
@@ -21,26 +20,13 @@ const Image = styled.img`
     padding: 1rem 1rem 0 1rem;
   }
 `;
-
-const TextDiv = styled.div`
-  font-size: 2rem;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
-  color: white;
-`;
-
-const TextBox = styled.div`
+const HoverBox = styled.div`
   // 배경
   position: absolute;
   top: 0;
   margin: 0 1rem 0 1rem;
-
   width: 12rem;
   height: 16rem;
-
   background-color: black;
   opacity: 0;
   transition: 0.5s ease;
@@ -50,7 +36,6 @@ const TextBox = styled.div`
   @media screen and (max-width: 760px) {
     margin: 1rem 1rem 0 1rem;
   }
-
   // 글자
   display: flex;
   justify-content: center;
@@ -85,7 +70,6 @@ function Select() {
       setIsNavigate(true); // useEffect 실행해 검색 결과 페이지로 이동
     }
   };
-
   useEffect(() => {
     if (isNavigate) {
       history.push({
@@ -114,15 +98,15 @@ function Select() {
                 <ContainerRow>
                   <div style={{ position: 'relative' }}>
                     <Image src="../images/select/큰.png" />
-                    <TextBox onClick={handleSelect('size')} id="1">
+                    <HoverBox onClick={handleSelect('size')} id="1">
                       큰
-                    </TextBox>
+                    </HoverBox>
                   </div>
                   <div style={{ position: 'relative' }}>
                     <Image src="../images/select/작은.png" />
-                    <TextBox onClick={handleSelect('size')} id="2">
+                    <HoverBox onClick={handleSelect('size')} id="2">
                       작은
-                    </TextBox>
+                    </HoverBox>
                   </div>
                 </ContainerRow>
               </span>
@@ -138,29 +122,29 @@ function Select() {
                     <ContainerRow style={{ margin: '1rem' }}>
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/가구.png" />
-                        <TextBox onClick={handleSelect('space')} id="1">
+                        <HoverBox onClick={handleSelect('space')} id="1">
                           가구
-                        </TextBox>
+                        </HoverBox>
                       </div>
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/바닥.png" />
-                        <TextBox onClick={handleSelect('space')} id="2">
+                        <HoverBox onClick={handleSelect('space')} id="2">
                           바닥
-                        </TextBox>
+                        </HoverBox>
                       </div>
                     </ContainerRow>
                     <ContainerRow style={{ margin: '1rem' }}>
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/벽.png" />
-                        <TextBox onClick={handleSelect('space')} id="3">
+                        <HoverBox onClick={handleSelect('space')} id="3">
                           벽
-                        </TextBox>
+                        </HoverBox>
                       </div>
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/천장.png" />
-                        <TextBox onClick={handleSelect('space')} id="4">
+                        <HoverBox onClick={handleSelect('space')} id="4">
                           천장
-                        </TextBox>
+                        </HoverBox>
                       </div>
                     </ContainerRow>
                   </span>
@@ -176,33 +160,33 @@ function Select() {
                         <ContainerRow style={{ margin: '1rem' }}>
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/꽃.png" />
-                            <TextBox onClick={handleSelect('species')} id="1">
+                            <HoverBox onClick={handleSelect('species')} id="1">
                               꽃이
                               <br />
                               피는
-                            </TextBox>
+                            </HoverBox>
                           </div>
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/비꽃.png" />
-                            <TextBox onClick={handleSelect('species')} id="2">
+                            <HoverBox onClick={handleSelect('species')} id="2">
                               잎이
                               <br />
                               많은
-                            </TextBox>
+                            </HoverBox>
                           </div>
                         </ContainerRow>
                         <ContainerRow style={{ margin: '1rem' }}>
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/선인장.png" />
-                            <TextBox onClick={handleSelect('species')} id="3">
+                            <HoverBox onClick={handleSelect('species')} id="3">
                               선인장
-                            </TextBox>
+                            </HoverBox>
                           </div>
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/다육.png" />
-                            <TextBox onClick={handleSelect('species')} id="4">
+                            <HoverBox onClick={handleSelect('species')} id="4">
                               다육이
-                            </TextBox>
+                            </HoverBox>
                           </div>
                         </ContainerRow>
                       </span>
