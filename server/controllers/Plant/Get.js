@@ -9,27 +9,27 @@ const {
 
 module.exports = async (req, res) => {
   try {
-    //사용자로부터 게시글에 대한 아이디 정보를 얻는다
+    // 사용자로부터 게시글에 대한 아이디 정보를 얻는다
     const { id: plantId } = req.params;
     const { order } = req.query;
 
-    //만약에 식물 아이디와 정렬 기준 없으면 400응답
+    // 만약에 식물 아이디와 정렬 기준 없으면 400응답
     if (!plantId || !order) {
       return res
         .status(400)
         .json({ message: '식물 상세정보 로딩에 실패했습니다' });
     }
 
-    //식물 아이디, 이름, 이미지, 설명
+    // 식물 아이디, 이름, 이미지, 설명
     const plantInfo = Plant.findByPk(plantId);
-    //식물 크기
+    // 식물 크기
     const size = Plant_size.findAll({ where: { plantId } });
-    //식물 공간
+    // 식물 공간
     const space = Plant_space.findAll({ where: { plantId } });
-    //식물 종류
+    // 식물 종류
     const species = Plant_specie.findAll({ where: { plantId } });
 
-    //인테리어 아이디, 이미지
+    // 인테리어 아이디, 이미지
     const totalLike =
       '(SELECT COUNT(*) FROM Interior_likes WHERE Interior_likes.interiorId = Interior.id)';
     const interiors = Interior.findAll({

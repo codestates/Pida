@@ -13,7 +13,7 @@ module.exports = {
       key: function (req, file, cb) {
         cb(null, `${Date.now()}_${file.originalname}`);
       },
-      limits: { fileSize: 1000 * 1000 * 3 }, //최대용량 1천만바이트 = 10MB(사용자기준)= 9.xxMiB
+      limits: { fileSize: 1000 * 1000 * 3 }, // 최대 10MB(사용자 기준. 1천만 바이트, 약 9.xxMiB)
     }),
   }),
 
@@ -28,7 +28,7 @@ module.exports = {
         if (err) {
           throw err;
         }
-        //요청 메서드가 patch일때만 응답을 다르게 분기작성
+        // 요청 메서드가 patch 일 때만 응답을 다르게 분기
         if (req.route.stack[0].method === 'patch') {
           return res.status(200).json({
             data: req.data,
