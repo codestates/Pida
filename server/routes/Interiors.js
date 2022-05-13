@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const interiorController = require('../controllers/interior/Index');
-const likeController = require('../controllers/like/Index');
-const commentController = require('../controllers/comment/Index');
+const interiorController = require('../controllers/Interior/Index');
+const likeController = require('../controllers/Like/Index');
+const commentController = require('../controllers/Comment/Index');
 const isAuth = require('../middlewares/Authentication');
 const interiorImageHandler = require('../middlewares/InteriorImageHandler');
 const { interiorPost } = require('../middlewares/InteriorImageHandler');
