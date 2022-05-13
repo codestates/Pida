@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
           nickname,
           platformType,
           uploads,
-          likes: likes.map(el => el.dataValues),
+          likes: likes.map(el => el.dataValues).reverse(),
         },
         message: '회원 정보 조회에 성공했습니다',
       });
