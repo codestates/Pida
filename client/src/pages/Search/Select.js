@@ -33,22 +33,30 @@ const TextDiv = styled.div`
 `;
 
 const TextBox = styled.div`
+  // 배경
   position: absolute;
+  top: 0;
   margin: 0 1rem 0 1rem;
 
   width: 12rem;
   height: 16rem;
-  top: 0;
 
+  background-color: black;
   opacity: 0;
   transition: 0.5s ease;
-  background-color: black;
   :hover {
     opacity: 0.5;
   }
   @media screen and (max-width: 760px) {
     margin: 1rem 1rem 0 1rem;
   }
+
+  // 글자
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  color: white;
 `;
 
 function Select() {
@@ -63,13 +71,12 @@ function Select() {
   const [isQ3, setIsQ3] = useState(true);
 
   const [select, setSelect] = useState({
-    size: '',
-    space: '',
-    species: '',
+    size: null,
+    space: null,
+    species: null,
   });
-  const [isNavigate, setIsNavigate] = useState('');
+  const [isNavigate, setIsNavigate] = useState(false);
   const handleSelect = key => e => {
-    console.log(e.target.id);
     setSelect({ ...select, [key]: e.target.id }); // 검색 조건 설정하고
     if (key === 'size') setIsQ1(false);
     if (key === 'space') setIsQ2(false);
@@ -78,10 +85,11 @@ function Select() {
       setIsNavigate(true); // useEffect 실행해 검색 결과 페이지로 이동
     }
   };
+
   useEffect(() => {
     if (isNavigate) {
       history.push({
-        pathname: '/search?',
+        pathname: '/search',
         state: select,
       });
       setIsNavigate(false);
@@ -107,13 +115,13 @@ function Select() {
                   <div style={{ position: 'relative' }}>
                     <Image src="../images/select/큰.png" />
                     <TextBox onClick={handleSelect('size')} id="1">
-                      <TextDiv>큰</TextDiv>
+                      큰
                     </TextBox>
                   </div>
                   <div style={{ position: 'relative' }}>
                     <Image src="../images/select/작은.png" />
                     <TextBox onClick={handleSelect('size')} id="2">
-                      <TextDiv>작은</TextDiv>
+                      작은
                     </TextBox>
                   </div>
                 </ContainerRow>
@@ -131,13 +139,13 @@ function Select() {
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/가구.png" />
                         <TextBox onClick={handleSelect('space')} id="1">
-                          <TextDiv>가구</TextDiv>
+                          가구
                         </TextBox>
                       </div>
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/바닥.png" />
                         <TextBox onClick={handleSelect('space')} id="2">
-                          <TextDiv>바닥</TextDiv>
+                          바닥
                         </TextBox>
                       </div>
                     </ContainerRow>
@@ -145,13 +153,13 @@ function Select() {
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/벽.png" />
                         <TextBox onClick={handleSelect('space')} id="3">
-                          <TextDiv>벽</TextDiv>
+                          벽
                         </TextBox>
                       </div>
                       <div style={{ position: 'relative' }}>
                         <Image src="../images/select/천장.png" />
                         <TextBox onClick={handleSelect('space')} id="4">
-                          <TextDiv>천장</TextDiv>
+                          천장
                         </TextBox>
                       </div>
                     </ContainerRow>
@@ -169,21 +177,17 @@ function Select() {
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/꽃.png" />
                             <TextBox onClick={handleSelect('species')} id="1">
-                              <TextDiv>
-                                꽃이
-                                <br />
-                                피는
-                              </TextDiv>
+                              꽃이
+                              <br />
+                              피는
                             </TextBox>
                           </div>
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/비꽃.png" />
                             <TextBox onClick={handleSelect('species')} id="2">
-                              <TextDiv>
-                                잎이
-                                <br />
-                                많은
-                              </TextDiv>
+                              잎이
+                              <br />
+                              많은
                             </TextBox>
                           </div>
                         </ContainerRow>
@@ -191,13 +195,13 @@ function Select() {
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/선인장.png" />
                             <TextBox onClick={handleSelect('species')} id="3">
-                              <TextDiv>선인장</TextDiv>
+                              선인장
                             </TextBox>
                           </div>
                           <div style={{ position: 'relative' }}>
                             <Image src="../images/select/다육.png" />
                             <TextBox onClick={handleSelect('species')} id="4">
-                              <TextDiv>다육이</TextDiv>
+                              다육이
                             </TextBox>
                           </div>
                         </ContainerRow>

@@ -19,15 +19,29 @@ function SearchResult() {
   const [plantsTotal, setPlantsTotal] = useState(0);
   const [plantsArray, setPlantsArray] = useState([]);
   useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}`,
-        { withCredentials: true },
-      )
-      .then(res => {
-        setPlantsTotal(res.data.data.plantsTotal);
-        setPlantsArray(res.data.data.plantsArray);
-      });
+    console.log(location);
+    if (!location.state) {
+      console.log('전체');
+      axios
+        .get(`${process.env.REACT_APP_API_URL}/search`, {
+          withCredentials: true,
+        })
+        .then(res => {
+          setPlantsTotal(res.data.data.plantsTotal);
+          setPlantsArray(res.data.data.plantsArray);
+        });
+    } else {
+      console.log('부분');
+      axios
+        .get(
+          `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}`,
+          { withCredentials: true },
+        )
+        .then(res => {
+          setPlantsTotal(res.data.data.plantsTotal);
+          setPlantsArray(res.data.data.plantsArray);
+        });
+    }
   }, []);
 
   /* 식물 사진 클릭하면 식물 상세 페이지로 이동 */
@@ -40,7 +54,7 @@ function SearchResult() {
   useEffect(() => {
     if (isNavigate) {
       history.push({
-        pathname: '/plants/:id',
+        pathname: `/plants/${plantId}`,
         state: { plantId: plantId },
       });
       setIsNavigate(false);
@@ -52,7 +66,11 @@ function SearchResult() {
       <Container1>
         <Container2>
           <ItemLeft>
-            <AnswerDiv>당신의 공간에 어울리는 반려 식물입니다</AnswerDiv>
+            <AnswerDiv>
+              {!location.state
+                ? '당신의 공간에 어울리는 식물을 찾아보세요'
+                : '당신의 공간에 어울리는 반려 식물입니다'}
+            </AnswerDiv>
             <SearchCountDiv>검색결과 총 {plantsTotal}건</SearchCountDiv>
           </ItemLeft>
 
@@ -70,31 +88,7 @@ function SearchResult() {
             <Item>
               <TButton onClick={() => handlePlantDetail(1)}>
                 <ImageR src="../images/logo.png" alt="" />
-                <h3>아무꽃</h3>
-              </TButton>
-            </Item>
-            <Item>
-              <TButton onClick={() => handlePlantDetail(1)}>
-                <ImageR src="../images/logo.png" alt="" />
-                <h3>아무꽃</h3>
-              </TButton>
-            </Item>
-            <Item>
-              <TButton onClick={() => handlePlantDetail(1)}>
-                <ImageR src="../images/logo.png" alt="" />
-                <h3>아무꽃</h3>
-              </TButton>
-            </Item>
-            <Item>
-              <TButton onClick={() => handlePlantDetail(1)}>
-                <ImageR src="../images/logo.png" alt="" />
-                <h3>아무꽃</h3>
-              </TButton>
-            </Item>
-            <Item>
-              <TButton onClick={() => handlePlantDetail(1)}>
-                <ImageR src="../images/logo.png" alt="" />
-                <h3>아무꽃</h3>
+                <h3>더미</h3>
               </TButton>
             </Item>
           </Container3>
