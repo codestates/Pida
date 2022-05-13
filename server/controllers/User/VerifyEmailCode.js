@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
         message: '이메일이 인증 되었습니다',
       });
     } else {
-      res.status(401).json({ message: '이메일 인증코드가 유효하지 않습니다' });
+      res.status(400).json({ message: '인증코드가 유효하지 않습니다' });
     }
   } catch (e) {
     //서버 에러

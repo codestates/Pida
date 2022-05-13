@@ -4,7 +4,8 @@ module.exports = async (req, res) => {
   try {
     const { id: interiorId } = req.params;
     const { comment: newComment } = req.body;
-    if (!interiorId || !newComment || newComment.trim() === '') {
+
+    if (!interiorId || !newComment) {
       return res.status(400).json({ message: '댓글 달기에 실패했습니다' });
     }
 

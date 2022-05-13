@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
 
     //이메일이 이미 존재하고, 가입된 사용자
     const joinedUser = await User.findOne({
-      where: { email, emailAuthCode: null },
+      where: { email, emailAuthCode: null, emailVerified: 1 },
     });
 
     if (joinedUser) {
@@ -55,7 +55,7 @@ module.exports = async (req, res) => {
       });
     }
 
-    //만약에 5분이 지났는데도, 가입을 하지 않는다면 자동으로 데이터를 삭제한다
+    //만약에 5분이 지났는데도, 가입을 하지 않는다면 자동으로 데이터를 삭제
     setTimeout(async () => {
       await User.findOne({ where: { emailAuthCode } }).then(async data => {
         if (data) {
