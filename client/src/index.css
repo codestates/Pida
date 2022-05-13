@@ -7,11 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 
   -ms-overflow-style: none;
+  overflow-x: hidden;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   display: none;
-}
+} */
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

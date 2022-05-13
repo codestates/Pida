@@ -113,7 +113,7 @@ function KakaoMap() {
   //마커 이미지
   const currentMarkerImage = {
     src: '../../images/current.png',
-    size: { width: 30, height: 33 },
+    size: { width: 30, height: 30 },
     //options: { offset: new kakao.maps.Point(13, 13) },
   };
   const StoreMarkerImage = {

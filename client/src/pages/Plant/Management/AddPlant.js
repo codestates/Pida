@@ -6,6 +6,7 @@ import {
   UDContainer,
   ContainerRow,
   Container,
+  MiniContainer,
 } from '../../../components/Container';
 import { Error, Label } from '../../../components/Div';
 import { ImageR } from '../../../components/Image';
@@ -111,7 +112,7 @@ function AddPlant() {
   return (
     <UDContainer>
       <ContainerRow style={{ justifyContent: 'center' }}>
-        <Container>
+        <MiniContainer>
           <ImageR style={{ marginBottom: '0.8rem' }} src={preview} />
           <div>
             <Label htmlFor="inputlabel">사진선택</Label>
@@ -124,7 +125,7 @@ function AddPlant() {
               onChange={handleImage}
             />
           </div>
-        </Container>
+        </MiniContainer>
 
         <span style={{ marginLeft: '3rem' }}>
           <h4 style={{ margin: '0 0 0.5rem 0' }}>크기</h4>

@@ -7,6 +7,10 @@ export const Container = styled.div`
   width: 100vw;
   min-height: calc(var(--vh, 1vh) * 80);
 `;
+export const MiniContainer = styled(Container)`
+  width: max-content;
+  min-height: 0;
+`;
 
 export const UDContainer = styled(Container)`
   justify-content: center; // 상하 가운데로 정렬
@@ -24,7 +28,7 @@ export const ContainerRow = styled.div`
   display: flex;
 `;
 
-export const ModalContainer = styled(Container)`
+export const ModalContainer = styled(MiniContainer)`
   height: 90vh; // 너 뭔데
 `;
 

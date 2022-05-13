@@ -17,9 +17,10 @@ import {
 } from '../../components/Div';
 import { ImageD } from '../../components/Image';
 import { ComentWrite } from '../../components/Input';
-import { Modal } from '../../components/Modal';
+import { Modal, Modal2 } from '../../components/Modal';
 import Comment from './Comment';
 import { BsFillSuitHeartFill } from 'react-icons/bs';
+import Login from '../Login';
 
 const DetailButtonRed = styled(DetailButton)`
   color: red;
@@ -81,7 +82,7 @@ function InteriorDetail(props) {
   const handleModifyInterior = () => {
     // 글 정보 들고 이동
     history.push({
-      pathname: '/interiors/:id',
+      pathname: `/interiors/${interior.id}`,
       state: { interior: interior },
     });
   };
@@ -106,30 +107,40 @@ function InteriorDetail(props) {
 
   /* 좋아요 */
   const handleLike = () => {
-    //좋아요 취소 요청
-    if (interior.isLiked === true) {
-      axios
-        .delete(
-          `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
-          { withCredentials: true },
-        )
-        .then(res => {
-          getInterior(); // 인테리어 모달 업데이트
-          props.getMypage(); // 마이페이지 업데이트
-        });
+    if (!localStorage.getItem('loginUserId')) {
+      setIsLoginModalOpen(true);
+    } else {
+      //좋아요 취소 요청
+      if (interior.isLiked === true) {
+        axios
+          .delete(
+            `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
+            { withCredentials: true },
+          )
+          .then(res => {
+            getInterior(); // 인테리어 모달 업데이트
+            if (props.getMypage) props.getMypage(); // 마이페이지에서 연 거라면, 마이페이지 업데이트
+          });
+      }
+      //좋아요 요청
+      else {
+        axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
+            { withCredentials: true },
+          )
+          .then(res => {
+            getInterior(); // 인테리어 모달 업데이트
+            if (props.getMypage) props.getMypage(); // 마이페이지에서 연 거라면, 마이페이지 업데이트
+          });
+      }
     }
-    //좋아요 요청
-    else {
-      axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/interiors/${props.interiorId}/likes`,
-          { withCredentials: true },
-        )
-        .then(res => {
-          getInterior(); // 인테리어 모달 업데이트
-          props.getMypage(); // 마이페이지 업데이트
-        });
-    }
+  };
+
+  /* 로그인 모달 */
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const handleLoginModal = () => {
+    setIsLoginModalOpen(!isLoginModalOpen);
   };
 
   /* 댓글 작성 */
@@ -138,17 +149,21 @@ function InteriorDetail(props) {
     setComment(e.target.value);
   };
   const handleWriteComment = () => {
-    if (comment !== '') {
-      axios
-        .post(
-          `${process.env.REACT_APP_API_URL}/interiors/${interior.id}/comments`,
-          { comment: comment },
-          { withCredentials: true },
-        )
-        .then(res => {
-          setComment('');
-          getInterior(); // 인테리어 모달 업데이트
-        });
+    if (!localStorage.getItem('loginUserId')) {
+      setIsLoginModalOpen(true);
+    } else {
+      if (comment !== '') {
+        axios
+          .post(
+            `${process.env.REACT_APP_API_URL}/interiors/${interior.id}/comments`,
+            { comment: comment },
+            { withCredentials: true },
+          )
+          .then(res => {
+            setComment('');
+            getInterior(); // 인테리어 모달 업데이트
+          });
+      }
     }
   };
 
@@ -223,6 +238,11 @@ function InteriorDetail(props) {
           <Comment commentArray={commentArray} getInterior={getInterior} />
         </CommentBox>
       </ModalContainer>
+      {isLoginModalOpen ? (
+        <Modal2 handleModal={handleLoginModal}>
+          <Login setIsLoginModalOpen={setIsLoginModalOpen} />
+        </Modal2>
+      ) : null}
     </div>
   );
 }
