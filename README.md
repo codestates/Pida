@@ -56,7 +56,7 @@
 
 <details><summary>내 근처 꽃집 찾기</summary>
 
-![내 근처 꽃집 찾기](https://user-images.githubusercontent.com/55533303/168309409-f824bf98-305c-4d61-9b8c-cf8462f3b13c.gif)</details>
+![주변 꽃집 찾기](https://user-images.githubusercontent.com/55533303/168473393-7344446a-5fb3-4085-953d-0f2956354b84.gif)</details>
 
 <details><summary>마이페이지</summary>
 
