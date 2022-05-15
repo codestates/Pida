@@ -20,14 +20,18 @@ module.exports = async (req, res) => {
       where: { emailAuthCode },
     });
 
-    //이메일 인증 기록하기
+    //이메일 인증 기록하기: 인증코드는 삭제 안하고 그대로 두기(똑같은 코드로 재인증할 수도 있기 때문)
     await User.update({ emailVerified: 1 }, { where: { email } });
 
-    //인증 받고도 아무것도 안하면 20분 이후 삭제
+    //인증 받고도 아무것도 안하면 20분 이후 삭제. (비회원은 platformtype === null)
     setTimeout(async () => {
-      await User.findOne({ where: { emailAuthCode } }).then(async data => {
+      await User.findOne({
+        where: { email, emailVerified: 1 },
+      }).then(async data => {
         if (data) {
-          await User.destroy({ where: { emailAuthCode } });
+          await User.destroy({
+            where: { email, emailVerified: 1, platformType: null },
+          });
         }
       });
     }, 20 * 60 * 1000);

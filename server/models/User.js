@@ -25,12 +25,11 @@ module.exports = (sequelize, DataTypes) => {
       },
       nickname: {
         type: DataTypes.STRING(12),
-        allowNull: false,
+        allowNull: true,
       },
       platformType: {
         type: DataTypes.INTEGER,
-        defaultValue: 0,
-        allowNull: false,
+        allowNull: true,
       },
       emailAuthCode: {
         type: DataTypes.STRING(6),
