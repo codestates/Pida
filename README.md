@@ -30,6 +30,10 @@
 <br/><br/><br/>
 
 ## Final App View
+<details><summary>메인페이지</summary>
+
+![메인페이지](https://user-images.githubusercontent.com/55533303/168474299-cdc79231-aeee-4689-ad61-ac72dddd8adb.gif)</details>
+
 <details><summary>회원가입</summary>
 
 ![회원가입](https://user-images.githubusercontent.com/55533303/168308072-b757a96f-39ef-433d-a593-640bf94e0d7d.gif)</details>
@@ -56,7 +60,7 @@
 
 <details><summary>내 근처 꽃집 찾기</summary>
 
-![주변 꽃집 찾기](https://user-images.githubusercontent.com/55533303/168473393-7344446a-5fb3-4085-953d-0f2956354b84.gif)</details>
+![내 주변 꽃집 찾기](https://user-images.githubusercontent.com/55533303/168474264-f6c16fab-0a68-4c23-99bc-ba01172fcf4f.gif)</details>
 
 <details><summary>마이페이지</summary>
 
