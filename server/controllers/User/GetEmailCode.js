@@ -4,7 +4,6 @@ const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 const path = require('path');
 const appDir = path.dirname(require.main.filename);
-const { nanoid } = require('nanoid');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -17,21 +16,20 @@ module.exports = async (req, res) => {
       return res.status(400).json({ message: '이메일 값이 없습니다' });
     }
 
-    //이메일이 이미 존재하고, 가입된 사용자
+    //이미 가입된 사용자
     const joinedUser = await User.findOne({
-      where: { email, emailAuthCode: null, emailVerified: 1 },
+      where: { email, platformType: { [Op.not]: null } },
     });
 
     if (joinedUser) {
       return res.status(409).json({ message: '이미 가입된 이메일입니다' });
     }
 
-    //이메일이 이미 존재하고, 인증코드가 null이 아니면 인증코드 새로 만들어서 등록하고 이메일로 보내준다.
+    //이메일이 이미 존재하고, platformType null이면 인증코드 새로 만들어서 등록하고 이메일로 보내준다.
     const emailAuthCode = Math.random().toString().slice(2, 8);
-    const tempNickname = nanoid().slice(0, 8);
 
     const tempUser = await User.findOne({
-      where: { email, emailAuthCode: { [Op.not]: null } },
+      where: { email, platformType: null },
     });
 
     if (tempUser) {
@@ -39,7 +37,6 @@ module.exports = async (req, res) => {
       await User.update(
         {
           emailAuthCode,
-          nickname: tempNickname,
           emailVerified: 0,
         },
         { where: { email } },
@@ -48,20 +45,20 @@ module.exports = async (req, res) => {
       //완전 처음 가입
       await User.create({
         emailAuthCode,
-        nickname: tempNickname,
         email,
-        platformType: 0,
         emailVerified: 0,
       });
     }
 
     //만약에 5분이 지났는데도, 가입을 하지 않는다면 자동으로 데이터를 삭제
     setTimeout(async () => {
-      await User.findOne({ where: { emailAuthCode } }).then(async data => {
-        if (data) {
-          await User.destroy({ where: { emailAuthCode } });
-        }
-      });
+      await User.findOne({ where: { emailVerified: 0, email } }).then(
+        async data => {
+          if (data) {
+            await User.destroy({ where: { emailVerified: 0, email } });
+          }
+        },
+      );
     }, 5 * 60 * 1000);
 
     //이메일 전송
