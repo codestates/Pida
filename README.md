@@ -4,7 +4,7 @@
 🌱[Pida 서비스 이용해 보기](https://pida.ga/)
 <br/><br/>
 
-![image](https://user-images.githubusercontent.com/55533303/164385854-1381c56e-d7d0-44fb-95a9-735b563d1345.png)
+![logo](https://user-images.githubusercontent.com/55533303/168544640-fe00b70f-e45d-4d25-b44b-f1686be64ed4.png)
 <br/><br/>
 
 ## Project Introduction
