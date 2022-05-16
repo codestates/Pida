@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
   try {
     const { email, nickname, password } = req.body;
 
+    //이메일 인증 후에도 비밀번호를 안 적은 경우 가입불가
     if (!email || !nickname || !password) {
       return res.status(400).json({
         message: '회원가입에 실패하였습니다. 양식을 다시 확인해주세요',
@@ -28,6 +29,7 @@ module.exports = async (req, res) => {
       {
         password: hashedPassword,
         nickname,
+        platformType: 0,
         emailAuthCode: null,
       },
       { where: { email } },

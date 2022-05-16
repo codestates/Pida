@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       sequelize,
       modelName: 'Interior_like',
       timestamps: false,
+      updatedAt: false,
     },
   );
   return Interior_like;
