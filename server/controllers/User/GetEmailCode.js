@@ -46,7 +46,6 @@ module.exports = async (req, res) => {
       await User.create({
         emailAuthCode,
         email,
-        platformType: null,
         emailVerified: 0,
       });
     }
