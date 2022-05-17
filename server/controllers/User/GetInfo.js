@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
           where: { id: req.id },
         },
       ],
-      //최신순 정렬..
+      //좋아요 시간순 정렬
       //order: [[Sequelize.literal('Interior_likes.createdAt'), 'DESC']],
     });
 
