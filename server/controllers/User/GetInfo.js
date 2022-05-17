@@ -34,6 +34,8 @@ module.exports = async (req, res) => {
           where: { id: req.id },
         },
       ],
+      //최신순 정렬..
+      //order: [[Sequelize.literal('Interior_likes.createdAt'), 'DESC']],
     });
 
     Promise.all([uploads, likes]).then(([uploads, likes]) => {
