@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         through: 'Interior_likes',
         foreignKey: 'interiorId',
       });
-      this.hasMany(models.Interior_like);
+      this.hasMany(models.Comment);
       this.belongsTo(models.Plant);
     }
   }
@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
       content: {
         type: DataTypes.STRING(1000),
         allowNull: false,
+      },
+      totalLikes: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
     },
     {

@@ -30,8 +30,6 @@ module.exports = async (req, res) => {
     const species = Plant_specie.findAll({ where: { plantId } });
 
     // 인테리어 아이디, 이미지
-    const totalLike =
-      '(SELECT COUNT(*) FROM Interior_likes WHERE Interior_likes.interiorId = Interior.id)';
     const interiors = Interior.findAll({
       attributes: ['id', 'image'],
       include: {
@@ -41,9 +39,7 @@ module.exports = async (req, res) => {
         where: { id: plantId },
       },
       order: [
-        order === 'likes'
-          ? [Sequelize.literal(totalLike), 'DESC']
-          : ['createdAt', 'DESC'],
+        order === 'likes' ? ['totalLikes', 'DESC'] : ['createdAt', 'DESC'],
       ],
     });
 

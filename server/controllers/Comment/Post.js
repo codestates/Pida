@@ -13,7 +13,7 @@ module.exports = async (req, res) => {
       attributes: ['nickname'],
     });
 
-    const { id, userId, comment } = await Comment.create({
+    const { id, userId, comment, createdAt, updatedAt } = await Comment.create({
       userId: req.id,
       interiorId,
       comment: newComment,
@@ -25,6 +25,8 @@ module.exports = async (req, res) => {
         userId,
         nickname,
         comment,
+        createdAt,
+        updatedAt,
       },
       message: '댓글 달기에 성공했습니다',
     });

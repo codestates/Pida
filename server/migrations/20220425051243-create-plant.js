@@ -20,6 +20,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING(2083),
       },
+      createdAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
+      updatedAt: {
+        allowNull: false,
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {

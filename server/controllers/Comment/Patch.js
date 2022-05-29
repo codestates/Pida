@@ -25,9 +25,11 @@ module.exports = async (req, res) => {
       userId,
       comment: newComment,
       User: { nickname },
+      createdAt,
+      updatedAt,
     } = await Comment.findOne({
       where: { id: commentId },
-      attributes: ['userId', 'comment'],
+      attributes: ['userId', 'comment', 'createdAt', 'updatedAt'],
       include: [
         {
           model: User,
@@ -43,6 +45,8 @@ module.exports = async (req, res) => {
         userId,
         nickname,
         comment: newComment,
+        createdAt,
+        updatedAt,
       },
       message: '댓글 수정에 성공했습니다',
     });
