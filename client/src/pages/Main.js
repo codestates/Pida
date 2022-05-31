@@ -69,6 +69,14 @@ function Main() {
   };
   const handleAll = () => {
     history.replace('/search');
+    history.push({
+      pathname: '/search',
+      state: {
+        size: '0',
+        space: '0',
+        species: '0',
+      },
+    });
   };
   const handleSerchFlower = () => {
     history.replace('/florists');
