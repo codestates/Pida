@@ -40,6 +40,7 @@ module.exports = async (req, res) => {
       ],
     });
 
+    //회원정보 응답
     Promise.all([uploads, likes]).then(([uploads, likes]) => {
       const { id, email, nickname, platformType } = user;
 
