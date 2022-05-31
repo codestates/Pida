@@ -1,4 +1,4 @@
-const { Interior_like } = require('../../models/Index');
+const { Interior, Interior_like } = require('../../models/Index');
 
 module.exports = async (req, res) => {
   try {
@@ -10,9 +10,12 @@ module.exports = async (req, res) => {
         .json({ message: '인테리어 게시글 좋아요 취소에 실패했습니다' });
     }
 
-    await Interior_like.destroy({
-      where: { userId: req.id, interiorId },
+    Interior.decrement('totalLikes', {
+      by: 1,
+      where: { id: interiorId },
     });
+
+    await Interior_like.destroy({ where: { userId: req.id, interiorId } });
 
     return res
       .status(204)

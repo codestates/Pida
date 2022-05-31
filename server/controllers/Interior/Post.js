@@ -23,20 +23,27 @@ module.exports = async (req, res) => {
     const { nickname } = User.findByPk(req.id, { attributes: ['nickname'] });
 
     Promise.all([newPost, nickname])
-      .then(([{ id, userId, image, content, createdAt }, nickname]) => {
-        return res.status(201).json({
-          data: {
-            id,
-            userId,
-            image,
-            content,
-            createdAt,
-            nickname,
-            isliked: false,
-          },
-          message: '인테리어 게시글 업로드에 성공했습니다',
-        });
-      })
+      .then(
+        ([
+          { id, userId, image, content, totalLikes, createdAt, updatedAt },
+          nickname,
+        ]) => {
+          return res.status(201).json({
+            data: {
+              id,
+              userId,
+              image,
+              content,
+              totalLikes,
+              createdAt,
+              updatedAt,
+              nickname,
+              isliked: false,
+            },
+            message: '인테리어 게시글 업로드에 성공했습니다',
+          });
+        },
+      )
       .catch(console.log);
   } catch (e) {
     //서버 에러 처리

@@ -4,7 +4,6 @@ const {
   Comment,
   Interior_like,
 } = require('../../models/Index');
-const Sequelize = require('sequelize');
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -19,29 +18,8 @@ module.exports = async (req, res) => {
         .json({ message: '인테리어 게시글 조회에 실패했습니다' });
     }
 
-    //게시물에서 게시물 아이디, 유저아이디, 닉네임, 이미지, 내용, 작성시각, 좋아요개수 가지고오기
-    const [
-      {
-        dataValues: { id, userId, totalLikes, image, content, createdAt },
-      },
-    ] = await Interior.findAll({
-      attributes: {
-        include: [
-          [
-            Sequelize.fn('COUNT', Sequelize.col('Interior_likes.userId')),
-            'totalLikes',
-          ],
-        ],
-      },
-      include: [
-        {
-          model: Interior_like,
-          attributes: [],
-        },
-      ],
-      group: ['Interior.id'],
-      where: { id: postId },
-    });
+    const { id, userId, image, content, totalLikes, createdAt, updatedAt } =
+      await Interior.findByPk(postId);
 
     //닉네임
     const user = User.findByPk(userId, {
@@ -87,6 +65,8 @@ module.exports = async (req, res) => {
             comment,
             nickname: User.dataValues.nickname,
             isEditable: userId === req.id ? true : false,
+            createdAt,
+            updatedAt,
           };
         });
 
@@ -101,6 +81,7 @@ module.exports = async (req, res) => {
             image,
             content,
             createdAt,
+            updatedAt,
             comments,
           },
           message: '게시글과 댓글을 가져왔습니다',
