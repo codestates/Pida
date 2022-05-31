@@ -39,6 +39,7 @@ module.exports = async (req, res) => {
         [Sequelize.literal('`Users->Interior_likes`.`createdAt`'), 'DESC'],
       ],
 
+    //회원정보 응답
     Promise.all([uploads, likes]).then(([uploads, likes]) => {
       const { id, email, nickname, platformType } = user;
 
