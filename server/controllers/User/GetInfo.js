@@ -13,14 +13,14 @@ module.exports = async (req, res) => {
       return res.status(404).json({ message: '회원 정보 조회에 실패했습니다' });
     }
 
-    //사용자가 업로드한 글 모아보기
+    //사용자가 업로드한 글
     const uploads = Interior.findAll({
       attributes: ['id', 'image'],
       where: { userId: req.id },
       order: [['createdAt', 'DESC']],
     });
 
-    //사용자가 좋아요한 글 모아보기
+    //사용자가 좋아요한 글
     const likes = Interior.findAll({
       attributes: ['id', 'image'],
       include: [
