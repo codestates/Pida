@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsToMany(models.Plant, { through: 'Plant_species' });
+      this.belongsToMany(models.Plant, {
+        through: 'Plant_species',
+        foreignKey: 'speciesId',
+      });
     }
   }
   Specie.init(
