@@ -27,10 +27,18 @@ module.exports = async (req, res, next) => {
         { where: { id: postId } },
       );
 
-      const { id, userId, nickname, image, content, createdAt } =
-        await Interior.findByPk(postId, {
-          include: [{ model: User, attributes: ['nickname'] }],
-        });
+      const {
+        id,
+        userId,
+        nickname,
+        image,
+        content,
+        totalLikes,
+        createdAt,
+        updatedAt,
+      } = await Interior.findByPk(postId, {
+        include: [{ model: User, attributes: ['nickname'] }],
+      });
 
       return res.status(200).json({
         data: {
@@ -39,7 +47,9 @@ module.exports = async (req, res, next) => {
           nickname,
           image,
           content,
+          totalLikes,
           createdAt,
+          updatedAt,
           isliked: false,
         },
         message: '인테리어 게시글 수정에 성공했습니다',
@@ -72,10 +82,18 @@ module.exports = async (req, res, next) => {
       { where: { id: postId } },
     );
 
-    const { id, userId, nickname, image, content, createdAt } =
-      await Interior.findByPk(postId, {
-        include: [{ model: User, attributes: ['nickname'] }],
-      });
+    const {
+      id,
+      userId,
+      nickname,
+      image,
+      content,
+      totalLikes,
+      createdAt,
+      updatedAt,
+    } = await Interior.findByPk(postId, {
+      include: [{ model: User, attributes: ['nickname'] }],
+    });
 
     const data = {
       id,
@@ -83,7 +101,9 @@ module.exports = async (req, res, next) => {
       nickname,
       image,
       content,
+      totalLikes,
       createdAt,
+      updatedAt,
       isliked: false,
     };
 

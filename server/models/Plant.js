@@ -9,9 +9,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsToMany(models.Size, { through: 'Plant_sizes' });
-      this.belongsToMany(models.Space, { through: 'Plant_spaces' });
-      this.belongsToMany(models.Specie, { through: 'Plant_species' });
+      this.belongsToMany(models.Size, {
+        through: 'Plant_sizes',
+        foreignKey: 'plantId',
+      });
+      this.belongsToMany(models.Space, {
+        through: 'Plant_spaces',
+        foreignKey: 'plantId',
+      });
+      this.belongsToMany(models.Specie, {
+        through: 'Plant_species',
+        foreignKey: 'plantId',
+      });
       this.belongsToMany(models.User, { through: 'Interiors' });
     }
   }
@@ -24,7 +33,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: 'Plant',
-      timestamps: false,
     },
   );
   return Plant;

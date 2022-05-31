@@ -1,3 +1,4 @@
+const Sequelize = require('sequelize');
 const { User, Interior, Interior_like } = require('../../models/Index');
 
 module.exports = async (req, res) => {
@@ -34,9 +35,9 @@ module.exports = async (req, res) => {
           where: { id: req.id },
         },
       ],
-      //좋아요 시간순 정렬
-      //order: [[Sequelize.literal('Interior_likes.createdAt'), 'DESC']],
-    });
+      order: [
+        [Sequelize.literal('`Users->Interior_likes`.`createdAt`'), 'DESC'],
+      ],
 
     Promise.all([uploads, likes]).then(([uploads, likes]) => {
       const { id, email, nickname, platformType } = user;
@@ -48,7 +49,7 @@ module.exports = async (req, res) => {
           nickname,
           platformType,
           uploads,
-          likes: likes.map(el => el.dataValues).reverse(),
+          likes: likes.map(el => el.dataValues),
         },
         message: '회원 정보 조회에 성공했습니다',
       });
