@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styled from 'styled-components';
@@ -36,32 +36,53 @@ function SearchPlants() {
   const location = useLocation();
 
   /* 페이지 로드 */
+  const [page, setPage] = useState(1); // 1페이지부터
   const [plantsTotal, setPlantsTotal] = useState(0);
   const [plantsArray, setPlantsArray] = useState([]);
+
+  // 1페이지
   useEffect(() => {
-    if (!location.state) {
-      // 전체 식물 보기
-      axios
-        .get(`${process.env.REACT_APP_API_URL}/search`, {
-          withCredentials: true,
-        })
-        .then(res => {
-          setPlantsTotal(res.data.data.plantsTotal);
-          setPlantsArray(res.data.data.plantsArray);
-        });
-    } else {
-      // 조건 맞는 식물 보기
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}&page=1`,
+        { withCredentials: true },
+      )
+      .then(res => {
+        setPlantsTotal(res.data.data.plantsTotal);
+        setPlantsArray(plantsArray.concat(res.data.data.plantsArray));
+        setPage(page + 1);
+      });
+  }, []);
+
+  // 2페이지~ (스크롤 이벤트 발생)
+  const handleScroll = useCallback(() => {
+    const { innerHeight } = window;
+    const { scrollHeight } = document.body;
+    const { scrollTop } = document.documentElement;
+    if (
+      Math.round(scrollTop + innerHeight) >= scrollHeight - 300 &&
+      plantsArray.length < plantsTotal
+    ) {
+      //스크롤이 화면의 가장 바닥에 닿았을 경우&& 아직 전체 다 안 받았을 경우, 서버로부터 추가 데이터를 받아오도록 한다
       axios
         .get(
-          `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}`,
+          `${process.env.REACT_APP_API_URL}/search?size=${location.state.size}&space=${location.state.space}&species=${location.state.species}&page=${page}`,
           { withCredentials: true },
         )
         .then(res => {
+          setPlantsArray(plantsArray.concat(res.data.data.plantsArray));
           setPlantsTotal(res.data.data.plantsTotal);
-          setPlantsArray(res.data.data.plantsArray);
+          setPage(page + 1);
         });
     }
-  }, []);
+  }, [page, plantsArray, plantsTotal]);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, true);
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+    };
+  }, [handleScroll]);
 
   /* 식물 사진 클릭하면 식물 상세 페이지로 이동 */
   const [plantId, setPlantId] = useState(0);
