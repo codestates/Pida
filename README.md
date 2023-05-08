@@ -1,7 +1,7 @@
 # Pida
 <br/>
 
-🌱[Pida 서비스 이용해 보기](https://pida.ga/)
+
 <br/><br/>
 
 ![logo](https://user-images.githubusercontent.com/55533303/168544640-fe00b70f-e45d-4d25-b44b-f1686be64ed4.png)
